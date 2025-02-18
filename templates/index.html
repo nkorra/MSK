@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>MSK Precision Engineering Works</title>
-</head>
-<body>
-    <h1>Welcome to MSK Precision Engineering Works</h1>
-    <p>We provide expert engineering consultancy and precision solutions.</p>
-    <a href="{{ url_for('about') }}">About Us</a> |
-    <a href="{{ url_for('services') }}">Services</a>
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+    <h2>Welcome to MSK Precision Engineering Works</h2>
+    <p>We specialize in precision engineering, manufacturing, and consulting.</p>
+{% endblock %}
 

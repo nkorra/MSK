@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Our Services</title>
-</head>
-<body>
-    <h1>Our Services</h1>
+{% extends "base.html" %}
+{% block content %}
+    <h2>Our Services</h2>
     <ul>
-        <li>Engineering Consultancy</li>
-        <li>Precision Manufacturing</li>
-        <li>Design & Analysis</li>
+        <li>Precision Engineering (CNC machining, milling, turning)</li>
+        <li>Manufacturing Solutions (Prototyping, mass production)</li>
+        <li>Engineering Consulting (Design, analysis, feasibility studies)</li>
     </ul>
-    <a href="{{ url_for('home') }}">Home</a> |
-    <a href="{{ url_for('about') }}">About Us</a>
-</body>
-</html>
+{% endblock %}
 
