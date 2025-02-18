@@ -1,6 +1,14 @@
 {% extends "base.html" %}
+
 {% block content %}
-    <h2>Gallery</h2>
-    <p>Check out our latest projects and workshop images.</p>
+    <h1>Our Gallery</h1>
+
+    <section>
+        <h2>Our Work in Action</h2>
+        <p>Below are some images of our latest projects and workshop.</p>
+        <img src="{{ url_for('static', filename='images/image1.jpg') }}" alt="Machinery">
+        <img src="{{ url_for('static', filename='images/image2.jpg') }}" alt="Manufacturing Process">
+        <img src="{{ url_for('static', filename='images/image3.jpg') }}" alt="Final Products">
+    </section>
 {% endblock %}
 

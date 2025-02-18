@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} | MSK Precision Engineering Works</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>MSK Precision Engineering Works</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
 
-    <header>
-        <h1>MSK Precision Engineering Works</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About Us</a></li>
-                <li><a href="/services">Services</a></li>
-                <li><a href="/gallery">Gallery</a></li>
-                <li><a href="/contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('services') }}">Services</a></li>
+            <li><a href="{{ url_for('gallery') }}">Gallery</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        </ul>
+    </nav>
 
-    <main>
+    <!-- Page Content -->
+    <div class="container">
         {% block content %}{% endblock %}
-    </main>
+    </div>
 
+    <!-- Footer -->
     <footer>
         <p>&copy; 2025 MSK Precision Engineering Works. All rights reserved.</p>
     </footer>

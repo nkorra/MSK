@@ -1,6 +1,31 @@
 {% extends "base.html" %}
+
 {% block content %}
-    <h2>Contact Us</h2>
-    <p>Email: contact@mskprecision.com | Phone: +1234567890</p>
+    <h1>Contact Us</h1>
+
+    <section>
+        <h2>Get in Touch</h2>
+        <p>Have questions? Reach out to us.</p>
+
+        <h3>Address:</h3>
+        <p>MSK Precision Engineering Works, [Your Address]</p>
+
+        <h3>Phone:</h3>
+        <p>+123-456-7890</p>
+
+        <h3>Email:</h3>
+        <p>contact@mskengineering.com</p>
+
+        <h3>Inquiry Form:</h3>
+        <form action="{{ url_for('contact') }}" method="post">
+            <label>Name:</label>
+            <input type="text" name="name" required>
+            <label>Email:</label>
+            <input type="email" name="email" required>
+            <label>Message:</label>
+            <textarea name="message" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
 {% endblock %}
 
