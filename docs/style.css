@@ -1,83 +1,16 @@
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background: #0b3d91;
-    color: #fff;
-}
-
-header .logo img {
-    height: 50px;
-}
-
-header nav ul {
-    display: flex;
-    list-style: none;
-}
-
-header nav ul li {
-    margin-left: 20px;
-}
-
-header nav ul li a {
-    color: white;
-    text-decoration: none;
-}
-
-.hero {
-    background: url('hero-bg.jpg') no-repeat center center/cover;
-    color: white;
-    height: 90vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.hero .btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: #ffcc00;
-    color: #000;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-section {
-    padding: 2rem;
-    text-align: center;
-}
-
-.services .service-cards, .gallery .gallery-grid {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.card, .gallery-grid img {
-    background: #f4f4f4;
-    padding: 20px;
-    border-radius: 5px;
-}
-
-footer {
-    background: #0b3d91;
-    color: white;
-    text-align: center;
-    padding: 1rem;
-}
+* {margin:0;padding:0;box-sizing:border-box;}
+body {font-family: Arial, sans-serif;line-height:1.6;}
+.container {width:90%;max-width:1200px;margin:auto;padding:40px 0;}
+h2 {text-align:center;margin-bottom:20px;color:#003366;}
+.hero {height:80vh;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;color:white;text-align:center;}
+.hero-content {background:rgba(0,0,0,0.5);padding:20px;border-radius:8px;}
+.hero .btn {background:#0066cc;color:white;padding:10px 20px;text-decoration:none;border-radius:5px;}
+.grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;}
+.card, .member {background:#f4f4f4;padding:20px;border-radius:8px;text-align:center;}
+.member img {width:100%;border-radius:50%;height:200px;object-fit:cover;}
+.gallery img {width:100%;border-radius:8px;}
+form {display:flex;flex-direction:column;gap:10px;}
+input, textarea {padding:10px;border:1px solid #ccc;border-radius:5px;}
+button {padding:10px;background:#0066cc;color:white;border:none;border-radius:5px;}
+.footer {background:#003366;color:white;text-align:center;padding:20px;}

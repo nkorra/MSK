@@ -1,6 +1,9 @@
 
-// Placeholder for interactive features like form submission
-document.querySelector('form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('Message sent! We will contact you soon.');
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+        });
+    });
 });
