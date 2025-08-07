@@ -1,1 +1,132 @@
 /* CSS for navigation, layout, responsiveness, gallery, etc. */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #fff;
+  color: #333;
+}
+
+header {
+  background: #001F3F;
+  padding: 1em 0;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  height: 60px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1em;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: #004080;
+  top: 100%;
+  min-width: 200px;
+  z-index: 1000;
+}
+
+.dropdown-content a {
+  display: block;
+  color: white;
+  padding: 0.5em;
+  text-decoration: none;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.hero {
+  background: url('hero-bg.jpg') center/cover no-repeat;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+}
+
+.hero h1 {
+  font-size: 2.5em;
+}
+
+.team-grid,
+.gallery-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  justify-content: center;
+  padding: 2em;
+}
+
+.team-card {
+  max-width: 200px;
+  text-align: center;
+}
+
+.team-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.gallery-grid img {
+  width: 30%;
+  border-radius: 10px;
+}
+
+form {
+  width: 80%;
+  margin: 2em auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+input, textarea {
+  padding: 0.8em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  background: #001F3F;
+  color: white;
+  padding: 0.8em;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+footer {
+  background: #001F3F;
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+
