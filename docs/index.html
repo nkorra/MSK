@@ -5,13 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MSK Precision Engineering Works</title>
   <link rel="stylesheet" href="style.css" />
+
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 </head>
 <body>
   <!-- Navigation -->
   <header>
     <nav class="navbar">
       <div class="logo">
-        <img src="MSK_logo_3D_1.png" alt="MSK Logo" />
+        <img src="MSK_logo_3D_1.png" alt="MSK Logo" style="height: 80px;" />
       </div>
       <ul class="nav-links">
         <li><a href="#home">Home</a></li>
@@ -52,30 +55,27 @@
   </header>
 
   <!-- Hero -->
-  <section class="hero" id="home">
+  <section class="hero" id="home" data-aos="fade-in">
     <h1>Precision. Innovation. Excellence.</h1>
     <p>Global leaders in precision engineering since 2019</p>
   </section>
 
   <!-- Capabilities -->
-  <section id="capabilities" class="section-content">
+  <section id="capabilities" class="section-content" data-aos="fade-up">
     <h2>Our Capabilities</h2>
     <p>From high-precision CNC machining to custom metal fabrication, MSK delivers tailored solutions for complex industrial requirements.</p>
   </section>
 
   <!-- Engineering -->
-  <section id="engineering" class="section-content">
+  <section id="engineering" class="section-content" data-aos="fade-up">
     <h2>Engineering Services</h2>
     <p>Expertise in structural analysis, naval architecture, FEA, CAD/CAM, and design optimization for various industries.</p>
   </section>
 
   <!-- 3D Printing -->
-  <section id="3dprinting" class="section-content">
+  <section id="3dprinting" class="section-content" data-aos="fade-up">
     <h2>3D Printing Solutions</h2>
-    <p>
-      MSK offers industrial-grade 3D printing using FDM, SLA, and SLS technologies.
-      We specialize in:
-    </p>
+    <p>MSK offers industrial-grade 3D printing using FDM, SLA, and SLS technologies.</p>
     <ul>
       <li>Rapid prototyping of functional parts and models</li>
       <li>Custom tooling and fixtures for manufacturing</li>
@@ -85,7 +85,7 @@
   </section>
 
   <!-- Industries -->
-  <section id="industries" class="section-content">
+  <section id="industries" class="section-content" data-aos="fade-up">
     <h2>Industries We Serve</h2>
     <div class="cards">
       <div id="aerospace" class="card"><h3>Aerospace</h3><p>Precision components for aerospace systems requiring strict quality and performance standards.</p></div>
@@ -98,7 +98,7 @@
   </section>
 
   <!-- Training -->
-  <section id="training" class="section-content">
+  <section id="training" class="section-content" data-aos="fade-up">
     <h2>Training & Certification</h2>
     <div class="cards">
       <div id="cnc" class="card"><h3>CNC Programming</h3><p>Hands-on training for milling, turning, and multi-axis CNC machines.</p></div>
@@ -109,7 +109,7 @@
   </section>
 
   <!-- Team -->
-  <section id="team" class="section-content">
+  <section id="team" class="section-content" data-aos="fade-up">
     <h2>Our Team</h2>
     <p>
       <strong>Naveen</strong> – Founder & Managing Director, with international experience in Australia and Germany across structural and offshore engineering.<br/>
@@ -118,7 +118,7 @@
   </section>
 
   <!-- Gallery -->
-  <section id="gallery" class="section-content">
+  <section id="gallery" class="section-content" data-aos="fade-up">
     <h2>Gallery</h2>
     <div class="gallery-grid">
       <img src="gallery1.jpg" alt="Gallery Image 1" />
@@ -128,7 +128,7 @@
   </section>
 
   <!-- Contact -->
-  <section id="contact" class="section-content">
+  <section id="contact" class="section-content" data-aos="fade-up">
     <h2>Contact Us</h2>
     <form id="contact-form">
       <input type="text" placeholder="Your Name" required />
@@ -139,7 +139,7 @@
   </section>
 
   <!-- Quote Form -->
-  <section id="quote" class="section-content">
+  <section id="quote" class="section-content" data-aos="fade-up">
     <h2>Request a Quote</h2>
     <form id="quote-form">
       <input type="text" placeholder="Your Name" required />
@@ -155,6 +155,8 @@
     <p>© 2025 MSK Precision Engineering Works. All rights reserved.</p>
   </footer>
 
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

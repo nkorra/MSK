@@ -1,158 +1,141 @@
-/* Reset */
+k/* Reset and base */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   line-height: 1.6;
-  color: #222;
-  background: #fff;
+  background: #ffffff;
+  color: #333;
+  scroll-behavior: smooth;
 }
 
-/* Header and Navigation */
+/* Navbar styles */
 header {
-  background: #003366;
-  padding: 10px 0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background: #1a1a1a;
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
-
 .navbar {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   max-width: 1200px;
   margin: auto;
   padding: 0 20px;
 }
-
 .logo img {
-  height: 60px;
+  height: 80px;
 }
-
 .nav-links {
-  list-style: none;
   display: flex;
-  gap: 20px;
+  list-style: none;
 }
-
 .nav-links li {
+  margin: 0 15px;
   position: relative;
 }
-
 .nav-links a {
-  color: white;
   text-decoration: none;
-  font-weight: bold;
-  padding: 10px 12px;
-  display: inline-block;
+  color: #fff;
+  font-weight: 500;
+  padding: 8px 12px;
+  transition: background 0.3s;
 }
-
-.nav-links a:hover,
-.nav-links .quote-btn {
-  background-color: #0055aa;
+.nav-links a:hover {
+  background: #333;
   border-radius: 4px;
 }
 
-.quote-btn {
-  background: #ff6600;
-  color: white;
-}
-
-/* Dropdown */
+/* Dropdowns */
 .dropdown-menu {
   display: none;
   position: absolute;
+  background-color: #1a1a1a;
+  padding: 10px 0;
   top: 40px;
-  background: white;
+  left: 0;
   min-width: 180px;
-  z-index: 1000;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  z-index: 999;
+  border-radius: 4px;
 }
-
 .dropdown-menu li {
+  padding: 5px 20px;
+}
+.dropdown-menu li a {
+  color: #fff;
   display: block;
 }
-
-.dropdown-menu a {
-  color: #003366;
-  padding: 10px 15px;
-  display: block;
-}
-
 .dropdown:hover .dropdown-menu {
   display: block;
 }
 
-/* Hero Section */
+/* Hero section */
 .hero {
-  background: url('hero-bg.jpg') no-repeat center center/cover;
-  padding: 100px 20px;
+  background: url("hero-bg.jpg") center/cover no-repeat;
   color: white;
   text-align: center;
+  padding: 120px 20px;
 }
-
 .hero h1 {
-  font-size: 3em;
+  font-size: 2.8rem;
   margin-bottom: 10px;
 }
-
 .hero p {
-  font-size: 1.2em;
+  font-size: 1.2rem;
 }
 
-/* Section Styles */
+/* Section styles */
 .section-content {
   max-width: 1100px;
-  margin: auto;
-  padding: 60px 20px;
+  margin: 60px auto;
+  padding: 0 20px;
 }
-
 .section-content h2 {
-  font-size: 2em;
+  font-size: 2rem;
   margin-bottom: 20px;
-  color: #003366;
-}
-
-.section-content p {
-  font-size: 1.1em;
-  margin-bottom: 10px;
+  color: #1a1a1a;
 }
 
 /* Cards for Industries and Training */
 .cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
-  margin-top: 20px;
 }
-
 .card {
-  border: 1px solid #ccc;
-  padding: 20px;
+  flex: 1 1 calc(33.33% - 20px);
   background: #f9f9f9;
-  border-radius: 6px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
-
 .card h3 {
   margin-bottom: 10px;
-  color: #0055aa;
+  color: #222;
 }
 
 /* Gallery */
 .gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
-  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
-
 .gallery-grid img {
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease-in-out;
+}
+.gallery-grid img:hover {
+  transform: scale(1.05);
 }
 
 /* Forms */
@@ -160,37 +143,46 @@ form {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-top: 20px;
+  max-width: 600px;
 }
-
 form input,
 form textarea {
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 1em;
 }
-
 form button {
-  background: #003366;
-  color: white;
+  padding: 12px;
+  background: #1a1a1a;
+  color: #fff;
   border: none;
-  padding: 10px;
-  font-size: 1em;
-  cursor: pointer;
   border-radius: 4px;
+  cursor: pointer;
 }
-
 form button:hover {
-  background: #0055aa;
+  background: #444;
 }
 
 /* Footer */
 footer {
-  background: #003366;
-  color: white;
+  background: #1a1a1a;
+  color: #fff;
   text-align: center;
-  padding: 20px 0;
+  padding: 20px;
   margin-top: 40px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cards {
+    flex-direction: column;
+  }
+  .nav-links {
+    flex-direction: column;
+    background: #1a1a1a;
+  }
+  .nav-links li {
+    margin: 10px 0;
+  }
 }
 
