@@ -10,13 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Toggle dropdown menus on hover
+  // Dropdown hover support for desktop
   document.querySelectorAll(".dropdown").forEach(drop => {
     drop.addEventListener("mouseenter", () => {
-      drop.querySelector(".dropdown-menu").classList.add("show");
+      const menu = drop.querySelector(".dropdown-menu");
+      if (menu) menu.classList.add("show");
     });
     drop.addEventListener("mouseleave", () => {
-      drop.querySelector(".dropdown-menu").classList.remove("show");
+      const menu = drop.querySelector(".dropdown-menu");
+      if (menu) menu.classList.remove("show");
     });
   });
 });
