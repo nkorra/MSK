@@ -1,10 +1,1 @@
-
-body { font-family: Arial; margin: 0; padding: 0; }
-header { background: #111; color: white; padding: 1em; display: flex; justify-content: space-between; align-items: center; }
-nav a { color: white; margin: 0 10px; text-decoration: none; }
-h2 { color: #003366; margin-top: 2em; }
-ul { list-style: disc; padding-left: 20px; }
-.gallery-grid, .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1em; padding: 1em; }
-.gallery-grid img, .team-grid img { width: 100%; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
-.card { text-align: center; }
-footer { background: #eee; padding: 1em; text-align: center; margin-top: 2em; }
+/* professional CSS layout here */
