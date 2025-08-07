@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<!-- Full HTML with dropdowns, quote form, etc. -->
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -9,106 +7,105 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- Header with dropdown menus -->
+  <!-- Navigation -->
   <header>
-    <div class="container">
-      <img src="MSK_logo_3D_1.png" alt="MSK Logo" class="logo" />
-      <nav>
-        <ul class="nav-links">
-          <li><a href="#home">Home</a></li>
-          <li class="dropdown">
-            <a href="#capabilities">Capabilities</a>
-            <div class="dropdown-content">
-              <a href="#cnc">CNC Machining</a>
-              <a href="#additive">Additive Manufacturing</a>
-            </div>
-          </li>
-          <li class="dropdown">
-            <a href="#engineering">Engineering</a>
-            <div class="dropdown-content">
-              <a href="#structural">Structural FEA</a>
-              <a href="#consultancy">Consultancy</a>
-            </div>
-          </li>
-          <li class="dropdown">
-            <a href="#industries">Industries</a>
-            <div class="dropdown-content">
-              <a href="#">Aerospace</a>
-              <a href="#">Medical</a>
-              <a href="#">Defense</a>
-              <a href="#">Marine</a>
-              <a href="#">Agriculture</a>
-            </div>
-          </li>
-          <li class="dropdown">
-            <a href="#training">Training</a>
-            <div class="dropdown-content">
-              <a href="#">CNC Programming</a>
-              <a href="#">CAD/CAM</a>
-              <a href="#">3D Printing</a>
-              <a href="#">Structural Analysis</a>
-            </div>
-          </li>
-          <li><a href="#team">Team</a></li>
-          <li><a href="#gallery">Gallery</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="#quote" class="quote-btn">Get a Quote</a></li>
-        </ul>
-      </nav>
-    </div>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="MSK_logo_3D_1.png" alt="MSK Logo" />
+      </div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#capabilities">Capabilities</a></li>
+        <li><a href="#engineering">Engineering</a></li>
+
+        <!-- Industries Dropdown -->
+        <li class="dropdown">
+          <a href="#industries">Industries ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="#aerospace">Aerospace</a></li>
+            <li><a href="#defense">Defense</a></li>
+            <li><a href="#medical">Medical Devices</a></li>
+            <li><a href="#marine">Marine & Offshore</a></li>
+            <li><a href="#automotive">Automotive</a></li>
+            <li><a href="#agriculture">Agriculture</a></li>
+          </ul>
+        </li>
+
+        <!-- Training Dropdown -->
+        <li class="dropdown">
+          <a href="#training">Training ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="#cnc">CNC Programming</a></li>
+            <li><a href="#cadcam">CAD/CAM Design</a></li>
+            <li><a href="#additive">Additive Manufacturing</a></li>
+            <li><a href="#structural">Structural Analysis</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#team">Team</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#quote" class="quote-btn">Get a Quote</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <!-- Hero Section -->
-  <section id="home" class="hero">
-    <div class="hero-content">
-      <h1>Precision. Innovation. Excellence.</h1>
-      <p>Global leaders in precision engineering since 2019</p>
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <h1>Precision. Innovation. Excellence.</h1>
+    <p>Global leaders in precision engineering since 2019</p>
+  </section>
+
+  <!-- Dropdown Content for Industries -->
+  <section id="industries" class="section-content">
+    <h2>Industries We Serve</h2>
+    <div class="cards">
+      <div id="aerospace" class="card"><h3>Aerospace</h3><p>Precision components for critical aerospace applications with strict tolerance control and high reliability.</p></div>
+      <div id="defense" class="card"><h3>Defense</h3><p>Support for defense and tactical systems with rugged and mission-ready components.</p></div>
+      <div id="medical" class="card"><h3>Medical Devices</h3><p>High-accuracy parts for diagnostics, implants, and surgical instruments.</p></div>
+      <div id="marine" class="card"><h3>Marine & Offshore</h3><p>Custom solutions for FPSOs, naval architecture, and structural reinforcement.</p></div>
+      <div id="automotive" class="card"><h3>Automotive</h3><p>Prototype and production machining for critical engine and transmission components.</p></div>
+      <div id="agriculture" class="card"><h3>Agriculture</h3><p>Durable mechanical components for agricultural machinery and automation systems.</p></div>
     </div>
   </section>
 
-  <!-- Team Section -->
-  <section id="team">
-    <h2>Meet the Leadership</h2>
-    <div class="team-grid">
-      <div class="team-card">
-        <img src="team1.jpg" alt="Naveen Korra">
-        <h3>Naveen Korra</h3>
-        <p>Founder & Managing Director<br>Germany & Australia experience in Naval Architecture and Offshore Engineering.</p>
-      </div>
-      <div class="team-card">
-        <img src="team2.jpg" alt="Meena Dhiravath">
-        <h3>Meena Dhiravath</h3>
-        <p>Administrator & CFO<br>Operational excellence and financial oversight with a focus on sustainable growth.</p>
-      </div>
+  <!-- Dropdown Content for Training -->
+  <section id="training" class="section-content">
+    <h2>Training & Certification</h2>
+    <div class="cards">
+      <div id="cnc" class="card"><h3>CNC Programming</h3><p>Hands-on training on turning, milling, and multi-axis CNC machines.</p></div>
+      <div id="cadcam" class="card"><h3>CAD/CAM Design</h3><p>Design, simulate, and optimize parts using professional CAD/CAM tools.</p></div>
+      <div id="additive" class="card"><h3>Additive Manufacturing</h3><p>Training in FDM, SLA, SLS and post-processing for 3D printed parts.</p></div>
+      <div id="structural" class="card"><h3>Structural Analysis</h3><p>Stress, fatigue and vibration analysis using FEA software.</p></div>
     </div>
   </section>
 
-  <!-- Gallery Section -->
-  <section id="gallery">
-    <h2>Our Gallery</h2>
-    <div class="gallery-grid">
-      <img src="gallery1.jpg" alt="Work 1">
-      <img src="gallery2.jpg" alt="Work 2">
-      <img src="gallery3.jpg" alt="Work 3">
-    </div>
-  </section>
-
-  <!-- Quote Form -->
-  <section id="quote">
-    <h2>Request a Quote</h2>
-    <form action="#" method="post" enctype="multipart/form-data">
+  <!-- Contact Section -->
+  <section id="contact" class="section-content">
+    <h2>Contact Us</h2>
+    <form id="contact-form">
       <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <textarea placeholder="Describe your requirements" required></textarea>
-      <label for="file">Attach a file (optional):</label>
-      <input type="file" id="file" name="file" />
-      <button type="submit">Send Request</button>
+      <input type="email" placeholder="Email" required />
+      <textarea placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
     </form>
   </section>
 
+  <!-- Quote Form -->
+  <section id="quote" class="section-content">
+    <h2>Request a Quote</h2>
+    <form id="quote-form">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Email" required />
+      <input type="file" />
+      <textarea placeholder="Project Details" required></textarea>
+      <button type="submit">Submit Quote</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    <p>© 2025 MSK Precision Engineering Works. All rights reserved.</p>
+    <p>© 2025 MSK Precision Engineering Works</p>
   </footer>
 
   <script src="script.js"></script>
