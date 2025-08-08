@@ -2,19 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MSK Precision Engineering Works</title>
+
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- AOS Animation CSS -->
+  <!-- AOS (scroll animations) -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 </head>
 <body>
-  <!-- Navigation -->
+  <!-- Header / Nav -->
   <header>
     <nav class="navbar">
       <div class="logo">
-        <img src="MSK_logo_3D_1.png" alt="MSK Logo" style="height: 80px;" />
+        <img src="MSK_logo_3D_1.png" alt="MSK Logo" />
       </div>
       <ul class="nav-links">
         <li><a href="#home">Home</a></li>
@@ -22,7 +24,6 @@
         <li><a href="#engineering">Engineering</a></li>
         <li><a href="#3dprinting">3D Printing</a></li>
 
-        <!-- Industries Dropdown -->
         <li class="dropdown">
           <a href="#industries">Industries ▾</a>
           <ul class="dropdown-menu">
@@ -35,7 +36,6 @@
           </ul>
         </li>
 
-        <!-- Training Dropdown -->
         <li class="dropdown">
           <a href="#training">Training ▾</a>
           <ul class="dropdown-menu">
@@ -49,13 +49,13 @@
         <li><a href="#team">Team</a></li>
         <li><a href="#gallery">Gallery</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="#quote" class="quote-btn">Get a Quote</a></li>
+        <li><a class="quote-btn" href="#quote">Get a Quote</a></li>
       </ul>
     </nav>
   </header>
 
   <!-- Hero -->
-  <section class="hero" id="home" data-aos="fade-in">
+  <section id="home" class="hero" data-aos="fade-in">
     <h1>Precision. Innovation. Excellence.</h1>
     <p>Global leaders in precision engineering since 2019</p>
   </section>
@@ -63,24 +63,24 @@
   <!-- Capabilities -->
   <section id="capabilities" class="section-content" data-aos="fade-up">
     <h2>Our Capabilities</h2>
-    <p>From high-precision CNC machining to custom metal fabrication, MSK delivers tailored solutions for complex industrial requirements.</p>
+    <p>High-precision CNC machining, custom fabrication, prototyping, inspection, and production support for complex industrial parts.</p>
   </section>
 
   <!-- Engineering -->
   <section id="engineering" class="section-content" data-aos="fade-up">
     <h2>Engineering Services</h2>
-    <p>Expertise in structural analysis, naval architecture, FEA, CAD/CAM, and design optimization for various industries.</p>
+    <p>CAD/CAM, DFM, and FEA (static, modal, fatigue) for structural and mechanical systems; documentation and compliance support.</p>
   </section>
 
   <!-- 3D Printing -->
   <section id="3dprinting" class="section-content" data-aos="fade-up">
     <h2>3D Printing Solutions</h2>
-    <p>MSK offers industrial-grade 3D printing using FDM, SLA, and SLS technologies.</p>
+    <p>Industrial-grade FDM, SLA, and SLS for rapid prototypes, fixtures, and low-volume production. Materials: PLA, ABS, PETG, Nylon, resins.</p>
     <ul>
-      <li>Rapid prototyping of functional parts and models</li>
-      <li>Custom tooling and fixtures for manufacturing</li>
-      <li>High-resolution printing for medical and precision engineering</li>
-      <li>Support for on-demand and low-volume production</li>
+      <li>Rapid prototyping & verification</li>
+      <li>Custom tooling & fixtures</li>
+      <li>High-resolution medical & precision parts</li>
+      <li>On-demand, small-batch production</li>
     </ul>
   </section>
 
@@ -88,12 +88,12 @@
   <section id="industries" class="section-content" data-aos="fade-up">
     <h2>Industries We Serve</h2>
     <div class="cards">
-      <div id="aerospace" class="card"><h3>Aerospace</h3><p>Precision components for aerospace systems requiring strict quality and performance standards.</p></div>
-      <div id="defense" class="card"><h3>Defense</h3><p>Rugged and mission-ready components for defense equipment and tactical platforms.</p></div>
-      <div id="medical" class="card"><h3>Medical Devices</h3><p>High-accuracy parts for diagnostics, implants, and surgical systems.</p></div>
-      <div id="marine" class="card"><h3>Marine & Offshore</h3><p>Custom marine structures and retrofit solutions for FPSOs, barges, and offshore platforms.</p></div>
-      <div id="automotive" class="card"><h3>Automotive</h3><p>Advanced prototyping and parts for performance and commercial vehicles.</p></div>
-      <div id="agriculture" class="card"><h3>Agriculture</h3><p>Heavy-duty components for mechanized farming and precision agriculture.</p></div>
+      <article id="aerospace" class="card"><h3>Aerospace</h3><p>Tight-tolerance parts for flight-critical assemblies and ground support systems.</p></article>
+      <article id="defense" class="card"><h3>Defense</h3><p>Ruggedized components for mission-ready land, sea, and support platforms.</p></article>
+      <article id="medical" class="card"><h3>Medical Devices</h3><p>Precision instruments, housings, and fixtures for diagnostics & surgery.</p></article>
+      <article id="marine" class="card"><h3>Marine & Offshore</h3><p>Frames, mounts, and retrofit parts for barges, FPSOs, and support craft.</p></article>
+      <article id="automotive" class="card"><h3>Automotive</h3><p>Prototypes and tooling for ICE/EV platforms and performance components.</p></article>
+      <article id="agriculture" class="card"><h3>Agriculture</h3><p>Durable mechanicals for equipment, implements, and automation systems.</p></article>
     </div>
   </section>
 
@@ -101,29 +101,56 @@
   <section id="training" class="section-content" data-aos="fade-up">
     <h2>Training & Certification</h2>
     <div class="cards">
-      <div id="cnc" class="card"><h3>CNC Programming</h3><p>Hands-on training for milling, turning, and multi-axis CNC machines.</p></div>
-      <div id="cadcam" class="card"><h3>CAD/CAM Design</h3><p>Design and simulation using industry-standard CAD/CAM tools.</p></div>
-      <div id="additive" class="card"><h3>Additive Manufacturing</h3><p>Training in 3D printing (FDM, SLA, SLS) and post-processing.</p></div>
-      <div id="structural" class="card"><h3>Structural Analysis</h3><p>Stress, fatigue, and vibration analysis using FEA software.</p></div>
+      <article id="cnc" class="card"><h3>CNC Programming</h3><p>Turning, milling, multi-axis; G/M codes; tooling & setup best practices.</p></article>
+      <article id="cadcam" class="card"><h3>CAD/CAM Design</h3><p>Solid modeling, simulation, post-processing, and workflow handoffs.</p></article>
+      <article id="additive" class="card"><h3>Additive Manufacturing</h3><p>FDM/SLA/SLS, design for AM, orientation, supports, and finishing.</p></article>
+      <article id="structural" class="card"><h3>Structural Analysis</h3><p>Stress, buckling, vibration; reporting for certification and audits.</p></article>
     </div>
   </section>
 
   <!-- Team -->
   <section id="team" class="section-content" data-aos="fade-up">
     <h2>Our Team</h2>
-    <p>
-      <strong>Naveen</strong> – Founder & Managing Director, with international experience in Australia and Germany across structural and offshore engineering.<br/>
-      <strong>Meena Dhiravath</strong> – Admin & CFO, responsible for financial strategy and operations management.
-    </p>
+    <div class="team-grid">
+      <article class="team-card">
+        <div class="team-photo"><img src="team1.jpg" alt="Naveen Korra" loading="lazy" /></div>
+        <h3>Naveen Korra</h3>
+        <p class="role">Founder & Managing Director</p>
+        <p class="bio">Mechanical engineer (M.Sc., Germany) with global experience across Australia, Germany, and India in structural, marine, and precision engineering.</p>
+      </article>
+
+      <article class="team-card">
+        <div class="team-photo"><img src="team2.jpg" alt="Meena Dhiravath" loading="lazy" /></div>
+        <h3>Meena Dhiravath</h3>
+        <p class="role">Admin & CFO</p>
+        <p class="bio">Leads finance and operations including budgeting, compliance, vendor management, and on-time delivery.</p>
+      </article>
+
+      <article class="team-card">
+        <div class="team-photo"><img src="team3.jpg" alt="Senior Engineer" loading="lazy" /></div>
+        <h3>Senior Engineer</h3>
+        <p class="role">CNC & Additive Manufacturing</p>
+        <p class="bio">Multi-axis machining, toolpath optimization, AM fixtures, and inspection planning.</p>
+      </article>
+    </div>
   </section>
 
   <!-- Gallery -->
   <section id="gallery" class="section-content" data-aos="fade-up">
     <h2>Gallery</h2>
+
+    <!-- Auto-fading slider -->
+    <div class="gallery-slider">
+      <img src="gallery1.jpg" alt="Project 1" class="slide s1" />
+      <img src="gallery2.jpg" alt="Project 2" class="slide s2" />
+      <img src="gallery3.jpg" alt="Project 3" class="slide s3" />
+    </div>
+
+    <!-- Thumbs -->
     <div class="gallery-grid">
-      <img src="gallery1.jpg" alt="Gallery Image 1" />
-      <img src="gallery2.jpg" alt="Gallery Image 2" />
-      <img src="gallery3.jpg" alt="Gallery Image 3" />
+      <img src="gallery1.jpg" alt="Project 1" />
+      <img src="gallery2.jpg" alt="Project 2" />
+      <img src="gallery3.jpg" alt="Project 3" />
     </div>
   </section>
 
@@ -131,23 +158,37 @@
   <section id="contact" class="section-content" data-aos="fade-up">
     <h2>Contact Us</h2>
     <form id="contact-form">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Email" required />
-      <textarea placeholder="Your Message" required></textarea>
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <textarea name="message" placeholder="Your Message" required></textarea>
       <button type="submit">Send Message</button>
+      <p class="form-note" id="contact-status"></p>
     </form>
   </section>
 
-  <!-- Quote Form -->
+  <!-- Quote -->
   <section id="quote" class="section-content" data-aos="fade-up">
     <h2>Request a Quote</h2>
-    <form id="quote-form">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Email" required />
-      <input type="file" />
-      <textarea placeholder="Project Details" required></textarea>
+    <form id="quote-form" enctype="multipart/form-data">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="file" name="attachment" />
+      <textarea name="details" placeholder="Project Details" required></textarea>
       <button type="submit">Submit Quote</button>
+      <p class="form-note" id="quote-status"></p>
     </form>
+  </section>
+
+  <!-- CTA band -->
+  <section id="cta" class="cta-band" data-aos="zoom-in">
+    <div class="cta-wrap">
+      <h3>Speak to an Engineer</h3>
+      <p>Have a part, drawing, or idea? We’ll help you turn it into a manufacturable solution.</p>
+      <div class="cta-actions">
+        <a class="btn" href="#quote">Request a Quote</a>
+        <a class="btn btn-outline" href="#contact">Contact Us</a>
+      </div>
+    </div>
   </section>
 
   <!-- Footer -->
