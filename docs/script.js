@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Single Getform endpoint for both forms
+  // Single Getform endpoint for all forms
   const GETFORM_ENDPOINT = "https://getform.io/f/allqjkra";
 
   // Smooth scroll with sticky-header offset
@@ -23,12 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
     drop.addEventListener("mouseleave", () => drop.querySelector(".dropdown-menu")?.classList.remove("show"));
   });
 
-  // Init AOS (from CDN in index.html)
+  // Init AOS
   if (typeof AOS !== "undefined") {
     AOS.init({ duration: 800, once: true });
   }
 
-  // Shared success message HTML (your custom text)
+  // Success message HTML
   const successHTML = `
     <div class="thankyou" style="
       background:#f6fbff; border:1px solid #cfe6ff; border-radius:10px;
@@ -52,8 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (res.ok) {
-        // Replace entire form with the thank-you block
-        form.outerHTML = successHTML;
+        form.outerHTML = successHTML; // Replace form with thank-you
       } else {
         if (statusEl) statusEl.textContent = "Something went wrong. Please try again.";
       }
@@ -81,5 +80,31 @@ document.addEventListener("DOMContentLoaded", () => {
       submitForm(quoteForm, quoteStatus);
     });
   }
+
+  // Job Apply form (supports file input)
+  const applyForm = document.getElementById("job-form");
+  const applyStatus = document.getElementById("apply-status");
+  if (applyForm) {
+    applyForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      submitForm(applyForm, applyStatus);
+    });
+  }
+
+  // Prefill Apply form with job title and jump to form
+  document.querySelectorAll('.apply-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const title = btn.dataset.title || 'General Application';
+      const input = document.getElementById('job_title');
+      if (input) { input.value = title; }
+      // jump to the form
+      const apply = document.getElementById('apply');
+      if (apply) {
+        const y = apply.getBoundingClientRect().top + window.pageYOffset - headerHeight - 10;
+        window.scrollTo({ top: y, behavior: "smooth" });
+        setTimeout(() => document.getElementById('name')?.focus(), 300);
+      }
+    });
+  });
 });
 
