@@ -160,10 +160,10 @@ footer { background: #0a3763; color: #fff; text-align: center; padding: 20px; }
 
 /* Custom hero heading style */
 .hero-heading {
-  color: #00e5ff; /* Ligth cyan */
+  color: #ffffff; /* white */
   font-weight: 700; /* bold */
   font-size: 2.8rem; /* larger size, adjust as needed */
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.2); /* subtle depth */
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.6); /* stronger shadow for contrast */
   line-height: 1.2;
 }
 
