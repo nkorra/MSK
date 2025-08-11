@@ -5,30 +5,20 @@ body {
   font-family: "Segoe UI", Arial, sans-serif;
   color: #333; background: #fff; line-height: 1.6;
   scroll-behavior: smooth;
+  padding-top: 140px; /* offset for fixed header, adjust if needed */
 }
-/* Make the top navigation bar sticky */
+
+/* Fixed Header / navbar */
 header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: white; /* or match your theme color */
-  z-index: 1000; /* stays above other content */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* optional visual effect */
-}
-
-/* Prevent content from hiding behind the fixed header */
-body {
-  padding-top: 80px; /* adjust to match your header height */
-}
-
-
-/* Header / navbar */
-header {
   background: #0a3763; color: #fff;
-  position: sticky; top: 0; z-index: 1000;
+  z-index: 1000;
   box-shadow: 0 2px 6px rgba(0,0,0,.12);
 }
+
 .navbar {
   max-width: 1200px; margin: 0 auto;
   padding: 14px 20px; display: flex; align-items: center; justify-content: space-between;
@@ -56,7 +46,7 @@ header {
 .dropdown-menu.show { display: block; }
 
 /* Offset anchors for sticky header */
-section, .section-content { scroll-margin-top: 130px; }
+section, .section-content { scroll-margin-top: 140px; }
 
 /* Hero */
 .hero {
@@ -73,15 +63,15 @@ section, .section-content { scroll-margin-top: 130px; }
 }
 .hero .sub { margin-top: .35rem; opacity: .95; }
 .hero .hero-actions { margin-top: 1rem; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-
+ 
 /* Sections */
 .section-content { max-width: 1100px; margin: 60px auto; padding: 0 20px; }
 .section-content h2 { font-size: 2rem; color: #0a3763; margin-bottom: 18px; }
 
-/* Bullets */
-.bullets { padding-left: 18px; }
+/* Bullets */ 
+.bullets { padding-left: 18px; } 
 .bullets li { margin-bottom: 8px; }
-
+  
 /* Cards */
 .cards {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -96,16 +86,16 @@ section, .section-content { scroll-margin-top: 130px; }
 .card h3, .card h4 { margin-bottom: 8px; color: #184b88; }
 .muted { color:#6b7280; margin:.25rem 0 .75rem; font-size:.95rem; }
 .job-actions { display:flex; gap:.6rem; flex-wrap:wrap; margin-top:.75rem; }
-
+  
 /* Buttons */
 .btn {
   display: inline-block; padding: 12px 18px; border-radius: 8px;
   background: #0a3763; color: #fff; font-weight: 700; text-decoration: none; border: none;
-}
+} 
 .btn:hover { opacity: .92; }
 .btn-outline { background: transparent; color: #0a3763; border: 2px solid #0a3763; }
 .btn-outline:hover { background: rgba(10,55,99,.06); }
-
+ 
 /* Team */
 .team-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px;
@@ -123,8 +113,8 @@ section, .section-content { scroll-margin-top: 130px; }
 .team-photo img { width: 100%; height: 100%; object-fit: cover; }
 .team-card h3 { margin: 6px 0 2px; color: #184b88; font-size: 1.15rem; }
 .team-card .role { color: #666; font-weight: 600; margin-bottom: 8px; }
-.team-card .bio { font-size: .95rem; color: #444; line-height: 1.5; }
-
+.team-card .bio { font-size: .95rem; color: #444; line-height: 1.5; } 
+  
 /* Gallery – fading slider */
 .gallery-slider {
   position: relative; max-width: 1100px; height: 360px;
@@ -136,7 +126,7 @@ section, .section-content { scroll-margin-top: 130px; }
   object-fit: cover; opacity: 0; animation: fadeCycle 12s infinite;
 }
 .gallery-slider .s2 { animation-delay: 4s; }
-.gallery-slider .s3 { animation-delay: 8s; }
+.gallery-slider .s3 { animation-delay: 8s; } 
 @keyframes fadeCycle {
   0% {opacity:0} 5% {opacity:1} 30% {opacity:1} 35% {opacity:0} 100% {opacity:0}
 }
@@ -150,7 +140,7 @@ section, .section-content { scroll-margin-top: 130px; }
   box-shadow: 0 2px 6px rgba(0,0,0,.1); transition: transform .25s ease;
 }
 .gallery-grid img:hover { transform: scale(1.04); }
-
+  
 /* Forms */
 form { display: flex; flex-direction: column; gap: 14px; max-width: 640px; }
 form label { font-weight: 600; color:#0a3763; }
@@ -163,7 +153,7 @@ form button {
 }
 form button:hover { background: #104a82; }
 .form-note { font-size: .92rem; color: #0a3763; margin-top: 6px; }
-
+  
 /* Thank-you block */
 .thankyou { margin-top: 16px; }
 
