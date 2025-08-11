@@ -28,9 +28,21 @@ document.addEventListener("DOMContentLoaded", () => {
     AOS.init({ duration: 800, once: true });
   }
 
+  // Shared success message HTML (your custom text)
+  const successHTML = `
+    <div class="thankyou" style="
+      background:#f6fbff; border:1px solid #cfe6ff; border-radius:10px;
+      padding:18px 16px; color:#0a3763; line-height:1.55;
+    ">
+      <strong>Thank you for reaching out to the MSK Precision Engineering Works team.</strong><br/>
+      We will get back to you as soon as possible, and we appreciate your patience in the meantime.<br/><br/>
+      — Your trusted partner, the MSK Team
+    </div>
+  `;
+
   // ----- Form helpers (Getform) -----
   async function submitForm(form, statusEl) {
-    statusEl.textContent = "Sending…";
+    if (statusEl) statusEl.textContent = "Sending…";
     const data = new FormData(form);
 
     try {
@@ -40,20 +52,20 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (res.ok) {
-        form.reset();
-        statusEl.textContent = "Thanks! We’ll be in touch shortly.";
+        // Replace entire form with the thank-you block
+        form.outerHTML = successHTML;
       } else {
-        statusEl.textContent = "Something went wrong. Please try again.";
+        if (statusEl) statusEl.textContent = "Something went wrong. Please try again.";
       }
     } catch (err) {
-      statusEl.textContent = "Network error. Please try again.";
+      if (statusEl) statusEl.textContent = "Network error. Please try again.";
     }
   }
 
   // Contact form
   const contactForm = document.getElementById("contact-form");
   const contactStatus = document.getElementById("contact-status");
-  if (contactForm && contactStatus) {
+  if (contactForm) {
     contactForm.addEventListener("submit", (e) => {
       e.preventDefault();
       submitForm(contactForm, contactStatus);
@@ -63,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Quote form (supports file input)
   const quoteForm = document.getElementById("quote-form");
   const quoteStatus = document.getElementById("quote-status");
-  if (quoteForm && quoteStatus) {
+  if (quoteForm) {
     quoteForm.addEventListener("submit", (e) => {
       e.preventDefault();
       submitForm(quoteForm, quoteStatus);
