@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // ====== CONFIG: paste your Formspree endpoints here ======
-  const FORMSPREE_CONTACT = "https://formspree.io/f/your-contact-id";
-  const FORMSPREE_QUOTE   = "https://formspree.io/f/your-quote-id";
-  // =========================================================
+  // Single Getform endpoint for both forms
+  const GETFORM_ENDPOINT = "https://getform.io/f/allqjkra";
 
   // Smooth scroll with sticky-header offset
   const header = document.querySelector("header");
@@ -30,24 +28,22 @@ document.addEventListener("DOMContentLoaded", () => {
     AOS.init({ duration: 800, once: true });
   }
 
-  // ----- Form helpers -----
-  async function submitForm(form, endpoint, statusEl) {
+  // ----- Form helpers (Getform) -----
+  async function submitForm(form, statusEl) {
     statusEl.textContent = "Sending…";
     const data = new FormData(form);
 
     try {
-      const res = await fetch(endpoint, {
+      const res = await fetch(GETFORM_ENDPOINT, {
         method: "POST",
-        body: data,
-        headers: { Accept: "application/json" }
+        body: data
       });
 
       if (res.ok) {
         form.reset();
         statusEl.textContent = "Thanks! We’ll be in touch shortly.";
       } else {
-        const msg = await res.json().catch(() => ({}));
-        statusEl.textContent = msg?.error || "Something went wrong. Please try again.";
+        statusEl.textContent = "Something went wrong. Please try again.";
       }
     } catch (err) {
       statusEl.textContent = "Network error. Please try again.";
@@ -60,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (contactForm && contactStatus) {
     contactForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      submitForm(contactForm, FORMSPREE_CONTACT, contactStatus);
+      submitForm(contactForm, contactStatus);
     });
   }
 
@@ -70,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (quoteForm && quoteStatus) {
     quoteForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      submitForm(quoteForm, FORMSPREE_QUOTE, quoteStatus);
+      submitForm(quoteForm, quoteStatus);
     });
   }
 });
