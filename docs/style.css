@@ -6,6 +6,22 @@ body {
   color: #333; background: #fff; line-height: 1.6;
   scroll-behavior: smooth;
 }
+/* Make the top navigation bar sticky */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white; /* or match your theme color */
+  z-index: 1000; /* stays above other content */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* optional visual effect */
+}
+
+/* Prevent content from hiding behind the fixed header */
+body {
+  padding-top: 80px; /* adjust to match your header height */
+}
+
 
 /* Header / navbar */
 header {
