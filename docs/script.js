@@ -2,25 +2,45 @@ document.addEventListener("DOMContentLoaded", () => {
   // Single Getform endpoint for all forms
   const GETFORM_ENDPOINT = "https://getform.io/f/allqjkra";
 
-  // Smooth scroll with sticky-header offset
+  // ----- Fixed-header aware offsets -----
   const header = document.querySelector("header");
-  const headerHeight = header ? header.offsetHeight : 0;
 
-  document.querySelectorAll('.nav-links a[href^="#"]').forEach(link => {
+  const setOffsets = () => {
+    const h = header ? header.offsetHeight : 0;
+    // Make layout & anchor targets account for the fixed header
+    document.body.style.paddingTop = h + "px";
+    document.querySelectorAll("section, .section-content")
+      .forEach(el => el.style.scrollMarginTop = h + "px");
+    return h;
+  };
+
+  let headerHeight = setOffsets();
+  window.addEventListener("resize", () => { headerHeight = setOffsets(); });
+  window.addEventListener("load", () => { headerHeight = setOffsets(); });
+
+  // Smooth scroll with fixed-header offset
+  const linkSelector = '.nav-links a[href^="#"], .dropdown-menu a[href^="#"]';
+  document.querySelectorAll(linkSelector).forEach(link => {
     link.addEventListener("click", e => {
       const id = link.getAttribute("href");
       const target = document.querySelector(id);
       if (!target) return;
       e.preventDefault();
-      const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 10;
+
+      const h = header ? header.offsetHeight : headerHeight;
+      const y = target.getBoundingClientRect().top + window.pageYOffset - h;
       window.scrollTo({ top: y, behavior: "smooth" });
     });
   });
 
   // Dropdown hover for desktop
   document.querySelectorAll(".dropdown").forEach(drop => {
-    drop.addEventListener("mouseenter", () => drop.querySelector(".dropdown-menu")?.classList.add("show"));
-    drop.addEventListener("mouseleave", () => drop.querySelector(".dropdown-menu")?.classList.remove("show"));
+    drop.addEventListener("mouseenter", () =>
+      drop.querySelector(".dropdown-menu")?.classList.add("show")
+    );
+    drop.addEventListener("mouseleave", () =>
+      drop.querySelector(".dropdown-menu")?.classList.remove("show")
+    );
   });
 
   // Init AOS
@@ -46,11 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = new FormData(form);
 
     try {
-      const res = await fetch(GETFORM_ENDPOINT, {
-        method: "POST",
-        body: data
-      });
-
+      const res = await fetch(GETFORM_ENDPOINT, { method: "POST", body: data });
       if (res.ok) {
         form.outerHTML = successHTML; // Replace form with thank-you
       } else {
@@ -97,10 +113,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const title = btn.dataset.title || 'General Application';
       const input = document.getElementById('job_title');
       if (input) { input.value = title; }
-      // jump to the form
+      // jump to the form using current header height
       const apply = document.getElementById('apply');
       if (apply) {
-        const y = apply.getBoundingClientRect().top + window.pageYOffset - headerHeight - 10;
+        const h = header ? header.offsetHeight : headerHeight;
+        const y = apply.getBoundingClientRect().top + window.pageYOffset - h;
         window.scrollTo({ top: y, behavior: "smooth" });
         setTimeout(() => document.getElementById('name')?.focus(), 300);
       }
