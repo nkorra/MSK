@@ -156,3 +156,20 @@ footer { background: #0a3763; color: #fff; text-align: center; padding: 20px; }
   .nav-links { gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
 }
 
+/* --- existing styles above --- */
+
+/* Custom hero heading style */
+.hero-heading {
+  color: #0a2a66; /* deep dark blue */
+  font-weight: 700; /* bold */
+  font-size: 2.8rem; /* larger size, adjust as needed */
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2); /* subtle depth */
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  .hero-heading {
+    font-size: 2rem; /* smaller on mobile */
+  }
+}
+
