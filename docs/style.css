@@ -22,16 +22,16 @@ body {
 }
 
 /* ============================================================
-   COLORS (UPDATED MSK BLUE)
+   COLORS
 ============================================================ */
 :root {
-  --msk-blue: #0A84C1;   /* primary */
+  --msk-blue: #0A84C1;
   --msk-blue-dark: #086CA1;
   --msk-blue-light: #e9f6ff;
 }
 
 /* ============================================================
-   FIXED HEADER / NAVBAR (ANIMATED)
+   HEADER / NAVBAR (ANIMATED)
 ============================================================ */
 header {
   position: fixed;
@@ -46,7 +46,7 @@ header {
     background 0.28s ease,
     padding 0.28s ease,
     box-shadow 0.28s ease;
-  padding: 0; /* actual vertical padding is inside .navbar */
+  padding: 0;
 }
 
 .navbar {
@@ -60,15 +60,15 @@ header {
 }
 
 .logo img {
-  height: 130px; /* same as your original */
+  height: 130px;
   max-height: 15vh;
   object-fit: contain;
   transition: height 0.28s ease, transform 0.28s ease;
 }
 
-/* When scrolled: shrink header + logo slightly */
+/* shrink on scroll */
 header.scrolled {
-  background: #075a8f; /* a bit deeper */
+  background: #075a8f;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
 }
 
@@ -82,7 +82,7 @@ header.scrolled .logo img {
   transform: translateY(0);
 }
 
-/* Nav links */
+/* nav links */
 .nav-links {
   list-style: none;
   display: flex;
@@ -100,7 +100,6 @@ header.scrolled .logo img {
   transition: background 0.2s ease;
 }
 
-/* subtle underline animation for attraction */
 .nav-links a::after {
   content: "";
   position: absolute;
@@ -108,7 +107,7 @@ header.scrolled .logo img {
   right: 15px;
   bottom: 6px;
   height: 2px;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.8);
   transform: scaleX(0);
   transform-origin: center;
   transition: transform 0.2s ease;
@@ -122,7 +121,7 @@ header.scrolled .logo img {
   transform: scaleX(1);
 }
 
-/* Quote button */
+/* header Get a Quote button */
 .quote-btn {
   background: #ffffff;
   color: var(--msk-blue);
@@ -179,11 +178,11 @@ section,
 }
 
 /* ============================================================
-   HERO SECTION
+   HERO SECTION (stronger overlay + better contrast)
 ============================================================ */
 .hero {
   background:
-    linear-gradient(0deg, rgba(0,0,0,0.42), rgba(0,0,0,0.42)),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
     url("hero-bg.jpg") center/cover no-repeat;
   min-height: 420px;
   display: flex;
@@ -199,22 +198,53 @@ section,
   font-weight: 700;
   font-size: 2.8rem;
   max-width: 750px;
-  text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.9);
   margin-bottom: 12px;
 }
 
 .hero .sub {
   font-size: 1.15rem;
   max-width: 750px;
-  opacity: 0.96;
+  opacity: 0.98;
 }
 
 .hero .hero-actions {
-  margin-top: 1rem;
+  margin-top: 1.2rem;
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+/* ============================================================
+   GENERIC BUTTONS (for hero + elsewhere)
+============================================================ */
+.btn {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: var(--msk-blue);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--msk-blue-dark);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 /* ============================================================
@@ -263,7 +293,7 @@ section,
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.14);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
 }
 
 .card h3,
@@ -286,13 +316,13 @@ section,
   border-radius: 12px;
   padding: 22px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .team-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.16);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
 }
 
 .team-photo {
@@ -318,16 +348,16 @@ section,
 }
 
 /* ============================================================
-   GALLERY – SLIDER + THUMBS (balanced)
+   GALLERY – SLIDER + THUMBS
 ============================================================ */
 .gallery-slider {
   position: relative;
   max-width: 1100px;
-  height: 300px;  /* slightly smaller so it doesn’t dominate */
+  height: 300px;
   margin: 10px auto 30px;
   overflow: hidden;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.16);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
 }
 
 .gallery-slider .slide {
@@ -340,18 +370,23 @@ section,
   animation: fadeCycle 12s infinite;
 }
 
-.gallery-slider .s2 { animation-delay: 4s; }
-.gallery-slider .s3 { animation-delay: 8s; }
+.gallery-slider .s2 {
+  animation-delay: 4s;
+}
+
+.gallery-slider .s3 {
+  animation-delay: 8s;
+}
 
 @keyframes fadeCycle {
-  0%   { opacity: 0; }
-  5%   { opacity: 1; }
-  30%  { opacity: 1; }
-  35%  { opacity: 0; }
+  0% { opacity: 0; }
+  5% { opacity: 1; }
+  30% { opacity: 1; }
+  35% { opacity: 0; }
   100% { opacity: 0; }
 }
 
-/* Thumbnails under the slider */
+/* Thumbnails */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -405,6 +440,12 @@ form button {
   border: 0;
   border-radius: 8px;
   font-weight: 700;
+}
+
+/* light blue background just for the quote section */
+section#quote {
+  background: #f5f9ff;
+  border-radius: 12px;
 }
 
 /* ============================================================
