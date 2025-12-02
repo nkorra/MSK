@@ -1,7 +1,6 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Single Getform endpoint for all forms
-  const GETFORM_ENDPOINT = "https://getform.io/f/allqjkra";
+// script.js – MSK Precision Engineering Group
 
+document.addEventListener("DOMContentLoaded", () => {
   // ----- Fixed-header aware offsets -----
   const header = document.querySelector("header");
 
@@ -61,78 +60,10 @@ document.addEventListener("DOMContentLoaded", () => {
     AOS.init({ duration: 800, once: true });
   }
 
-  // ----- Success message HTML -----
-  const successHTML = `
-    <div class="thankyou" style="
-      background:#f6fbff;
-      border:1px solid #cfe6ff;
-      border-radius:10px;
-      padding:18px 16px;
-      color:#0a3763;
-      line-height:1.55;
-    ">
-      <strong>Thank you for reaching out to the MSK Precision Engineering Group team.</strong><br/>
-      We will get back to you as soon as possible at the email address you have provided.<br/><br/>
-      — Your trusted partner, the MSK Team
-    </div>
-  `;
-
-  // ----- Generic Getform submit helper -----
-  async function submitForm(form, statusEl) {
-    if (statusEl) statusEl.textContent = "Sending…";
-
-    const data = new FormData(form);
-
-    try {
-      const res = await fetch(GETFORM_ENDPOINT, {
-        method: "POST",
-        body: data,
-      });
-
-      if (res.ok) {
-        form.outerHTML = successHTML; // Replace the form with the thank-you block
-      } else if (statusEl) {
-        statusEl.textContent = "Something went wrong. Please try again.";
-      }
-    } catch (err) {
-      if (statusEl) {
-        statusEl.textContent = "Network error. Please try again.";
-      }
-    }
-  }
-
-  // ----- Contact form -----
-  const contactForm = document.getElementById("contact-form");
-  const contactStatus = document.getElementById("contact-status");
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      submitForm(contactForm, contactStatus);
-    });
-  }
-
-  // ----- Quote form (supports file input) -----
-  const quoteForm = document.getElementById("quote-form");
-  const quoteStatus = document.getElementById("quote-status");
-
-  if (quoteForm) {
-    quoteForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      submitForm(quoteForm, quoteStatus);
-    });
-  }
-
-  // ----- Job Apply form (supports file input) -----
-  const applyForm = document.getElementById("job-form");
-  const applyStatus = document.getElementById("apply-status");
-
-  if (applyForm) {
-    applyForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      submitForm(applyForm, applyStatus);
-    });
-  }
+  // ===== IMPORTANT =====
+  // We DO NOT intercept form submissions anymore.
+  // No fetch(), no preventDefault(), no manual error messages.
+  // Forms submit directly to FormSubmit as normal HTML POST.
 
   // ----- Prefill Apply form with job title and scroll to form -----
   document.querySelectorAll(".apply-btn").forEach((btn) => {
@@ -148,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
           applySection.getBoundingClientRect().top +
           window.pageYOffset -
           h;
+
         window.scrollTo({ top: y, behavior: "smooth" });
 
         setTimeout(() => {
