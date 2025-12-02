@@ -1,83 +1,142 @@
-/* =========================================
-   GLOBAL RESET
-========================================= */
+/* ============================================================
+   GLOBAL RESET / BASE
+============================================================ */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html,
 body {
-  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  height: 100%;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #333;
+  background: #fff;
   line-height: 1.6;
-  background: #ffffff;
-  color: #222;
+  scroll-behavior: smooth;
+  padding-top: 140px; /* Offset for fixed header */
 }
 
-/* =========================================
-   COLORS
-========================================= */
+/* ============================================================
+   COLORS (UPDATED MSK BLUE)
+============================================================ */
 :root {
-  --msk-blue: #0A84C1;          /* header/footer + primary */
-  --msk-blue-dark: #086ca1;
-  --msk-blue-light: #e7f4fc;
-  --msk-text-dark: #1b1b1b;
-  --msk-grey: #555;
-  --msk-light-grey: #f6f6f6;
+  --msk-blue: #0A84C1;   /* primary */
+  --msk-blue-dark: #086CA1;
+  --msk-blue-light: #e9f6ff;
 }
 
-/* =========================================
-   NAVBAR
-========================================= */
+/* ============================================================
+   FIXED HEADER / NAVBAR (ANIMATED)
+============================================================ */
 header {
-  background: var(--msk-blue);
-  padding: 8px 0;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--msk-blue);
+  color: #fff;
   z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition:
+    background 0.28s ease,
+    padding 0.28s ease,
+    box-shadow 0.28s ease;
+  padding: 0; /* actual vertical padding is inside .navbar */
 }
 
 .navbar {
-  max-width: 1300px;
-  margin: auto;
-  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: padding 0.28s ease;
 }
 
-.navbar img {
-  height: 55px;
+.logo img {
+  height: 130px; /* same as your original */
+  max-height: 15vh;
+  object-fit: contain;
+  transition: height 0.28s ease, transform 0.28s ease;
 }
 
+/* When scrolled: shrink header + logo slightly */
+header.scrolled {
+  background: #075a8f; /* a bit deeper */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+}
+
+header.scrolled .navbar {
+  padding: 8px 20px;
+}
+
+header.scrolled .logo img {
+  height: 95px;
+  max-height: 11vh;
+  transform: translateY(0);
+}
+
+/* Nav links */
 .nav-links {
-  display: flex;
   list-style: none;
-  gap: 25px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
 }
 
 .nav-links a {
-  color: white;
-  font-weight: 500;
+  position: relative;
+  color: #fff;
   text-decoration: none;
-  font-size: 15px;
-  transition: 0.2s;
+  font-weight: 850;
+  padding: 10px 15px;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+/* subtle underline animation for attraction */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  bottom: 6px;
+  height: 2px;
+  background: rgba(255,255,255,0.8);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.2s ease;
 }
 
 .nav-links a:hover {
-  opacity: 0.75;
+  background: rgba(255, 255, 255, 0.12);
 }
 
-/* Get a Quote button */
+.nav-links a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Quote button */
 .quote-btn {
-  background: white;
-  padding: 8px 16px;
+  background: #ffffff;
   color: var(--msk-blue);
-  border-radius: 6px;
-  font-weight: 600;
+  font-weight: 900;
+  border-radius: 10px;
 }
 
-/* Dropdown */
+.quote-btn:hover {
+  background: #f3f3f3;
+}
+
+/* ============================================================
+   DROPDOWN
+============================================================ */
 .dropdown {
   position: relative;
 }
@@ -85,343 +144,346 @@ header {
 .dropdown-menu {
   display: none;
   position: absolute;
-  background: white;
-  list-style: none;
-  padding: 12px 0;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  width: 200px;
+  top: 40px;
+  left: 0;
+  background: var(--msk-blue);
+  min-width: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+  z-index: 999;
 }
 
-.dropdown-menu a {
+.dropdown-menu li a {
   display: block;
-  padding: 10px 16px;
-  color: var(--msk-text-dark);
-  font-size: 14px;
+  color: #fff;
+  padding: 10px 14px;
+  font-weight: 600;
 }
 
-.dropdown-menu a:hover {
-  background: #f3f7fb;
+.dropdown-menu li a:hover {
+  background: rgba(255, 255, 255, 0.18);
 }
 
-/* for JS-added class */
+.dropdown:hover .dropdown-menu,
 .dropdown-menu.show {
   display: block;
 }
 
-/* =========================================
-   HERO SECTION (FIXED LAYOUT)
-========================================= */
+/* ============================================================
+   OFFSET FOR STICKY HEADER
+============================================================ */
+section,
+.section-content {
+  scroll-margin-top: 140px;
+}
+
+/* ============================================================
+   HERO SECTION
+============================================================ */
 .hero {
-  /* fallback color if hero.jpg missing */
   background:
-    linear-gradient(90deg, rgba(0,0,0,0.45), rgba(0,0,0,0.1)),
-    url("hero.jpg") center/cover no-repeat,
-    #111;
-  color: #fff;
-  min-height: 60vh;
+    linear-gradient(0deg, rgba(0,0,0,0.42), rgba(0,0,0,0.42)),
+    url("hero-bg.jpg") center/cover no-repeat;
+  min-height: 420px;
   display: flex;
-  align-items: center;          /* vertically center content */
-}
-
-.hero-inner {
-  /* in case you add a wrapper later – harmless otherwise */
-}
-
-.hero {
-  padding: 80px 20px 70px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 20px;
+  text-align: center;
+  color: #fff;
 }
 
 .hero-heading {
-  font-size: 40px;
-  font-weight: 800;
-  max-width: 650px;
-  margin: 0 auto 10px;
+  font-weight: 700;
+  font-size: 2.8rem;
+  max-width: 750px;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+  margin-bottom: 12px;
 }
 
-.sub {
-  margin: 0 auto;
-  margin-top: 8px;
-  font-size: 18px;
-  max-width: 650px;
+.hero .sub {
+  font-size: 1.15rem;
+  max-width: 750px;
+  opacity: 0.96;
 }
 
-.hero-actions {
-  margin-top: 20px;
+.hero .hero-actions {
+  margin-top: 1rem;
   display: flex;
-  gap: 15px;
-  max-width: 650px;
-  margin-left: auto;
-  margin-right: auto;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-/* =========================================
-   BUTTONS
-========================================= */
-.btn {
-  background: var(--msk-blue);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 600;
-  border: none;
-  display: inline-block;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.btn:hover {
-  background: var(--msk-blue-dark);
-}
-
-.btn-outline {
-  border: 2px solid white;
-  background: transparent;
-  padding: 8px 16px;
-}
-
-/* =========================================
-   SECTION BASE
-========================================= */
+/* ============================================================
+   SECTIONS
+============================================================ */
 .section-content {
-  padding: 60px 20px;
-  max-width: 1300px;
-  margin: auto;
+  max-width: 1100px;
+  margin: 60px auto;
+  padding: 0 20px;
 }
 
 .section-content h2 {
-  font-size: 30px;
-  color: var(--msk-blue-dark);
-  margin-bottom: 15px;
+  font-size: 2rem;
+  color: var(--msk-blue);
+  margin-bottom: 18px;
 }
 
-.section-content p {
-  font-size: 16px;
-  color: var(--msk-text-dark);
-}
-
+/* ============================================================
+   BULLETS
+============================================================ */
 .bullets {
-  margin-top: 10px;
-  padding-left: 20px;
+  padding-left: 18px;
 }
 
 .bullets li {
-  margin-bottom: 10px;
-  font-size: 16px;
+  margin-bottom: 8px;
 }
 
-/* =========================================
-   CARDS (Industries / Training / Jobs)
-========================================= */
+/* ============================================================
+   CARDS
+============================================================ */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 25px;
-  margin-top: 25px;
+  gap: 20px;
 }
 
 .card {
-  background: var(--msk-light-grey);
-  padding: 20px;
+  background: #f9f9f9;
+  border: 1px solid #e8e8e8;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: 0.2s;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.14);
 }
 
 .card h3,
 .card h4 {
-  margin-bottom: 8px;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-}
-
-/* =========================================
-   TEAM
-========================================= */
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
-}
-
-.team-card {
-  text-align: center;
-  padding: 20px;
-  background: var(--msk-light-grey);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-.team-photo img,
-.team-card .team-photo {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 12px;
-}
-
-.role {
-  font-weight: bold;
   color: var(--msk-blue);
 }
 
-.bio {
-  font-size: 14px;
-  color: var(--msk-grey);
-  margin-top: 8px;
-}
-
-/* =========================================
-   FORMS
-========================================= */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-form label {
-  font-weight: 600;
-  font-size: 14px;
-}
-
-form input,
-form textarea {
-  padding: 11px 12px;
-  font-size: 15px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-family: inherit;
-}
-
-form textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
-/* =========================================
-   GALLERY (FIXED)
-========================================= */
-#gallery .section-content,
-section#gallery.section-content {
-  /* just in case different selectors */
-}
-
-.gallery-grid {
+/* ============================================================
+   TEAM
+============================================================ */
+.team-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 18px;
-  margin-top: 20px;
+  gap: 22px;
+}
+
+.team-card {
+  background: #f9f9f9;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 22px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.16);
+}
+
+.team-photo {
+  width: 128px;
+  height: 128px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.team-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-card h3 {
+  margin: 6px 0 2px;
+  color: var(--msk-blue);
+  font-size: 1.15rem;
+}
+
+/* ============================================================
+   GALLERY – SLIDER + THUMBS (balanced)
+============================================================ */
+.gallery-slider {
+  position: relative;
+  max-width: 1100px;
+  height: 300px;  /* slightly smaller so it doesn’t dominate */
+  margin: 10px auto 30px;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.16);
+}
+
+.gallery-slider .slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  animation: fadeCycle 12s infinite;
+}
+
+.gallery-slider .s2 { animation-delay: 4s; }
+.gallery-slider .s3 { animation-delay: 8s; }
+
+@keyframes fadeCycle {
+  0%   { opacity: 0; }
+  5%   { opacity: 1; }
+  30%  { opacity: 1; }
+  35%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* Thumbnails under the slider */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
 }
 
 .gallery-grid img {
   width: 100%;
-  height: 220px;
+  height: 160px;
   object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.25s ease;
 }
 
-/* =========================================
-   CTA BAND
-========================================= */
-.cta-band {
+.gallery-grid img:hover {
+  transform: scale(1.04);
+}
+
+/* ============================================================
+   FORMS
+============================================================ */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 640px;
+}
+
+form label {
+  font-weight: 600;
+  color: var(--msk-blue);
+}
+
+form input,
+form textarea {
+  padding: 12px;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+form textarea {
+  min-height: 120px;
+}
+
+form button {
+  padding: 12px;
   background: var(--msk-blue);
-  color: white;
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+/* ============================================================
+   CTA BAND
+============================================================ */
+.cta-band {
+  background: linear-gradient(90deg, #0a84c1, #0b92d8);
+  color: #fff;
+  padding: 40px 20px;
 }
 
 .cta-wrap {
-  max-width: 1300px;
-  margin: auto;
-  padding: 30px 20px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
 }
 
-.cta-wrap h3 {
-  font-size: 24px;
-  margin-bottom: 5px;
-}
-
-.cta-actions {
-  margin-top: 10px;
-}
-
-/* =========================================
+/* ============================================================
    FOOTER
-========================================= */
+============================================================ */
 footer {
   background: var(--msk-blue);
-  color: white;
-  padding: 22px;
+  color: #fff;
   text-align: center;
-  margin-top: 40px;
-  font-size: 14px;
+  padding: 20px;
 }
 
-/* =========================================
-   WHATSAPP FLOAT
-========================================= */
+/* ============================================================
+   WHATSAPP FLOATING BUTTON
+============================================================ */
 .whatsapp-float {
   position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background: #25d366;
-  width: 55px;
-  height: 55px;
+  right: 16px;
+  bottom: 16px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
+  background: #25d366;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 26px;
-  text-decoration: none;
-  color: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  z-index: 1400;
 }
 
-/* =========================================
-   RESPONSIVE
-========================================= */
-@media (max-width: 900px) {
-  .hero {
-    min-height: 55vh;
-    padding: 70px 16px 60px;
-    text-align: left;
+/* ============================================================
+   RESPONSIVE TWEAKS
+============================================================ */
+@media (max-width: 820px) {
+  .logo img {
+    height: 100px;
   }
 
   .hero-heading {
-    font-size: 30px;
-  }
-
-  .hero-actions {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav-links {
-    /* very simple: show as wrap instead of full hamburger menu */
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: flex-end;
+    font-size: 2.3rem;
   }
 }
 
-@media (max-width: 600px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+@media (max-width: 640px) {
+  .logo img {
+    height: 85px;
   }
 
   .nav-links {
-    justify-content: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .hero-heading {
+    font-size: 2rem;
+  }
+
+  .section-content {
+    margin: 40px auto;
+  }
+
+  .gallery-slider {
+    height: 240px;
   }
 }
 

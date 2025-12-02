@@ -1,13 +1,12 @@
 // script.js – MSK Precision Engineering Group
 
 document.addEventListener("DOMContentLoaded", () => {
-  // ----- Fixed-header aware offsets -----
   const header = document.querySelector("header");
 
+  // ----- Fixed-header aware offsets -----
   const setOffsets = () => {
     const h = header ? header.offsetHeight : 0;
 
-    // Make layout & anchor targets account for the fixed header
     document.body.style.paddingTop = h + "px";
     document
       .querySelectorAll("section, .section-content")
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ----- Dropdown hover for desktop -----
+  // ----- Dropdown hover show/hide (desktop) -----
   document.querySelectorAll(".dropdown").forEach((drop) => {
     const menu = drop.querySelector(".dropdown-menu");
     if (!menu) return;
@@ -55,15 +54,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ----- Init AOS -----
+  // ----- Animated header on scroll (shrink & deepen color) -----
+  const handleScroll = () => {
+    if (!header) return;
+    if (window.scrollY > 20) {
+      header.classList.add("scrolled");
+    } else {
+      header.classList.remove("scrolled");
+    }
+  };
+  handleScroll(); // run once on load
+  window.addEventListener("scroll", handleScroll);
+
+  // ----- Init AOS if available -----
   if (typeof AOS !== "undefined") {
     AOS.init({ duration: 800, once: true });
   }
-
-  // ===== IMPORTANT =====
-  // We DO NOT intercept form submissions anymore.
-  // No fetch(), no preventDefault(), no manual error messages.
-  // Forms submit directly to FormSubmit as normal HTML POST.
 
   // ----- Prefill Apply form with job title and scroll to form -----
   document.querySelectorAll(".apply-btn").forEach((btn) => {
@@ -88,5 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  // IMPORTANT: We no longer intercept form submits.
+  // Forms post directly to FormSubmit via the action="" in HTML.
 });
 
