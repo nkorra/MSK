@@ -1,9 +1,12 @@
 // script.js – MSK Precision Engineering Group
 
 document.addEventListener("DOMContentLoaded", () => {
+  // ===== CONFIG =====
+  const GETFORM_ENDPOINT = "https://getform.io/f/allqjkra"; // your Getform URL
+
   const header = document.querySelector("header");
 
-  // ----- Fixed-header aware offsets -----
+  // ===== FIXED-HEADER OFFSETS =====
   const setOffsets = () => {
     const h = header ? header.offsetHeight : 0;
 
@@ -23,9 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
     headerHeight = setOffsets();
   });
 
-  // ----- Smooth scroll with fixed-header offset -----
+  // ===== SMOOTH SCROLL WITH OFFSET =====
   const linkSelector =
-    '.nav-links a[href^="#"], .dropdown-menu a[href^="#"], .quote-btn[href^="#"]';
+    '.nav-links a[href^="#"], .dropdown-menu a[href^="#"], .hero .btn[href^="#"]';
 
   document.querySelectorAll(linkSelector).forEach((link) => {
     link.addEventListener("click", (e) => {
@@ -41,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ----- Dropdown hover show/hide (desktop) -----
+  // ===== DROPDOWN HOVER (DESKTOP) =====
   document.querySelectorAll(".dropdown").forEach((drop) => {
     const menu = drop.querySelector(".dropdown-menu");
     if (!menu) return;
@@ -54,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ----- Animated header on scroll (shrink & deepen color) -----
+  // ===== HEADER SCROLL ANIMATION =====
   const handleScroll = () => {
     if (!header) return;
     if (window.scrollY > 20) {
@@ -63,15 +66,86 @@ document.addEventListener("DOMContentLoaded", () => {
       header.classList.remove("scrolled");
     }
   };
-  handleScroll(); // run once on load
+  handleScroll();
   window.addEventListener("scroll", handleScroll);
 
-  // ----- Init AOS if available -----
+  // ===== INIT AOS =====
   if (typeof AOS !== "undefined") {
     AOS.init({ duration: 800, once: true });
   }
 
-  // ----- Prefill Apply form with job title and scroll to form -----
+  // ===== THANK-YOU HTML BLOCK =====
+  const successHTML = `
+    <div class="thankyou" style="
+      background:#f6fbff;
+      border:1px solid #cfe6ff;
+      border-radius:10px;
+      padding:18px 16px;
+      color:#0a3763;
+      line-height:1.55;
+      max-width:640px;
+    ">
+      <strong>Thank you for contacting MSK Precision Engineering Group.</strong><br/>
+      Your message has been sent successfully. We will reply to you at the email address you provided.<br/><br/>
+      — MSK Team
+    </div>
+  `;
+
+  // ===== GENERIC GETFORM SUBMIT HELPER =====
+  async function submitForm(form, statusEl) {
+    if (statusEl) statusEl.textContent = "Sending…";
+
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch(GETFORM_ENDPOINT, {
+        method: "POST",
+        body: data,
+      });
+
+      if (res.ok) {
+        form.outerHTML = successHTML;
+      } else if (statusEl) {
+        statusEl.textContent = "Something went wrong. Please try again.";
+      }
+    } catch (err) {
+      if (statusEl) {
+        statusEl.textContent = "Network error. Please try again.";
+      }
+    }
+  }
+
+  // ===== CONTACT FORM =====
+  const contactForm = document.getElementById("contact-form");
+  const contactStatus = document.getElementById("contact-status");
+  if (contactForm) {
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      submitForm(contactForm, contactStatus);
+    });
+  }
+
+  // ===== QUOTE FORM =====
+  const quoteForm = document.getElementById("quote-form");
+  const quoteStatus = document.getElementById("quote-status");
+  if (quoteForm) {
+    quoteForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      submitForm(quoteForm, quoteStatus);
+    });
+  }
+
+  // ===== JOB APPLY FORM =====
+  const applyForm = document.getElementById("job-form");
+  const applyStatus = document.getElementById("apply-status");
+  if (applyForm) {
+    applyForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      submitForm(applyForm, applyStatus);
+    });
+  }
+
+  // ===== PREFILL APPLY FORM AND SCROLL =====
   document.querySelectorAll(".apply-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const title = btn.dataset.title || "General Application";
@@ -94,8 +168,5 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-
-  // IMPORTANT: We do NOT intercept form submits.
-  // Forms post directly to FormSubmit with the action="" in HTML.
 });
 
