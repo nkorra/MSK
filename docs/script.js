@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // IMPORTANT: We no longer intercept form submits.
-  // Forms post directly to FormSubmit via the action="" in HTML.
+  // IMPORTANT: We do NOT intercept form submits.
+  // Forms post directly to FormSubmit with the action="" in HTML.
 });
 
