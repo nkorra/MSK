@@ -2,7 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   // ===== CONFIG =====
-  const GETFORM_ENDPOINT = "https://getform.io/f/allqjkra"; // your Getform URL
+  const GETFORM_ENDPOINT = "https://getform.io/f/amdjpymb"; // your Getform URL
 
   const header = document.querySelector("header");
 
