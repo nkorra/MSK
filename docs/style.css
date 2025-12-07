@@ -1,4 +1,4 @@
-k/* ============================
+/* ============================
    Base / Reset
    ============================ */
 * {
@@ -18,7 +18,7 @@ body {
   background: #fff;
   line-height: 1.6;
   scroll-behavior: smooth;
-  padding-top: 140px; /* offset for fixed header - JS will refine */
+  padding-top: 140px; /* offset for fixed header */
 }
 
 /* ============================
@@ -29,7 +29,7 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  background: #0d6fb3;         /* MSK blue, slightly lighter */
+  background: #0d6fb3; /* MSK blue, slightly lighter */
   color: #fff;
   z-index: 1000;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
@@ -84,35 +84,58 @@ header.scrolled {
 /* ============================
    Dropdown Menus
    ============================ */
+
+/* each top-level item is a positioning context */
+.navbar .nav-links > li {
+  position: relative;
+}
+
 .dropdown {
   position: relative;
 }
 
+/* base style: hidden */
 .dropdown-menu {
-  display: none;
   position: absolute;
-  top: 36px;
+  top: calc(100% + 6px);
   left: 0;
+  display: none;
+  opacity: 0;
+  visibility: hidden;
   background: #0d6fb3;
   min-width: 200px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-  z-index: 999;
+  z-index: 9999;
 }
 
+/* hover on desktop – show submenu */
+.navbar li:hover > .dropdown-menu {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* allow JS to force-open using .show (for future mobile menu) */
+.dropdown-menu.show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* submenu links */
 .dropdown-menu li a {
   display: block;
   color: #fff;
-  padding: 10px 14px;
+  padding: 10px 18px;
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .dropdown-menu li a:hover {
   background: rgba(255, 255, 255, 0.16);
-}
-
-.dropdown-menu.show {
-  display: block;
 }
 
 /* ============================
