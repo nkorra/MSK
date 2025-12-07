@@ -18,7 +18,7 @@ body {
   background: #fff;
   line-height: 1.6;
   scroll-behavior: smooth;
-  padding-top: 140px; /* offset for fixed header */
+  padding-top: 140px; /* offset for fixed header - JS will refine */
 }
 
 /* ============================
@@ -67,6 +67,10 @@ header.scrolled {
   flex-wrap: wrap;
 }
 
+.nav-links li {
+  position: relative;
+}
+
 .nav-links a {
   color: #fff;
   text-decoration: none;
@@ -84,58 +88,40 @@ header.scrolled {
 /* ============================
    Dropdown Menus
    ============================ */
-
-/* each top-level item is a positioning context */
-.navbar .nav-links > li {
-  position: relative;
-}
-
 .dropdown {
   position: relative;
 }
 
-/* base style: hidden */
 .dropdown-menu {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
   display: none;
-  opacity: 0;
-  visibility: hidden;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
   background: #0d6fb3;
   min-width: 200px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-  z-index: 9999;
+  z-index: 999;
 }
 
-/* hover on desktop – show submenu */
-.navbar li:hover > .dropdown-menu {
-  display: block;
-  opacity: 1;
-  visibility: visible;
+.dropdown-menu li {
+  list-style: none;
 }
 
-/* allow JS to force-open using .show (for future mobile menu) */
-.dropdown-menu.show {
-  display: block;
-  opacity: 1;
-  visibility: visible;
-}
-
-/* submenu links */
 .dropdown-menu li a {
   display: block;
   color: #fff;
-  padding: 10px 18px;
-  text-decoration: none;
-  font-weight: 600;
-  white-space: nowrap;
+  padding: 10px 14px;
 }
 
 .dropdown-menu li a:hover {
   background: rgba(255, 255, 255, 0.16);
+}
+
+/* show on hover */
+.dropdown:hover > .dropdown-menu {
+  display: block;
 }
 
 /* ============================
@@ -504,7 +490,7 @@ footer {
 }
 
 /* ============================
-   WhatsApp Floating Button
+   WhatsApp Floating Button (optional – if you still use it)
    ============================ */
 .whatsapp-float {
   position: fixed;
