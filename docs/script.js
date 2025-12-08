@@ -1,39 +1,31 @@
+// MSK Precision Engineering – Frontend Script
 document.addEventListener("DOMContentLoaded", () => {
-  // -----------------------------
-  // 1. Getform endpoint (single)
-  // -----------------------------
-  const GETFORM_ENDPOINT = "https://getform.io/f/amdjpymb";
+  console.log("MSK website loaded");
 
-  // -----------------------------
-  // 2. Fixed-header offsets
-  // -----------------------------
+  // ==============================
+  // 1. Fixed header offset
+  // ==============================
   const header = document.querySelector("header");
 
-  const setOffsets = () => {
-    const h = header ? header.offsetHeight : 0;
+  function updateOffsets() {
+    const h = header ? header.offsetHeight : 120;
 
-    // Make layout & anchor targets account for the fixed header
+    // body padding so hero/content not hidden
     document.body.style.paddingTop = h + "px";
-    document
-      .querySelectorAll("section, .section-content")
-      .forEach((el) => (el.style.scrollMarginTop = h + "px"));
 
-    return h;
-  };
+    // anchor scroll offset
+    document.querySelectorAll("section, .section-content").forEach((el) => {
+      el.style.scrollMarginTop = h + "px";
+    });
+  }
 
-  let headerHeight = setOffsets();
+  updateOffsets();
+  window.addEventListener("resize", updateOffsets);
+  window.addEventListener("load", updateOffsets);
 
-  window.addEventListener("resize", () => {
-    headerHeight = setOffsets();
-  });
-
-  window.addEventListener("load", () => {
-    headerHeight = setOffsets();
-  });
-
-  // -----------------------------
-  // 3. Header "animated" on scroll
-  // -----------------------------
+  // ==============================
+  // 2. Header scroll effect
+  // ==============================
   window.addEventListener("scroll", () => {
     if (!header) return;
     if (window.scrollY > 10) {
@@ -43,11 +35,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // -----------------------------
-  // 4. Smooth scroll with offset
-  // -----------------------------
+  // ==============================
+  // 3. Dropdown hover (desktop)
+  // ==============================
+  document.querySelectorAll(".dropdown").forEach((drop) => {
+    const menu = drop.querySelector(".dropdown-menu");
+    if (!menu) return;
+
+    drop.addEventListener("mouseenter", () => menu.classList.add("show"));
+    drop.addEventListener("mouseleave", () => menu.classList.remove("show"));
+  });
+
+  // ==============================
+  // 4. Smooth scroll for nav + CTA links
+  // ==============================
   const linkSelector =
-    '.nav-links a[href^="#"], .dropdown-menu a[href^="#"], a.btn[href^="#"]';
+    '.nav-links a[href^="#"], .dropdown-menu a[href^="#"], a.btn[href^="#"], a.btn-outline[href^="#"]';
 
   document.querySelectorAll(linkSelector).forEach((link) => {
     link.addEventListener("click", (e) => {
@@ -59,141 +62,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
       e.preventDefault();
 
-      const h = header ? header.offsetHeight : headerHeight;
-      const y = target.getBoundingClientRect().top + window.pageYOffset - h;
+      const h = header ? header.offsetHeight : 120;
+      const y = target.getBoundingClientRect().top + window.scrollY - h;
+
       window.scrollTo({ top: y, behavior: "smooth" });
     });
   });
 
-  // -----------------------------
-  // 5. Dropdown hover (desktop)
-  // -----------------------------
-  document.querySelectorAll(".dropdown").forEach((drop) => {
-    const menu = drop.querySelector(".dropdown-menu");
-    if (!menu) return;
-
-    drop.addEventListener("mouseenter", () => {
-      menu.classList.add("show");
-    });
-    drop.addEventListener("mouseleave", () => {
-      menu.classList.remove("show");
-    });
-  });
-
-  // -----------------------------
-  // 6. Init AOS (if loaded)
-  // -----------------------------
-  if (typeof AOS !== "undefined") {
-    AOS.init({
-      duration: 800,
-      once: true,
-    });
-  }
-
-  // -----------------------------
-  // 7. Success message block
-  // -----------------------------
-  const successHTML = `
-    <div class="thankyou">
-      <div style="
-        background:#f6fbff;
-        border:1px solid #cfe6ff;
-        border-radius:10px;
-        padding:18px 16px;
-        color:#0a3763;
-        line-height:1.55;
-      ">
-        <strong>Thank you for reaching out to the MSK Precision Engineering Group team.</strong><br/>
-        We will get back to you as soon as possible at the email address you have provided.<br/><br/>
-        — Your trusted partner, the MSK Team
-      </div>
-    </div>
-  `;
-
-  // -----------------------------
-  // 8. Generic Getform submit
-  // -----------------------------
-  async function submitForm(form, statusEl) {
-    if (!form) return;
-
-    if (statusEl) statusEl.textContent = "Sending…";
-
-    const data = new FormData(form);
-
-    try {
-      const res = await fetch(GETFORM_ENDPOINT, {
-        method: "POST",
-        body: data,
-      });
-
-      if (res.ok) {
-        // Replace the form with a thank-you block
-        form.outerHTML = successHTML;
-      } else if (statusEl) {
-        statusEl.textContent = "Something went wrong. Please try again.";
-      }
-    } catch (err) {
-      if (statusEl) {
-        statusEl.textContent = "Network error. Please try again.";
-      }
-    }
-  }
-
-  // -----------------------------
-  // 9. Contact form
-  // -----------------------------
-  const contactForm = document.getElementById("contact-form");
-  const contactStatus = document.getElementById("contact-status");
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      submitForm(contactForm, contactStatus);
-    });
-  }
-
-  // -----------------------------
-  // 10. Quote form (file ok)
-  // -----------------------------
-  const quoteForm = document.getElementById("quote-form");
-  const quoteStatus = document.getElementById("quote-status");
-
-  if (quoteForm) {
-    quoteForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      submitForm(quoteForm, quoteStatus);
-    });
-  }
-
-  // -----------------------------
-  // 11. Job Apply form (file ok)
-  // -----------------------------
-  const applyForm = document.getElementById("job-form");
-  const applyStatus = document.getElementById("apply-status");
-
-  if (applyForm) {
-    applyForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      submitForm(applyForm, applyStatus);
-    });
-  }
-
-  // -----------------------------
-  // 12. Prefill Apply form & scroll
-  // -----------------------------
+  // ==============================
+  // 5. Prefill "Apply" form from job cards
+  // ==============================
   document.querySelectorAll(".apply-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const title = btn.dataset.title || "General Application";
-      const input = document.getElementById("job_title");
-      if (input) input.value = title;
+      const jobInput = document.getElementById("job_title");
+      if (jobInput) jobInput.value = title;
 
       const applySection = document.getElementById("apply");
       if (applySection) {
-        const h = header ? header.offsetHeight : headerHeight;
-        const y =
-          applySection.getBoundingClientRect().top +
-          window.pageYOffset -
-          h;
+        const h = header ? header.offsetHeight : 120;
+        const y = applySection.getBoundingClientRect().top + window.scrollY - h;
 
         window.scrollTo({ top: y, behavior: "smooth" });
 
@@ -203,5 +91,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  // ==============================
+  // 6. Init AOS if available
+  // ==============================
+  if (typeof AOS !== "undefined") {
+    AOS.init({
+      duration: 700,
+      once: true,
+    });
+  }
 });
 

@@ -29,19 +29,16 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  background: #0d6fb3; /* MSK blue, slightly lighter */
+  background: #0d6fb3; /* MSK blue */
   color: #fff;
   z-index: 1000;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-  transition: background 0.25s ease, box-shadow 0.25s ease,
-    transform 0.25s ease;
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 
-/* small animated feel on scroll */
 header.scrolled {
   background: #0b5f99;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  transform: translateY(0);
 }
 
 .navbar {
@@ -65,10 +62,6 @@ header.scrolled {
   gap: 18px;
   align-items: center;
   flex-wrap: wrap;
-}
-
-.nav-links li {
-  position: relative;
 }
 
 .nav-links a {
@@ -95,7 +88,7 @@ header.scrolled {
 .dropdown-menu {
   display: none;
   position: absolute;
-  top: calc(100% + 4px);
+  top: 36px;
   left: 0;
   background: #0d6fb3;
   min-width: 200px;
@@ -103,10 +96,6 @@ header.scrolled {
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
   z-index: 999;
-}
-
-.dropdown-menu li {
-  list-style: none;
 }
 
 .dropdown-menu li a {
@@ -119,8 +108,7 @@ header.scrolled {
   background: rgba(255, 255, 255, 0.16);
 }
 
-/* show on hover */
-.dropdown:hover > .dropdown-menu {
+.dropdown-menu.show {
   display: block;
 }
 
@@ -282,6 +270,16 @@ section,
   background: rgba(13, 79, 139, 0.06);
 }
 
+/* special outline button on dark CTA band */
+.btn-light-outline {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+.btn-light-outline:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
 /* ============================
    Team
    ============================ */
@@ -436,7 +434,7 @@ form button:hover {
   margin-top: 6px;
 }
 
-/* simple block used when form replaced by thank-you HTML */
+/* simple block if you ever use thank-you HTML */
 .thankyou {
   margin-top: 16px;
 }
@@ -483,40 +481,11 @@ form button:hover {
    Footer
    ============================ */
 footer {
-  background: #0d6fb3;
+  background: #083a66; /* darker than CTA band so it stands out */
   color: #fff;
   text-align: center;
-  padding: 20px;
-}
-
-/* ============================
-   WhatsApp Floating Button (optional – if you still use it)
-   ============================ */
-.whatsapp-float {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: #25d366;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-  z-index: 1400;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
-}
-
-.whatsapp-float:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.07);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
-}
-
-.whatsapp-float svg {
-  width: 28px;
-  height: 28px;
+  padding: 18px;
+  font-size: 0.95rem;
 }
 
 /* ============================
@@ -549,18 +518,6 @@ footer {
 
   .gallery-slider {
     height: 260px;
-  }
-
-  .whatsapp-float {
-    right: 12px;
-    bottom: 12px;
-    width: 50px;
-    height: 50px;
-  }
-
-  .whatsapp-float svg {
-    width: 24px;
-    height: 24px;
   }
 }
 
