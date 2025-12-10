@@ -43,7 +43,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -----------------------------
-  // 4. Smooth scroll (nav & hero buttons)
+  // 4. Hamburger toggle
+  // -----------------------------
+  const navToggle = document.querySelector(".nav-toggle");
+  const navLinks = document.querySelector(".nav-links");
+
+  if (navToggle && navLinks) {
+    navToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+      navToggle.classList.toggle("open");
+    });
+  }
+
+  // Close nav after clicking a link on mobile
+  const closeNavAfterClick = () => {
+    if (window.innerWidth <= 900 && navLinks && navLinks.classList.contains("open")) {
+      navLinks.classList.remove("open");
+      navToggle?.classList.remove("open");
+    }
+  };
+
+  // -----------------------------
+  // 5. Smooth scroll (nav & hero buttons)
   // -----------------------------
   const linkSelector =
     '.nav-links a[href^="#"], .dropdown-menu a[href^="#"], a.btn[href^="#"]';
@@ -61,11 +82,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const h = header ? header.offsetHeight : headerHeight;
       const y = target.getBoundingClientRect().top + window.pageYOffset - h;
       window.scrollTo({ top: y, behavior: "smooth" });
+
+      closeNavAfterClick();
     });
   });
 
   // -----------------------------
-  // 5. Dropdown behaviour
+  // 6. Dropdown behaviour
   // -----------------------------
   document.querySelectorAll(".dropdown").forEach((drop) => {
     const menu = drop.querySelector(".dropdown-menu");
@@ -75,19 +98,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Desktop hover
     drop.addEventListener("mouseenter", () => {
-      if (window.innerWidth >= 900) {
+      if (window.innerWidth > 900) {
         menu.classList.add("show");
       }
     });
     drop.addEventListener("mouseleave", () => {
-      if (window.innerWidth >= 900) {
+      if (window.innerWidth > 900) {
         menu.classList.remove("show");
       }
     });
 
     // Mobile click toggle
     triggerLink.addEventListener("click", (e) => {
-      if (window.innerWidth < 900) {
+      if (window.innerWidth <= 900) {
         e.preventDefault();
         menu.classList.toggle("show");
       }
@@ -95,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -----------------------------
-  // 6. Init AOS
+  // 7. Init AOS
   // -----------------------------
   if (typeof AOS !== "undefined") {
     AOS.init({
@@ -105,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -----------------------------
-  // 7. Success message block
+  // 8. Success message block
   // -----------------------------
   const successHTML = `
     <div class="thankyou">
@@ -125,7 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
 
   // -----------------------------
-  // 8. Generic Getform submit
+  // 9. Generic Getform submit
+  //    (handles DNS / network error gracefully)
   // -----------------------------
   async function submitForm(form, statusEl) {
     if (!form) return;
@@ -140,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
         body: data,
       });
 
+      // If Getform is OK or response is opaque (CORS), show success
       if (res.ok || res.type === "opaque") {
         form.outerHTML = successHTML;
       } else if (statusEl) {
@@ -149,13 +174,13 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       if (statusEl) {
         statusEl.textContent =
-          "Network / DNS error while contacting Getform. Your website is OK – this is likely a temporary issue at the form provider.";
+          "Network / DNS error while contacting Getform. Your website is OK – it’s likely a temporary issue at the form provider.";
       }
     }
   }
 
   // -----------------------------
-  // 9. Contact form
+  // 10. Contact form
   // -----------------------------
   const contactForm = document.getElementById("contact-form");
   const contactStatus = document.getElementById("contact-status");
@@ -168,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -----------------------------
-  // 10. Quote form
+  // 11. Quote form
   // -----------------------------
   const quoteForm = document.getElementById("quote-form");
   const quoteStatus = document.getElementById("quote-status");
@@ -181,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -----------------------------
-  // 11. Job Apply form
+  // 12. Job Apply form
   // -----------------------------
   const applyForm = document.getElementById("job-form");
   const applyStatus = document.getElementById("apply-status");
@@ -194,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -----------------------------
-  // 12. Prefill Apply form & scroll
+  // 13. Prefill Apply form & scroll
   // -----------------------------
   document.querySelectorAll(".apply-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
