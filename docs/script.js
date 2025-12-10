@@ -1,14 +1,17 @@
-// docs/script.js
 document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
-  // 1. Fixed-header offsets
+  // 1. Getform endpoint
+  // -----------------------------
+  const GETFORM_ENDPOINT = "https://getform.io/f/amdjpymb";
+
+  // -----------------------------
+  // 2. Fixed-header offsets
   // -----------------------------
   const header = document.querySelector("header");
 
   const setOffsets = () => {
     const h = header ? header.offsetHeight : 0;
 
-    // Layout & anchor targets account for the fixed header
     document.body.style.paddingTop = h + "px";
     document
       .querySelectorAll("section, .section-content")
@@ -28,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -----------------------------
-  // 2. Header "animated" on scroll
+  // 3. Header effect on scroll
   // -----------------------------
   window.addEventListener("scroll", () => {
     if (!header) return;
@@ -40,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -----------------------------
-  // 3. Smooth scroll with offset
+  // 4. Smooth scroll (nav & hero buttons)
   // -----------------------------
   const linkSelector =
     '.nav-links a[href^="#"], .dropdown-menu a[href^="#"], a.btn[href^="#"]';
@@ -62,22 +65,37 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -----------------------------
-  // 4. Dropdown hover (desktop)
+  // 5. Dropdown behaviour
   // -----------------------------
   document.querySelectorAll(".dropdown").forEach((drop) => {
     const menu = drop.querySelector(".dropdown-menu");
-    if (!menu) return;
+    const triggerLink = drop.querySelector("a[href^='#']");
 
+    if (!menu || !triggerLink) return;
+
+    // Desktop hover
     drop.addEventListener("mouseenter", () => {
-      menu.classList.add("show");
+      if (window.innerWidth >= 900) {
+        menu.classList.add("show");
+      }
     });
     drop.addEventListener("mouseleave", () => {
-      menu.classList.remove("show");
+      if (window.innerWidth >= 900) {
+        menu.classList.remove("show");
+      }
+    });
+
+    // Mobile click toggle
+    triggerLink.addEventListener("click", (e) => {
+      if (window.innerWidth < 900) {
+        e.preventDefault();
+        menu.classList.toggle("show");
+      }
     });
   });
 
   // -----------------------------
-  // 5. Init AOS (if loaded)
+  // 6. Init AOS
   // -----------------------------
   if (typeof AOS !== "undefined") {
     AOS.init({
@@ -87,7 +105,96 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -----------------------------
-  // 6. Prefill Apply form & scroll
+  // 7. Success message block
+  // -----------------------------
+  const successHTML = `
+    <div class="thankyou">
+      <div style="
+        background:#f6fbff;
+        border:1px solid #cfe6ff;
+        border-radius:10px;
+        padding:18px 16px;
+        color:#0a3763;
+        line-height:1.55;
+      ">
+        <strong>Thank you for reaching out to the MSK Precision Engineering Group team.</strong><br/>
+        We will get back to you as soon as possible at the email address you have provided.<br/><br/>
+        — Your trusted partner, the MSK Team
+      </div>
+    </div>
+  `;
+
+  // -----------------------------
+  // 8. Generic Getform submit
+  // -----------------------------
+  async function submitForm(form, statusEl) {
+    if (!form) return;
+
+    if (statusEl) statusEl.textContent = "Sending…";
+
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch(GETFORM_ENDPOINT, {
+        method: "POST",
+        body: data,
+      });
+
+      if (res.ok || res.type === "opaque") {
+        form.outerHTML = successHTML;
+      } else if (statusEl) {
+        statusEl.textContent =
+          "Something went wrong at the form provider. Please try again.";
+      }
+    } catch (err) {
+      if (statusEl) {
+        statusEl.textContent =
+          "Network / DNS error while contacting Getform. Your website is OK – this is likely a temporary issue at the form provider.";
+      }
+    }
+  }
+
+  // -----------------------------
+  // 9. Contact form
+  // -----------------------------
+  const contactForm = document.getElementById("contact-form");
+  const contactStatus = document.getElementById("contact-status");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      submitForm(contactForm, contactStatus);
+    });
+  }
+
+  // -----------------------------
+  // 10. Quote form
+  // -----------------------------
+  const quoteForm = document.getElementById("quote-form");
+  const quoteStatus = document.getElementById("quote-status");
+
+  if (quoteForm) {
+    quoteForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      submitForm(quoteForm, quoteStatus);
+    });
+  }
+
+  // -----------------------------
+  // 11. Job Apply form
+  // -----------------------------
+  const applyForm = document.getElementById("job-form");
+  const applyStatus = document.getElementById("apply-status");
+
+  if (applyForm) {
+    applyForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      submitForm(applyForm, applyStatus);
+    });
+  }
+
+  // -----------------------------
+  // 12. Prefill Apply form & scroll
   // -----------------------------
   document.querySelectorAll(".apply-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -95,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const input = document.getElementById("job_title");
       if (input) input.value = title;
 
-      const applySection = document.getElementById("careers");
+      const applySection = document.getElementById("apply");
       if (applySection) {
         const h = header ? header.offsetHeight : headerHeight;
         const y =
@@ -106,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.scrollTo({ top: y, behavior: "smooth" });
 
         setTimeout(() => {
-          document.getElementById("candidate_name")?.focus();
+          document.getElementById("name")?.focus();
         }, 300);
       }
     });
