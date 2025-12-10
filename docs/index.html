@@ -5,6 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- =======================================================
+       GOOGLE ANALYTICS 4 (GA4)
+       Measurement ID: G-GTVJJPFR28
+  ======================================================== -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GTVJJPFR28"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GTVJJPFR28');
+  </script>
+
+  <!-- =======================================================
+       GOOGLE TAG MANAGER
+       Container ID: GTM-N6NL27JS
+       (If you later add GA4 inside GTM, remove the GA4 snippet above
+       to avoid double-counting.)
+  ======================================================== -->
+  <!-- Google Tag Manager -->
+  <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-N6NL27JS');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <!-- =======================================================
        BASIC SEO
   ======================================================== -->
   <title>MSK Precision Engineering Group | Data-Driven CNC Machining & Engineering</title>
@@ -44,12 +73,6 @@
   <meta name="twitter:image" content="https://www.mskprecisiongroup.com/MSK_logo_3D_1.png" />
 
   <!-- =======================================================
-       GOOGLE SEARCH CONSOLE
-       (you are using HTML-file verification, so this can stay or be removed)
-  ======================================================== -->
-  <meta name="google-site-verification" content="REPLACE_WITH_YOUR_CODE" />
-
-  <!-- =======================================================
        STRUCTURED DATA (ORGANIZATION)
   ======================================================== -->
   <script type="application/ld+json">
@@ -78,11 +101,13 @@
 
   <!-- =======================================================
        FAVICON / ICONS
+       (files already in /docs)
   ======================================================== -->
-  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <meta name="apple-mobile-web-app-title" content="MSK Precision Engineering Group" />
   <link rel="manifest" href="/site.webmanifest" />
 
   <!-- Styles & AOS -->
@@ -103,22 +128,27 @@
   </script>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6NL27JS"
+            height="0" width="0"
+            style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
   <!-- =======================================================
-       HEADER / NAV (with hamburger)
+       HEADER / NAV
   ======================================================== -->
   <header>
     <nav class="navbar">
       <div class="logo">
         <img src="MSK_logo_3D_1.png" alt="MSK Precision Engineering Group Logo" />
       </div>
-
-      <!-- Hamburger toggle (mobile) -->
       <button class="nav-toggle" aria-label="Toggle navigation">
         <span></span>
         <span></span>
         <span></span>
       </button>
-
       <ul class="nav-links">
         <li><a href="#home">Home</a></li>
         <li><a href="#story">About</a></li>
@@ -529,7 +559,6 @@
       <textarea id="message" name="message" placeholder="Cover note / key highlights" required></textarea>
 
       <button type="submit" class="btn">Submit Application</button>
-      <p id="apply-status" class="form-status"></p>
     </form>
   </section>
 
@@ -672,7 +701,6 @@
       <input type="email" name="email" placeholder="Email" required />
       <textarea name="message" placeholder="Your Message" required></textarea>
       <button type="submit">Send Message</button>
-      <p id="contact-status" class="form-status"></p>
     </form>
   </section>
 
@@ -699,7 +727,6 @@
       <input type="file" name="attachment" />
       <textarea name="details" placeholder="Project Details" required></textarea>
       <button type="submit">Submit Quote</button>
-      <p id="quote-status" class="form-status"></p>
     </form>
     <p class="form-note">Attach drawings up to your Getform plan limit.</p>
   </section>
