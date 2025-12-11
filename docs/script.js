@@ -57,10 +57,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Close nav after clicking a link on mobile
   const closeNavAfterClick = () => {
-    if (window.innerWidth <= 900 && navLinks && navLinks.classList.contains("open")) {
+    if (
+      window.innerWidth <= 900 &&
+      navLinks &&
+      navLinks.classList.contains("open")
+    ) {
       navLinks.classList.remove("open");
       navToggle?.classList.remove("open");
     }
+
+    // Also close any open submenus
+    document
+      .querySelectorAll(".dropdown-menu.show")
+      .forEach((m) => m.classList.remove("show"));
   };
 
   // -----------------------------
@@ -73,6 +82,19 @@ document.addEventListener("DOMContentLoaded", () => {
     link.addEventListener("click", (e) => {
       const id = link.getAttribute("href");
       if (!id || id === "#") return;
+
+      // Is this the top-level label inside a dropdown?
+      const isTopLevelDropdownLink =
+        link.closest(".dropdown") && !link.closest(".dropdown-menu");
+
+      if (isTopLevelDropdownLink) {
+        // Desktop: prevent jump to section; just leave dropdown open
+        if (window.innerWidth > 900) {
+          e.preventDefault();
+        }
+        // Mobile: do nothing here; Section 6 handler will toggle the submenu
+        return;
+      }
 
       const target = document.querySelector(id);
       if (!target) return;
@@ -108,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Mobile click toggle
+    // Mobile click toggle for the top label (Services, Industries, etc.)
     triggerLink.addEventListener("click", (e) => {
       if (window.innerWidth <= 900) {
         e.preventDefault();
