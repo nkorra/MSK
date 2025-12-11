@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -----------------------------
-  // 6. Dropdown behaviour
+  // 6. Dropdown behaviour (click-driven)
   // -----------------------------
   document.querySelectorAll(".dropdown").forEach((drop) => {
     const menu = drop.querySelector(".dropdown-menu");
@@ -118,24 +118,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!menu || !triggerLink) return;
 
-    // Desktop hover
-    drop.addEventListener("mouseenter", () => {
-      if (window.innerWidth > 900) {
-        menu.classList.add("show");
-      }
-    });
-    drop.addEventListener("mouseleave", () => {
-      if (window.innerWidth > 900) {
-        menu.classList.remove("show");
-      }
-    });
-
-    // Mobile click toggle for the top label (Services, Industries, etc.)
     triggerLink.addEventListener("click", (e) => {
-      if (window.innerWidth <= 900) {
-        e.preventDefault();
-        menu.classList.toggle("show");
-      }
+      // Top-level dropdown labels (Services / Industries / Training / Careers)
+      // should only toggle the submenu, not scroll the page.
+      e.preventDefault();
+
+      // Close any other open dropdowns first
+      document.querySelectorAll(".dropdown-menu.show").forEach((m) => {
+        if (m !== menu) m.classList.remove("show");
+      });
+
+      // Toggle this one
+      menu.classList.toggle("show");
     });
   });
 
