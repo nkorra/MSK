@@ -1,5 +1,6 @@
 window.addEventListener("load", function () {
   const wrapper = document.createElement("div");
+
   wrapper.innerHTML = `
     <button id="mskChatBtn">Ask MSK</button>
 
@@ -12,8 +13,9 @@ window.addEventListener("load", function () {
       <div class="msk-chat-body">
         <p><strong>Hello!</strong> Tell us what you need help with.</p>
 
-        <input id="mskName" placeholder="Your name" />
-        <input id="mskEmail" placeholder="Email" />
+        <input id="mskName" placeholder="Your name" required />
+        <input id="mskEmail" placeholder="Email" required />
+
         <select id="mskService">
           <option value="">Select requirement</option>
           <option>Engineering Consultancy</option>
@@ -26,10 +28,11 @@ window.addEventListener("load", function () {
           <option>Manufacturing / Precision Works</option>
           <option>Training</option>
         </select>
+
         <textarea id="mskMessage" placeholder="Briefly describe your project"></textarea>
 
         <button id="mskSubmitBtn">Send Enquiry</button>
-        <p class="msk-note">For drawings, STEP/IGES/STL/PDF files can be shared by email after enquiry.</p>
+        <p id="mskStatus" class="msk-note"></p>
       </div>
     </div>
   `;
@@ -118,7 +121,7 @@ window.addEventListener("load", function () {
 
     .msk-note {
       font-size: 12px;
-      color: #64748b;
+      color: #0f172a;
       margin-top: 10px;
       line-height: 1.4;
     }
@@ -133,26 +136,47 @@ window.addEventListener("load", function () {
     document.getElementById("mskChatBox").style.display = "none";
   };
 
-  document.getElementById("mskSubmitBtn").onclick = function () {
-    const name = document.getElementById("mskName").value;
-    const email = document.getElementById("mskEmail").value;
+  document.getElementById("mskSubmitBtn").onclick = async function () {
+    const name = document.getElementById("mskName").value.trim();
+    const email = document.getElementById("mskEmail").value.trim();
     const service = document.getElementById("mskService").value;
-    const message = document.getElementById("mskMessage").value;
+    const message = document.getElementById("mskMessage").value.trim();
+    const status = document.getElementById("mskStatus");
 
-    const subject = "MSK Website Engineering Enquiry";
-    const body = `
-Name: ${name}
-Email: ${email}
-Service Required: ${service}
+    if (!name || !email || !service || !message) {
+      status.innerText = "Please fill name, email, requirement and project details.";
+      return;
+    }
 
-Project Details:
-${message}
-    `;
+    status.innerText = "Sending enquiry...";
 
-    window.location.href =
-      "mailto:info@mskprecisiongroup.com?subject=" +
-      encodeURIComponent(subject) +
-      "&body=" +
-      encodeURIComponent(body);
+    const formData = new FormData();
+    formData.append("form_name", "MSK Chatbot Enquiry");
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("service_required", service);
+    formData.append("project_details", message);
+
+    try {
+      const response = await fetch("https://getform.io/f/amdjpymb", {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      if (response.ok) {
+        status.innerText = "Thank you. Your enquiry has been sent to MSK.";
+        document.getElementById("mskName").value = "";
+        document.getElementById("mskEmail").value = "";
+        document.getElementById("mskService").value = "";
+        document.getElementById("mskMessage").value = "";
+      } else {
+        status.innerText = "Could not send automatically. Please email info@mskprecisiongroup.com.";
+      }
+    } catch (error) {
+      status.innerText = "Network issue. Please email info@mskprecisiongroup.com.";
+    }
   };
 });
