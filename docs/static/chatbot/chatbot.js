@@ -1,30 +1,152 @@
-(function () {
-  const btn = document.createElement("button");
-  btn.innerText = "Ask MSK";
-  btn.style.position = "fixed";
-  btn.style.bottom = "20px";
-  btn.style.right = "20px";
-  btn.style.padding = "12px 18px";
-  btn.style.background = "#0f172a";
-  btn.style.color = "#fff";
-  btn.style.border = "none";
-  btn.style.borderRadius = "25px";
-  btn.style.cursor = "pointer";
-  btn.style.zIndex = "9999";
-  btn.style.boxShadow = "0 4px 12px rgba(0,0,0,0.3)";
+window.addEventListener("load", function () {
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = `
+    <button id="mskChatBtn">Ask MSK</button>
 
-  document.body.appendChild(btn);
+    <div id="mskChatBox">
+      <div class="msk-chat-header">
+        <strong>MSK Engineering Assistant</strong>
+        <button id="mskCloseBtn">×</button>
+      </div>
 
-  btn.onclick = function () {
-    const name = prompt("Your Name:");
-    const email = prompt("Your Email:");
-    const requirement = prompt("Your Requirement:");
+      <div class="msk-chat-body">
+        <p><strong>Hello!</strong> Tell us what you need help with.</p>
 
-    const subject = "MSK Engineering Enquiry";
+        <input id="mskName" placeholder="Your name" />
+        <input id="mskEmail" placeholder="Email" />
+        <select id="mskService">
+          <option value="">Select requirement</option>
+          <option>Engineering Consultancy</option>
+          <option>CNC Machining</option>
+          <option>CAD / CAM Design</option>
+          <option>FEA / FEM / Structural Analysis</option>
+          <option>CFD / Simulation</option>
+          <option>Product Design / R&D</option>
+          <option>3D Printing / Additive Manufacturing</option>
+          <option>Manufacturing / Precision Works</option>
+          <option>Training</option>
+        </select>
+        <textarea id="mskMessage" placeholder="Briefly describe your project"></textarea>
+
+        <button id="mskSubmitBtn">Send Enquiry</button>
+        <p class="msk-note">For drawings, STEP/IGES/STL/PDF files can be shared by email after enquiry.</p>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(wrapper);
+
+  const style = document.createElement("style");
+  style.innerHTML = `
+    #mskChatBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0f172a;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 12px 18px;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    #mskChatBox {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 340px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      z-index: 9999;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    .msk-chat-header {
+      background: #0f172a;
+      color: white;
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #mskCloseBtn {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .msk-chat-body {
+      padding: 14px;
+    }
+
+    .msk-chat-body input,
+    .msk-chat-body select,
+    .msk-chat-body textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    .msk-chat-body textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    #mskSubmitBtn {
+      width: 100%;
+      background: #0f64a0;
+      color: white;
+      border: none;
+      padding: 11px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .msk-note {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 10px;
+      line-height: 1.4;
+    }
+  `;
+  document.head.appendChild(style);
+
+  document.getElementById("mskChatBtn").onclick = function () {
+    document.getElementById("mskChatBox").style.display = "block";
+  };
+
+  document.getElementById("mskCloseBtn").onclick = function () {
+    document.getElementById("mskChatBox").style.display = "none";
+  };
+
+  document.getElementById("mskSubmitBtn").onclick = function () {
+    const name = document.getElementById("mskName").value;
+    const email = document.getElementById("mskEmail").value;
+    const service = document.getElementById("mskService").value;
+    const message = document.getElementById("mskMessage").value;
+
+    const subject = "MSK Website Engineering Enquiry";
     const body = `
 Name: ${name}
 Email: ${email}
-Requirement: ${requirement}
+Service Required: ${service}
+
+Project Details:
+${message}
     `;
 
     window.location.href =
@@ -33,4 +155,4 @@ Requirement: ${requirement}
       "&body=" +
       encodeURIComponent(body);
   };
-})();
+});
