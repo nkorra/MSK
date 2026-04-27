@@ -14,9 +14,9 @@ window.addEventListener("load", function () {
         <p><strong>Hello!</strong> Tell us what you need help with.</p>
 
         <input id="mskName" placeholder="Your name" required />
-        <input id="mskEmail" placeholder="Email" required />
+        <input id="mskEmail" type="email" placeholder="Email" required />
 
-        <select id="mskService">
+        <select id="mskService" required>
           <option value="">Select requirement</option>
           <option>Engineering Consultancy</option>
           <option>CNC Machining</option>
@@ -29,10 +29,10 @@ window.addEventListener("load", function () {
           <option>Training</option>
         </select>
 
-        <textarea id="mskMessage" placeholder="Briefly describe your project"></textarea>
+        <textarea id="mskMessage" placeholder="Briefly describe your project" required></textarea>
 
         <button id="mskSubmitBtn">Send Enquiry</button>
-        <p id="mskStatus" class="msk-note"></p>
+        <p id="mskStatus" class="msk-note">For drawings, STEP/IGES/STL/PDF files can be shared by email after enquiry.</p>
       </div>
     </div>
   `;
@@ -119,9 +119,13 @@ window.addEventListener("load", function () {
       cursor: pointer;
     }
 
+    #mskSubmitBtn:hover {
+      background: #084f7f;
+    }
+
     .msk-note {
       font-size: 12px;
-      color: #0f172a;
+      color: #64748b;
       margin-top: 10px;
       line-height: 1.4;
     }
@@ -136,7 +140,7 @@ window.addEventListener("load", function () {
     document.getElementById("mskChatBox").style.display = "none";
   };
 
-  document.getElementById("mskSubmitBtn").onclick = async function () {
+  document.getElementById("mskSubmitBtn").onclick = function () {
     const name = document.getElementById("mskName").value.trim();
     const email = document.getElementById("mskEmail").value.trim();
     const service = document.getElementById("mskService").value;
@@ -144,39 +148,36 @@ window.addEventListener("load", function () {
     const status = document.getElementById("mskStatus");
 
     if (!name || !email || !service || !message) {
-      status.innerText = "Please fill name, email, requirement and project details.";
+      status.innerText = "Please fill all fields before submitting.";
+      status.style.color = "#b91c1c";
       return;
     }
 
-    status.innerText = "Sending enquiry...";
+    status.innerText = "Submitting enquiry...";
+    status.style.color = "#0f172a";
 
-    const formData = new FormData();
-    formData.append("form_name", "MSK Chatbot Enquiry");
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("service_required", service);
-    formData.append("project_details", message);
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "https://getform.io/f/amdjpymb";
+    form.style.display = "none";
 
-    try {
-      const response = await fetch("https://getform.io/f/amdjpymb", {
-        method: "POST",
-        body: formData,
-        headers: {
-          "Accept": "application/json"
-        }
-      });
+    const fields = {
+      form_name: "MSK Chatbot Enquiry",
+      name: name,
+      email: email,
+      service_required: service,
+      project_details: message
+    };
 
-      if (response.ok) {
-        status.innerText = "Thank you. Your enquiry has been sent to MSK.";
-        document.getElementById("mskName").value = "";
-        document.getElementById("mskEmail").value = "";
-        document.getElementById("mskService").value = "";
-        document.getElementById("mskMessage").value = "";
-      } else {
-        status.innerText = "Could not send automatically. Please email info@mskprecisiongroup.com.";
-      }
-    } catch (error) {
-      status.innerText = "Network issue. Please email info@mskprecisiongroup.com.";
-    }
+    Object.keys(fields).forEach(function (key) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = fields[key];
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
   };
 });
