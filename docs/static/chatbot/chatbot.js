@@ -1,7 +1,10 @@
 (function () {
   "use strict";
 
-  const GETFORM_ENDPOINT = "https://getform.io/f/amdjpymb";
+  const ERP_ENQUIRY_ENDPOINT =
+    "https://msk-erp.onrender.com/website-chatbot/api/enquiry/";
+  const FALLBACK_MESSAGE =
+    "Please email info@mskprecisiongroup.com with your drawings/details.";
 
   const SERVICES = [
     "Engineering",
@@ -50,6 +53,25 @@
     }
   }
 
+  function showSuccess(message) {
+    const form = document.getElementById("msk-chatbot-form");
+    if (form) {
+      form.innerHTML = `
+        <div style="
+          background:#ecfdf3;
+          border:1px solid #abefc6;
+          border-radius:10px;
+          color:#05603a;
+          line-height:1.5;
+          padding:12px;
+        ">
+          <strong>Thank you.</strong><br>
+          ${message}
+        </div>
+      `;
+    }
+  }
+
   function clearError() {
     const errorEl = document.getElementById("msk-chatbot-error");
     if (errorEl) {
@@ -58,30 +80,38 @@
     }
   }
 
-  function submitToGetform(data) {
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = GETFORM_ENDPOINT;
-    form.style.display = "none";
-
-    const fields = {
-      form_name: "MSK Precision Website Chatbot Enquiry",
+  async function submitToErp(data) {
+    const payload = {
       name: data.name,
       email: data.email,
+      phone: data.phone || "",
+      company: data.company || "",
       service_required: data.service_required,
-      project_details: data.project_details
+      project_details: data.project_details,
+      source: "mskprecisiongroup.com",
+      company_website: "",
     };
 
-    Object.keys(fields).forEach(function (key) {
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.name = key;
-      input.value = fields[key] || "";
-      form.appendChild(input);
+    const response = await fetch(ERP_ENQUIRY_ENDPOINT, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(payload),
     });
 
-    document.body.appendChild(form);
-    form.submit();
+    let result = {};
+    try {
+      result = await response.json();
+    } catch (error) {
+      result = {};
+    }
+
+    if (!response.ok || result.ok !== true) {
+      throw new Error(result.error || "Submission failed");
+    }
   }
 
   function buildChatbot() {
@@ -358,7 +388,7 @@
       panel.classList.remove("is-open");
     });
 
-    submitButton.addEventListener("click", function () {
+    submitButton.addEventListener("click", async function () {
       clearError();
 
       const name = document.getElementById("msk-chatbot-name").value.trim();
@@ -390,16 +420,17 @@
       submitButton.textContent = "Submitting...";
 
       try {
-        submitToGetform({
+        await submitToErp({
           name: name,
           email: email,
           service_required: service,
           project_details: message
         });
+        showSuccess("Your enquiry has been sent to MSK Precision Engineering Group. Our team will review it and contact you soon.");
       } catch (error) {
         submitButton.disabled = false;
         submitButton.textContent = "Submit enquiry";
-        showError("Could not submit the form. Please try again.");
+        showError(FALLBACK_MESSAGE);
       }
     });
   }

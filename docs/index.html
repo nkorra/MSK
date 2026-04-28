@@ -518,12 +518,12 @@
     <p>Attach your CV and tell us briefly why you’re a great fit.</p>
     <form
       id="job-form"
-      action="https://getform.io/f/amdjpymb"
+      action="https://msk-erp.onrender.com/website-chatbot/api/enquiry/"
       method="POST"
-      enctype="multipart/form-data"
     >
       <input type="hidden" name="form_name" value="Job Application" />
-      <input type="hidden" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+      <input type="hidden" name="service_required" value="Job Application" />
+      <input type="hidden" name="company_website" style="display:none" tabindex="-1" autocomplete="off" />
 
       <label for="job_title">Position</label>
       <input
@@ -542,12 +542,14 @@
       <input type="email" id="email" name="email" required />
 
       <label for="cv">Attach CV (PDF/DOC)</label>
-      <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required />
+      <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" disabled />
+      <p class="form-note">File upload is temporarily disabled. We will request your CV by email after reviewing your enquiry.</p>
 
       <label for="message">Message</label>
       <textarea id="message" name="message" placeholder="Cover note / key highlights" required></textarea>
 
       <button type="submit" class="btn">Submit Application</button>
+      <p id="apply-status" class="form-note" aria-live="polite"></p>
     </form>
   </section>
 
@@ -680,16 +682,20 @@
 
     <form
       id="contact-form"
-      action="https://getform.io/f/amdjpymb"
+      action="https://msk-erp.onrender.com/website-chatbot/api/enquiry/"
       method="POST"
     >
       <input type="hidden" name="form_name" value="Contact Form" />
-      <input type="hidden" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+      <input type="hidden" name="service_required" value="Website Contact" />
+      <input type="hidden" name="company_website" style="display:none" tabindex="-1" autocomplete="off" />
 
       <input type="text" name="name" placeholder="Your Name" required />
       <input type="email" name="email" placeholder="Email" required />
-      <textarea name="message" placeholder="Your Message" required></textarea>
+      <input type="tel" name="phone" placeholder="Phone (optional)" />
+      <input type="text" name="company" placeholder="Company (optional)" />
+      <textarea name="project_details" placeholder="Your Message" required></textarea>
       <button type="submit">Send Message</button>
+      <p id="contact-status" class="form-note" aria-live="polite"></p>
     </form>
   </section>
 
@@ -699,25 +705,28 @@
   <section id="quote" class="section-content" data-aos="fade-up">
     <h2>Start a Project / Request a Quote</h2>
     <p>
-      Attach drawings (STEP, IGES, STL, PDF) and share your requirements. We’ll review DFM, plan the process and
-      respond with lead time and pricing.
+      Share your requirements. We’ll review DFM, plan the process and respond with lead time and pricing.
+      Drawings or files can be emailed after we receive your enquiry.
     </p>
     <form
       id="quote-form"
-      action="https://getform.io/f/amdjpymb"
+      action="https://msk-erp.onrender.com/website-chatbot/api/enquiry/"
       method="POST"
-      enctype="multipart/form-data"
     >
       <input type="hidden" name="form_name" value="Quote Request" />
-      <input type="hidden" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+      <input type="hidden" name="service_required" value="General Quote Request" />
+      <input type="hidden" name="company_website" style="display:none" tabindex="-1" autocomplete="off" />
 
       <input type="text" name="name" placeholder="Your Name" required />
       <input type="email" name="email" placeholder="Email" required />
-      <input type="file" name="attachment" />
-      <textarea name="details" placeholder="Project Details" required></textarea>
+      <input type="tel" name="phone" placeholder="Phone (optional)" />
+      <input type="text" name="company" placeholder="Company (optional)" />
+      <input type="file" name="attachment" disabled />
+      <textarea name="project_details" placeholder="Project Details" required></textarea>
       <button type="submit">Submit Quote</button>
+      <p id="quote-status" class="form-note" aria-live="polite"></p>
     </form>
-    <p class="form-note">Attach drawings up to your Getform plan limit.</p>
+    <p class="form-note">File upload is temporarily disabled. Please mention available drawings/files here; we will request them by email after reviewing your enquiry.</p>
   </section>
 
   <!-- =======================================================
@@ -750,4 +759,3 @@
   <script src="/static/chatbot/chatbot.js"></script>
 </body>
 </html>
-

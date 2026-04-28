@@ -1,8 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
-  // 1. Getform endpoint
+  // 1. MSK ERP enquiry endpoint
   // -----------------------------
-  const GETFORM_ENDPOINT = "https://getform.io/f/amdjpymb";
+  const ERP_ENQUIRY_ENDPOINT =
+    "https://msk-erp.onrender.com/website-chatbot/api/enquiry/";
+  const FORM_FAILURE_MESSAGE =
+    "Please email info@mskprecisiongroup.com with your drawings/details.";
 
   // -----------------------------
   // 2. Fixed-header offsets
@@ -164,33 +167,88 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
 
   // -----------------------------
-  // 9. Generic Getform submit
-  //    (handles DNS / network error gracefully)
+  // 9. Generic ERP enquiry submit
   // -----------------------------
+  function readField(form, name) {
+    const field = form.elements[name];
+    return field ? field.value.trim() : "";
+  }
+
+  function buildProjectDetails(form) {
+    const formName = readField(form, "form_name");
+    const details = readField(form, "project_details") || readField(form, "details") || readField(form, "message");
+    const jobTitle = readField(form, "job_title");
+
+    return [formName, jobTitle ? `Position: ${jobTitle}` : "", details]
+      .filter(Boolean)
+      .join("\n\n");
+  }
+
+  function buildPayload(form) {
+    return {
+      name: readField(form, "name"),
+      email: readField(form, "email"),
+      phone: readField(form, "phone"),
+      company: readField(form, "company"),
+      service_required:
+        readField(form, "service_required") ||
+        readField(form, "form_name") ||
+        "Website Enquiry",
+      project_details: buildProjectDetails(form),
+      source: "mskprecisiongroup.com",
+      company_website: readField(form, "company_website"),
+    };
+  }
+
+  function validatePayload(payload) {
+    if (!payload.name) return "Please enter your name.";
+    if (!payload.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+      return "Please enter a valid email address.";
+    }
+    if (!payload.service_required) return "Please select a service.";
+    if (!payload.project_details) return "Please enter your enquiry details.";
+    return "";
+  }
+
   async function submitForm(form, statusEl) {
     if (!form) return;
 
     if (statusEl) statusEl.textContent = "Sending…";
 
-    const data = new FormData(form);
+    const payload = buildPayload(form);
+    const validationError = validatePayload(payload);
+
+    if (validationError) {
+      if (statusEl) statusEl.textContent = validationError;
+      return;
+    }
 
     try {
-      const res = await fetch(GETFORM_ENDPOINT, {
+      const res = await fetch(ERP_ENQUIRY_ENDPOINT, {
         method: "POST",
-        body: data,
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
       });
 
-      // If Getform is OK or response is opaque (CORS), show success
-      if (res.ok || res.type === "opaque") {
-        form.outerHTML = successHTML;
-      } else if (statusEl) {
-        statusEl.textContent =
-          "Something went wrong at the form provider. Please try again.";
+      let result = {};
+      try {
+        result = await res.json();
+      } catch (err) {
+        result = {};
       }
+
+      if (!res.ok || result.ok !== true) {
+        throw new Error(result.error || "Submission failed");
+      }
+
+      form.outerHTML = successHTML;
     } catch (err) {
       if (statusEl) {
-        statusEl.textContent =
-          "Network / DNS error while contacting Getform. Your website is OK – it’s likely a temporary issue at the form provider.";
+        statusEl.textContent = FORM_FAILURE_MESSAGE;
       }
     }
   }
@@ -260,4 +318,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
