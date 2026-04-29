@@ -2,243 +2,299 @@
   "use strict";
 
   const API_ENDPOINT = "https://msk-erp.onrender.com/website-chatbot/api/enquiry/";
-  const FALLBACK_MESSAGE =
-    "Please email info@mskprecisiongroup.com with your drawings/details.";
+  const FALLBACK_REPLY = "I'm not fully sure. Can you share your requirement?";
+  const SUCCESS_REPLY = "Thank you. Our engineering team will contact you.";
 
   const services = [
     "Engineering Consultancy",
     "CAD / 3D Modelling",
     "FEA / FEM / Structural Analysis",
     "CFD / Simulation",
+    "CNC Machining",
+    "3D Printing / Additive Manufacturing",
     "Product Design / R&D",
     "Manufacturing / Precision Works",
-    "Agriculture Machinery",
-    "Medical Devices / Fixtures",
-    "Mining / Heavy Industry",
+    "Training",
+    "Careers",
     "General Quote Request",
   ];
 
-  function injectStyles() {
-    if (document.getElementById("msk-chatbot-styles")) return;
+  const knowledgeBase = [
+    {
+      keywords: ["service", "services", "what do you do", "capabilities"],
+      response:
+        "MSK supports engineering consultancy, CAD/3D modelling, FEA/FEM and CFD simulation, CNC machining, 3D printing, R&D/product development, precision manufacturing, training, and technical project support.",
+    },
+    {
+      keywords: ["industry", "industries", "sector", "sectors"],
+      response:
+        "MSK works across precision engineering, manufacturing, agriculture machinery, medical fixtures, mining and heavy industry, defence, marine, rail, aerospace, automotive, energy, and R&D projects.",
+    },
+    {
+      keywords: ["cnc", "machining", "machine shop", "milling", "turning"],
+      response:
+        "For CNC machining, MSK can review drawings, material, tolerances, quantities, inspection needs, and delivery expectations to plan a manufacturable quotation.",
+    },
+    {
+      keywords: ["engineering consultancy", "consultancy", "consultant", "engineering support"],
+      response:
+        "MSK engineering consultancy covers concept review, mechanical design, analysis planning, FEA/CFD support, manufacturing feasibility, documentation, and validation planning.",
+    },
+    {
+      keywords: ["3d printing", "additive", "prototype", "printing"],
+      response:
+        "MSK can support 3D printing and additive manufacturing for prototypes, fixtures, design validation, and early R&D trials. Share the part purpose, material need, size, and available files.",
+    },
+    {
+      keywords: ["training", "course", "student", "learn"],
+      response:
+        "MSK offers practical engineering and manufacturing-oriented training across CAD/CAM, CNC workflow, simulation awareness, product development, and student project guidance.",
+    },
+    {
+      keywords: ["career", "careers", "job", "internship", "hiring", "vacancy"],
+      response:
+        "For careers or internships, please share your role interest, background, and contact details. The MSK team can review and follow up by email.",
+    },
+    {
+      keywords: ["quote process", "quotation process", "how quote", "quote procedure"],
+      response:
+        "For quotes, MSK usually reviews your requirement, drawings/CAD files, material, quantity, tolerances, timeline, and acceptance criteria, then confirms scope before preparing a quotation.",
+    },
+  ];
 
-    const style = document.createElement("style");
-    style.id = "msk-chatbot-styles";
-    style.textContent = `
-      .msk-chatbot-root {
-        position: fixed;
-        right: 22px;
-        bottom: 22px;
-        z-index: 9999;
-        font-family: Inter, Arial, sans-serif;
-        color: #122033;
-      }
+  const quoteTriggers = ["quote", "project", "cost", "proposal", "price", "estimate", "rfq"];
 
-      .msk-chatbot-button {
-        border: 0;
-        border-radius: 999px;
-        background: #102a43;
-        color: #ffffff;
-        box-shadow: 0 14px 32px rgba(15, 35, 55, 0.24);
-        cursor: pointer;
-        font-weight: 700;
-        letter-spacing: 0;
-        padding: 14px 18px;
-      }
+  const guidedSteps = [
+    {
+      key: "name",
+      prompt: "Sure. Let's capture the basics first. What is your name?",
+      validate(value) {
+        return value ? "" : "Please enter your name.";
+      },
+    },
+    {
+      key: "email",
+      prompt: "Thanks. What email should our engineering team use?",
+      validate(value) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "" : "Please enter a valid email address.";
+      },
+    },
+    {
+      key: "phone",
+      prompt: "Please share your phone number. You can type N/A if you prefer email only.",
+      validate(value) {
+        return value ? "" : "Please enter a phone number or N/A.";
+      },
+    },
+    {
+      key: "company",
+      prompt: "What company or organisation are you from? You can type Individual if not applicable.",
+      validate(value) {
+        return value ? "" : "Please enter your company name or Individual.";
+      },
+    },
+    {
+      key: "service_required",
+      prompt: "Which service do you need?",
+      validate(value) {
+        return value ? "" : "Please select or type the service required.";
+      },
+    },
+    {
+      key: "project_details",
+      prompt:
+        "Please describe the project, part, analysis, drawings/files available, material, quantity, timeline, or any constraints.",
+      validate(value) {
+        return value.length >= 10 ? "" : "Please add a little more project detail.";
+      },
+    },
+  ];
 
-      .msk-chatbot-panel {
-        position: absolute;
-        right: 0;
-        bottom: 64px;
-        width: min(380px, calc(100vw - 32px));
-        max-height: min(680px, calc(100vh - 104px));
-        overflow: auto;
-        background: #ffffff;
-        border: 1px solid #d9e2ec;
-        border-radius: 14px;
-        box-shadow: 0 22px 58px rgba(15, 35, 55, 0.26);
-        display: none;
-      }
+  const state = {
+    mode: "chat",
+    stepIndex: 0,
+    enquiry: {},
+    isSubmitting: false,
+  };
 
-      .msk-chatbot-root.is-open .msk-chatbot-panel {
-        display: block;
-      }
-
-      .msk-chatbot-header {
-        background: linear-gradient(135deg, #102a43 0%, #243b53 100%);
-        color: #ffffff;
-        padding: 16px 18px;
-      }
-
-      .msk-chatbot-header strong {
-        display: block;
-        font-size: 16px;
-        margin-bottom: 4px;
-      }
-
-      .msk-chatbot-header span {
-        color: #d9e2ec;
-        display: block;
-        font-size: 13px;
-        line-height: 1.4;
-      }
-
-      .msk-chatbot-body {
-        padding: 16px 18px 18px;
-      }
-
-      .msk-chatbot-message {
-        background: #f0f4f8;
-        border-radius: 12px;
-        line-height: 1.45;
-        margin-bottom: 14px;
-        padding: 12px 13px;
-        font-size: 14px;
-      }
-
-      .msk-chatbot-field {
-        display: block;
-        margin-bottom: 10px;
-      }
-
-      .msk-chatbot-field span {
-        display: block;
-        color: #334e68;
-        font-size: 12px;
-        font-weight: 700;
-        margin-bottom: 5px;
-      }
-
-      .msk-chatbot-field input,
-      .msk-chatbot-field select,
-      .msk-chatbot-field textarea {
-        width: 100%;
-        box-sizing: border-box;
-        border: 1px solid #bcccdc;
-        border-radius: 8px;
-        color: #122033;
-        font: inherit;
-        font-size: 14px;
-        padding: 10px 11px;
-        outline: none;
-      }
-
-      .msk-chatbot-field textarea {
-        min-height: 92px;
-        resize: vertical;
-      }
-
-      .msk-chatbot-field input:focus,
-      .msk-chatbot-field select:focus,
-      .msk-chatbot-field textarea:focus {
-        border-color: #2f80ed;
-        box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.14);
-      }
-
-      .msk-chatbot-submit {
-        width: 100%;
-        border: 0;
-        border-radius: 8px;
-        background: #1f6feb;
-        color: #ffffff;
-        cursor: pointer;
-        font-weight: 700;
-        padding: 11px 14px;
-      }
-
-      .msk-chatbot-submit:disabled {
-        cursor: not-allowed;
-        opacity: 0.72;
-      }
-
-      .msk-chatbot-status {
-        min-height: 20px;
-        margin-top: 10px;
-        color: #486581;
-        font-size: 13px;
-        line-height: 1.4;
-      }
-
-      .msk-chatbot-status.is-error {
-        color: #b42318;
-      }
-
-      .msk-chatbot-status.is-success {
-        color: #067647;
-      }
-
-      .msk-chatbot-success {
-        border: 1px solid #abefc6;
-        background: #ecfdf3;
-        border-radius: 12px;
-        color: #05603a;
-        line-height: 1.5;
-        padding: 14px;
-      }
-
-      @media (max-width: 520px) {
-        .msk-chatbot-root {
-          right: 14px;
-          bottom: 14px;
-        }
-
-        .msk-chatbot-panel {
-          bottom: 58px;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  function createOption(label) {
-    const option = document.createElement("option");
-    option.value = label;
-    option.textContent = label;
-    return option;
-  }
-
-  function getValue(form, name) {
-    const field = form.elements[name];
-    return field ? field.value.trim() : "";
-  }
-
-  function setStatus(statusEl, message, kind) {
-    statusEl.textContent = message;
-    statusEl.classList.remove("is-error", "is-success");
-    if (kind) statusEl.classList.add(kind);
-  }
-
-  function validate(payload) {
-    if (!payload.name) return "Please enter your name.";
-    if (!payload.email) return "Please enter your email address.";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
-      return "Please enter a valid email address.";
+  function ready(fn) {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", fn);
+    } else {
+      fn();
     }
-    if (!payload.service_required) return "Please select the required service.";
-    if (!payload.project_details) return "Please add a short project description.";
-    return "";
   }
 
-  async function submitEnquiry(form, statusEl, submitButton) {
-    const payload = {
-      name: getValue(form, "name"),
-      email: getValue(form, "email"),
-      phone: getValue(form, "phone"),
-      company: getValue(form, "company"),
-      service_required: getValue(form, "service_required"),
-      project_details: getValue(form, "project_details"),
-      source: "mskprecisiongroup.com",
-      company_website: getValue(form, "company_website"),
-    };
+  function createElement(tag, attrs, text) {
+    const el = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (key) {
+      if (key === "className") {
+        el.className = attrs[key];
+      } else {
+        el.setAttribute(key, attrs[key]);
+      }
+    });
+    if (text) el.textContent = text;
+    return el;
+  }
 
-    const validationError = validate(payload);
-    if (validationError) {
-      setStatus(statusEl, validationError, "is-error");
+  function normalise(value) {
+    return String(value || "").trim();
+  }
+
+  function includesAny(message, keywords) {
+    const text = message.toLowerCase();
+    return keywords.some(function (keyword) {
+      return text.includes(keyword);
+    });
+  }
+
+  function matchKnowledge(message) {
+    return knowledgeBase.find(function (item) {
+      return includesAny(message, item.keywords);
+    });
+  }
+
+  function shouldStartGuidedFlow(message) {
+    return includesAny(message, quoteTriggers);
+  }
+
+  function scrollMessages() {
+    const messages = document.getElementById("msk-chatbot-messages");
+    if (messages) messages.scrollTop = messages.scrollHeight;
+  }
+
+  function addMessage(sender, text) {
+    const messages = document.getElementById("msk-chatbot-messages");
+    if (!messages) return;
+
+    const message = createElement("div", {
+      className: `msk-chat-message msk-chat-message-${sender}`,
+    });
+    message.textContent = text;
+    messages.appendChild(message);
+    scrollMessages();
+  }
+
+  function showTyping(callback) {
+    const messages = document.getElementById("msk-chatbot-messages");
+    if (!messages) {
+      callback();
       return;
     }
 
-    submitButton.disabled = true;
-    submitButton.textContent = "Sending...";
-    setStatus(statusEl, "Sending your enquiry to MSK...", "");
+    const typing = createElement("div", {
+      className: "msk-chat-message msk-chat-message-bot msk-chat-typing",
+    });
+    typing.textContent = "MSK is typing...";
+    messages.appendChild(typing);
+    scrollMessages();
+
+    window.setTimeout(function () {
+      typing.remove();
+      callback();
+    }, 350);
+  }
+
+  function botReply(text) {
+    showTyping(function () {
+      addMessage("bot", text);
+    });
+  }
+
+  function setInputEnabled(enabled) {
+    const input = document.getElementById("msk-chatbot-input");
+    const sendButton = document.getElementById("msk-chatbot-send");
+    if (input) input.disabled = !enabled;
+    if (sendButton) sendButton.disabled = !enabled;
+  }
+
+  function setComposerPlaceholder() {
+    const input = document.getElementById("msk-chatbot-input");
+    if (!input) return;
+
+    if (state.mode === "guided") {
+      input.placeholder = state.stepIndex === 4 ? "Type or choose a service..." : "Type your answer...";
+    } else {
+      input.placeholder = "Ask about services, CNC, careers, training, or request a quote...";
+    }
+  }
+
+  function renderQuickReplies(options) {
+    const quickReplies = document.getElementById("msk-chatbot-quick-replies");
+    if (!quickReplies) return;
+
+    quickReplies.innerHTML = "";
+    options.forEach(function (option) {
+      const button = createElement("button", { type: "button" }, option);
+      button.addEventListener("click", function () {
+        handleUserText(option);
+      });
+      quickReplies.appendChild(button);
+    });
+  }
+
+  function clearQuickReplies() {
+    const quickReplies = document.getElementById("msk-chatbot-quick-replies");
+    if (quickReplies) quickReplies.innerHTML = "";
+  }
+
+  function startGuidedFlow() {
+    state.mode = "guided";
+    state.stepIndex = 0;
+    state.enquiry = {};
+    setComposerPlaceholder();
+    clearQuickReplies();
+    botReply(guidedSteps[0].prompt);
+  }
+
+  function moveGuidedFlow(value) {
+    const step = guidedSteps[state.stepIndex];
+    const answer = normalise(value);
+    const error = step.validate(answer);
+
+    if (error) {
+      botReply(error);
+      return;
+    }
+
+    state.enquiry[step.key] = step.key === "phone" && answer.toLowerCase() === "n/a" ? "" : answer;
+    state.stepIndex += 1;
+
+    if (state.stepIndex < guidedSteps.length) {
+      const nextStep = guidedSteps[state.stepIndex];
+      setComposerPlaceholder();
+      if (nextStep.key === "service_required") {
+        renderQuickReplies(services);
+      } else {
+        clearQuickReplies();
+      }
+      botReply(nextStep.prompt);
+      return;
+    }
+
+    clearQuickReplies();
+    submitEnquiry();
+  }
+
+  async function submitEnquiry() {
+    if (state.isSubmitting) return;
+    state.isSubmitting = true;
+    setInputEnabled(false);
+    addMessage("bot", "Submitting your enquiry to MSK ERP...");
+
+    const payload = {
+      name: state.enquiry.name,
+      email: state.enquiry.email,
+      phone: state.enquiry.phone || "",
+      company: state.enquiry.company || "",
+      service_required: state.enquiry.service_required,
+      project_details: state.enquiry.project_details,
+      source_form: "chatbot",
+      enquiry_type: "quote",
+      source: "mskprecisiongroup.com",
+      company_website: "",
+    };
 
     try {
       const response = await fetch(API_ENDPOINT, {
@@ -259,116 +315,127 @@
       }
 
       if (!response.ok || result.ok !== true) {
-        throw new Error(result.error || "Enquiry submission failed.");
+        throw new Error(result.error || "Submission failed");
       }
 
-      form.innerHTML = `
-        <div class="msk-chatbot-success">
-          <strong>Thank you.</strong><br>
-          Your enquiry has been sent to MSK Precision Engineering Group. Our team will review it and contact you soon.
-        </div>
-      `;
+      addMessage("bot", SUCCESS_REPLY);
+      state.mode = "chat";
+      state.stepIndex = 0;
+      state.enquiry = {};
     } catch (error) {
-      setStatus(statusEl, FALLBACK_MESSAGE, "is-error");
-      submitButton.disabled = false;
-      submitButton.textContent = "Send Enquiry";
+      addMessage("bot", "Please email info@mskprecisiongroup.com with your drawings/details.");
+    } finally {
+      state.isSubmitting = false;
+      setInputEnabled(true);
+      setComposerPlaceholder();
+      renderQuickReplies(["Services", "Industries", "Quote process", "Request a quote"]);
     }
   }
 
-  function buildWidget() {
+  function handleChatMessage(text) {
+    if (shouldStartGuidedFlow(text)) {
+      startGuidedFlow();
+      return;
+    }
+
+    const matched = matchKnowledge(text);
+    if (matched) {
+      botReply(matched.response);
+      return;
+    }
+
+    botReply(FALLBACK_REPLY);
+  }
+
+  function handleUserText(rawText) {
+    const text = normalise(rawText);
+    if (!text || state.isSubmitting) return;
+
+    const input = document.getElementById("msk-chatbot-input");
+    if (input) input.value = "";
+
+    addMessage("user", text);
+
+    if (state.mode === "guided") {
+      moveGuidedFlow(text);
+    } else {
+      handleChatMessage(text);
+    }
+  }
+
+  function buildChatbot() {
     if (document.getElementById("msk-chatbot-root")) return;
 
-    injectStyles();
-
-    const root = document.createElement("div");
-    root.id = "msk-chatbot-root";
-    root.className = "msk-chatbot-root";
-
-    const panel = document.createElement("div");
-    panel.className = "msk-chatbot-panel";
-    panel.setAttribute("role", "dialog");
-    panel.setAttribute("aria-label", "MSK enquiry chatbot");
-
-    const header = document.createElement("div");
-    header.className = "msk-chatbot-header";
-    header.innerHTML = `
-      <strong>Ask MSK</strong>
-      <span>Tell us what you need. We will route your enquiry to the right engineering team.</span>
-    `;
-
-    const body = document.createElement("div");
-    body.className = "msk-chatbot-body";
-
-    const intro = document.createElement("div");
-    intro.className = "msk-chatbot-message";
-    intro.textContent =
-      "For drawings, STEP/IGES/STL/PDF files, please mention them in the message. We can request attachments by email after reviewing your enquiry.";
-
-    const form = document.createElement("form");
-    form.noValidate = true;
-    form.innerHTML = `
-      <input type="text" name="company_website" value="" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;" aria-hidden="true">
-      <label class="msk-chatbot-field">
-        <span>Name</span>
-        <input type="text" name="name" autocomplete="name" required>
-      </label>
-      <label class="msk-chatbot-field">
-        <span>Email</span>
-        <input type="email" name="email" autocomplete="email" required>
-      </label>
-      <label class="msk-chatbot-field">
-        <span>Phone</span>
-        <input type="tel" name="phone" autocomplete="tel">
-      </label>
-      <label class="msk-chatbot-field">
-        <span>Company</span>
-        <input type="text" name="company" autocomplete="organization">
-      </label>
-      <label class="msk-chatbot-field">
-        <span>Required Service</span>
-        <select name="service_required" required></select>
-      </label>
-      <label class="msk-chatbot-field">
-        <span>Project Details</span>
-        <textarea name="project_details" required></textarea>
-      </label>
-      <button class="msk-chatbot-submit" type="submit">Send Enquiry</button>
-      <div class="msk-chatbot-status" aria-live="polite"></div>
-    `;
-
-    const select = form.elements.service_required;
-    select.appendChild(createOption(""));
-    services.forEach((service) => select.appendChild(createOption(service)));
-
-    const statusEl = form.querySelector(".msk-chatbot-status");
-    const submitButton = form.querySelector(".msk-chatbot-submit");
-
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      submitEnquiry(form, statusEl, submitButton);
+    const root = createElement("div", { id: "msk-chatbot-root" });
+    const panel = createElement("div", {
+      id: "msk-chatbot-panel",
+      role: "dialog",
+      "aria-label": "MSK Engineering Assistant",
     });
 
-    body.append(intro, form);
-    panel.append(header, body);
+    const header = createElement("div", { className: "msk-chatbot-header" });
+    const titleWrap = createElement("div");
+    titleWrap.appendChild(createElement("div", { className: "msk-chatbot-title" }, "MSK Engineering Assistant"));
+    titleWrap.appendChild(createElement("div", { className: "msk-chatbot-subtitle" }, "Services, quotes, careers and engineering enquiries"));
 
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "msk-chatbot-button";
-    button.textContent = "Ask MSK";
-    button.setAttribute("aria-expanded", "false");
+    const closeButton = createElement("button", {
+      id: "msk-chatbot-close",
+      type: "button",
+      "aria-label": "Close chatbot",
+    }, "×");
 
-    button.addEventListener("click", () => {
-      const isOpen = root.classList.toggle("is-open");
-      button.setAttribute("aria-expanded", String(isOpen));
+    header.appendChild(titleWrap);
+    header.appendChild(closeButton);
+
+    const messages = createElement("div", { id: "msk-chatbot-messages" });
+    const quickReplies = createElement("div", { id: "msk-chatbot-quick-replies" });
+
+    const form = createElement("form", { id: "msk-chatbot-composer" });
+    const input = createElement("input", {
+      id: "msk-chatbot-input",
+      type: "text",
+      autocomplete: "off",
+      "aria-label": "Message",
     });
+    const sendButton = createElement("button", { id: "msk-chatbot-send", type: "submit" }, "Send");
+    form.appendChild(input);
+    form.appendChild(sendButton);
 
-    root.append(panel, button);
+    panel.appendChild(header);
+    panel.appendChild(messages);
+    panel.appendChild(quickReplies);
+    panel.appendChild(form);
+
+    const toggleButton = createElement("button", {
+      id: "msk-chatbot-toggle",
+      type: "button",
+      "aria-expanded": "false",
+    }, "Ask MSK");
+
+    root.appendChild(panel);
+    root.appendChild(toggleButton);
     document.body.appendChild(root);
+
+    toggleButton.addEventListener("click", function () {
+      const isOpen = panel.classList.toggle("is-open");
+      toggleButton.setAttribute("aria-expanded", String(isOpen));
+      if (isOpen) input.focus();
+    });
+
+    closeButton.addEventListener("click", function () {
+      panel.classList.remove("is-open");
+      toggleButton.setAttribute("aria-expanded", "false");
+    });
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      handleUserText(input.value);
+    });
+
+    setComposerPlaceholder();
+    addMessage("bot", "Hi, I'm MSK Engineering Assistant. How can I help you?");
+    renderQuickReplies(["Services", "Industries", "Quote process", "Request a quote"]);
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", buildWidget);
-  } else {
-    buildWidget();
-  }
+  ready(buildChatbot);
 })();
