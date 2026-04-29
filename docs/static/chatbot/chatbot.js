@@ -2,8 +2,10 @@
   "use strict";
 
   const API_ENDPOINT = "https://msk-erp.onrender.com/website-chatbot/api/enquiry/";
-  const FALLBACK_REPLY = "I'm not fully sure. Can you share your requirement?";
+  const FALLBACK_REPLY =
+    "I can help with MSK services, CNC machining, engineering consultancy, 3D printing, industries, careers, training, or quote requests. What would you like to know?";
   const SUCCESS_REPLY = "Thank you. Our engineering team will contact you.";
+  const POST_ANSWER_REPLIES = ["Request Quote", "Talk to Team", "View Services"];
 
   const services = [
     "Engineering Consultancy",
@@ -21,48 +23,160 @@
 
   const knowledgeBase = [
     {
-      keywords: ["service", "services", "what do you do", "capabilities"],
+      keywords: [
+        "about msk",
+        "tell me about msk",
+        "something about msk",
+        "can you tell me something about msk",
+        "who is msk",
+        "who are you",
+        "what is msk",
+        "msk precision",
+        "company profile",
+      ],
       response:
-        "MSK supports engineering consultancy, CAD/3D modelling, FEA/FEM and CFD simulation, CNC machining, 3D printing, R&D/product development, precision manufacturing, training, and technical project support.",
+        "MSK Precision Engineering Group supports engineering teams from concept to manufacturing.\n\n- Engineering consultancy, FEM/FEA, CFD and design support\n- CNC machining, CAD/CAM and precision manufacturing\n- 3D printing, prototypes, fixtures and R&D support",
     },
     {
-      keywords: ["industry", "industries", "sector", "sectors"],
+      keywords: [
+        "service",
+        "services",
+        "what do you do",
+        "what msk does",
+        "what does msk do",
+        "what your company does",
+        "what are your capabilities",
+        "capabilities",
+        "work do you do",
+      ],
+      response:
+        "MSK helps customers turn engineering requirements into practical, manufacturable solutions.\n\n- Design, CAD/CAM, FEM/FEA, CFD and technical reports\n- CNC machining, precision parts, prototypes and fixtures\n- R&D, validation planning, training and project support",
+    },
+    {
+      keywords: [
+        "contact",
+        "contact msk",
+        "email",
+        "phone",
+        "reach you",
+        "reach msk",
+        "talk to you",
+        "speak to",
+        "how can i contact",
+        "how to contact",
+      ],
+      response:
+        "You can contact MSK by emailing info@mskprecisiongroup.com. You can also share your requirement here and I can capture it for the engineering team.",
+    },
+    {
+      keywords: [
+        "location",
+        "where are you",
+        "where is msk",
+        "address",
+        "office",
+        "facility",
+        "hyderabad",
+        "telangana",
+      ],
+      response:
+        "MSK Precision Engineering Group is based in Telangana, India. The registered office is in Cherlapally, Kapra, Medchal Malkajgiri, and the upcoming facility is at IP-Madharam, Ghatkesar.",
+    },
+    {
+      keywords: ["industry", "industries", "sector", "sectors", "markets", "domains", "clients"],
       response:
         "MSK works across precision engineering, manufacturing, agriculture machinery, medical fixtures, mining and heavy industry, defence, marine, rail, aerospace, automotive, energy, and R&D projects.",
     },
     {
-      keywords: ["cnc", "machining", "machine shop", "milling", "turning"],
+      keywords: [
+        "cnc",
+        "machining",
+        "machine shop",
+        "milling",
+        "turning",
+        "precision machining",
+        "manufacture part",
+        "manufacturing part",
+        "make component",
+      ],
       response:
-        "For CNC machining, MSK can review drawings, material, tolerances, quantities, inspection needs, and delivery expectations to plan a manufacturable quotation.",
+        "MSK can support CNC machining from drawing review to manufacturable parts.\n\n- Capability: milling/turning workflow planning, tolerances, materials, inspection and DFM review\n- Industries: aerospace, defence, automotive, medical fixtures, mining, agriculture and industrial equipment",
     },
     {
-      keywords: ["engineering consultancy", "consultancy", "consultant", "engineering support"],
+      keywords: [
+        "engineering consultancy",
+        "consultancy",
+        "consultant",
+        "engineering support",
+        "engineering help",
+        "design support",
+        "analysis support",
+        "technical support",
+      ],
       response:
-        "MSK engineering consultancy covers concept review, mechanical design, analysis planning, FEA/CFD support, manufacturing feasibility, documentation, and validation planning.",
+        "MSK engineering consultancy is built around practical design decisions and manufacturable outcomes.\n\n- FEM/FEA, CFD, offshore/marine structures and mechanical design support\n- Concept review, CAD strategy, load cases, validation plans and technical documentation",
     },
     {
-      keywords: ["3d printing", "additive", "prototype", "printing"],
+      keywords: [
+        "3d printing",
+        "3d print",
+        "additive",
+        "additive manufacturing",
+        "prototype",
+        "prototyping",
+        "printing",
+      ],
       response:
         "MSK can support 3D printing and additive manufacturing for prototypes, fixtures, design validation, and early R&D trials. Share the part purpose, material need, size, and available files.",
     },
     {
-      keywords: ["training", "course", "student", "learn"],
+      keywords: ["training", "course", "student", "learn", "workshop", "cad training", "cnc training", "intern training"],
       response:
         "MSK offers practical engineering and manufacturing-oriented training across CAD/CAM, CNC workflow, simulation awareness, product development, and student project guidance.",
     },
     {
-      keywords: ["career", "careers", "job", "internship", "hiring", "vacancy"],
+      keywords: [
+        "career",
+        "careers",
+        "job",
+        "jobs",
+        "internship",
+        "intern",
+        "hiring",
+        "vacancy",
+        "apply",
+        "work with msk",
+      ],
       response:
         "For careers or internships, please share your role interest, background, and contact details. The MSK team can review and follow up by email.",
     },
     {
-      keywords: ["quote process", "quotation process", "how quote", "quote procedure"],
+      keywords: [
+        "quote process",
+        "quotation process",
+        "how quote",
+        "quote procedure",
+        "how to get quote",
+        "how do i get a quote",
+        "quotation",
+        "proposal process",
+      ],
       response:
         "For quotes, MSK usually reviews your requirement, drawings/CAD files, material, quantity, tolerances, timeline, and acceptance criteria, then confirms scope before preparing a quotation.",
     },
   ];
 
-  const quoteTriggers = ["quote", "project", "cost", "proposal", "price", "estimate", "rfq"];
+  const quoteTriggers = [
+    "quote",
+    "quotation",
+    "project",
+    "cost",
+    "proposal",
+    "price",
+    "pricing",
+    "estimate",
+    "rfq",
+  ];
 
   const guidedSteps = [
     {
@@ -139,13 +253,17 @@
   }
 
   function normalise(value) {
-    return String(value || "").trim();
+    return String(value || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9\s&/.-]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
   }
 
   function includesAny(message, keywords) {
-    const text = message.toLowerCase();
+    const text = normalise(message);
     return keywords.some(function (keyword) {
-      return text.includes(keyword);
+      return text.includes(normalise(keyword));
     });
   }
 
@@ -228,7 +346,7 @@
     options.forEach(function (option) {
       const button = createElement("button", { type: "button" }, option);
       button.addEventListener("click", function () {
-        handleUserText(option);
+        handleQuickReply(option);
       });
       quickReplies.appendChild(button);
     });
@@ -246,6 +364,23 @@
     setComposerPlaceholder();
     clearQuickReplies();
     botReply(guidedSteps[0].prompt);
+  }
+
+  function handleQuickReply(option) {
+    const action = normalise(option);
+
+    if (action === "request quote" || action === "talk to team") {
+      addMessage("user", option);
+      startGuidedFlow();
+      return;
+    }
+
+    if (action === "view services") {
+      handleUserText("services");
+      return;
+    }
+
+    handleUserText(option);
   }
 
   function moveGuidedFlow(value) {
@@ -341,10 +476,12 @@
     const matched = matchKnowledge(text);
     if (matched) {
       botReply(matched.response);
+      renderQuickReplies(POST_ANSWER_REPLIES);
       return;
     }
 
     botReply(FALLBACK_REPLY);
+    renderQuickReplies(POST_ANSWER_REPLIES);
   }
 
   function handleUserText(rawText) {
