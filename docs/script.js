@@ -200,6 +200,18 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  function buildFormData(form, payload) {
+    const formData = new FormData(form);
+
+    Object.keys(payload).forEach((key) => {
+      formData.set(key, payload[key]);
+    });
+
+    formData.set("source_form", readField(form, "source_form") || readField(form, "form_name") || "website_form");
+
+    return formData;
+  }
+
   function validatePayload(payload) {
     if (!payload.name) return "Please enter your name.";
     if (!payload.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
@@ -227,11 +239,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch(ERP_ENQUIRY_ENDPOINT, {
         method: "POST",
         mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(payload),
+        headers: { Accept: "application/json" },
+        body: buildFormData(form, payload),
       });
 
       let result = {};
