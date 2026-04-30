@@ -190,7 +190,7 @@
       key: "email",
       prompt: "Thanks. What email should our engineering team use?",
       validate(value) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "" : "Please enter a valid email address.";
+        return isValidEmail(value) ? "" : "Please enter a valid email address (e.g., name@example.com).";
       },
     },
     {
@@ -255,9 +255,13 @@
   function normalise(value) {
     return String(value || "")
       .toLowerCase()
-      .replace(/[^a-z0-9\s&/.-]/g, " ")
+      .replace(/[^a-z0-9\s&/@.-]/g, " ")
       .replace(/\s+/g, " ")
       .trim();
+  }
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   }
 
   function includesAny(message, keywords) {
@@ -385,7 +389,7 @@
 
   function moveGuidedFlow(value) {
     const step = guidedSteps[state.stepIndex];
-    const answer = normalise(value);
+    const answer = String(value || "").trim();
     const error = step.validate(answer);
 
     if (error) {
@@ -485,7 +489,7 @@
   }
 
   function handleUserText(rawText) {
-    const text = normalise(rawText);
+    const text = String(rawText || "").trim();
     if (!text || state.isSubmitting) return;
 
     const input = document.getElementById("msk-chatbot-input");
