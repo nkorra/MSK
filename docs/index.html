@@ -185,8 +185,8 @@
         <li class="dropdown">
           <a href="#careers">Careers ▾</a>
           <ul class="dropdown-menu">
-            <li><a href="#openings">Open Positions</a></li>
-            <li><a href="#students">For Students</a></li>
+            <li><a href="#openings">Role Interests</a></li>
+            <li><a href="#apply">Apply</a></li>
           </ul>
         </li>
 
@@ -450,98 +450,24 @@
       Join a quality-driven team serving Defence, Aerospace, Oil &amp; Gas, Marine, Robotics, Automotive, Rail and
       EV industries. We value hands-on engineering, clear thinking and a willingness to learn.
     </p>
+    <p>
+      <strong>We are always looking for talented engineers and machinists.</strong> If you are interested in precision
+      manufacturing, CAD/CAM, engineering analysis, quality, additive manufacturing or shop-floor execution, share your
+      profile with us.
+    </p>
+    <button class="btn apply-btn" data-title="General Application">Apply Now</button>
   </section>
 
   <!-- =======================================================
-       JOB OPENINGS
+       CAREER INTERESTS
   ======================================================== -->
   <section id="openings" class="section-content" data-aos="fade-up">
-    <h3>Open Positions</h3>
-    <div class="cards">
-      <article class="card">
-        <h4>Design Engineer</h4>
-        <p class="muted">Hyderabad · CAD/CAM · FEA</p>
-        <p>
-          Own concept-to-production design, DFM and FEA (static, modal, fatigue). Work with CNC &amp; AM teams to
-          release manufacturable parts.
-        </p>
-        <details class="job-detail">
-          <summary>View full JD</summary>
-          <div class="job-detail-body">
-            <p><strong>Role focus:</strong> CAD/CAM design, DFM, production-ready drawings and analysis support.</p>
-            <ul>
-              <li>Create and update 3D models, manufacturing drawings and BOM inputs.</li>
-              <li>Support static, modal and fatigue FEA preparation and result review.</li>
-              <li>Work with CNC and additive manufacturing teams to release manufacturable parts.</li>
-              <li>Document assumptions, design changes, tolerances and inspection requirements.</li>
-            </ul>
-          </div>
-        </details>
-        <div class="job-actions">
-          <button class="btn apply-btn" data-title="Design Engineer – Hyderabad">Apply Now</button>
-        </div>
-      </article>
-
-      <article class="card">
-        <h4>CNC Machinist</h4>
-        <p class="muted">Hyderabad · Multi-axis Turning/Milling</p>
-        <p>
-          Set up and operate CNC lathes/mills, optimise toolpaths, uphold tight tolerances and collaborate with QA for
-          first-off approvals.
-        </p>
-        <details class="job-detail">
-          <summary>View full JD</summary>
-          <div class="job-detail-body">
-            <p><strong>Role focus:</strong> CNC setup, machining execution, toolpath support and quality-first production.</p>
-            <ul>
-              <li>Set up and operate CNC lathes and milling machines.</li>
-              <li>Read drawings, understand tolerances and select suitable tools/fixtures.</li>
-              <li>Optimise machining sequence with design, CAM and QA teams.</li>
-              <li>Maintain first-off approval discipline, inspection records and safe work practices.</li>
-            </ul>
-          </div>
-        </details>
-        <div class="job-actions">
-          <button class="btn apply-btn" data-title="CNC Machinist – Hyderabad">Apply Now</button>
-        </div>
-      </article>
-
-      <article class="card">
-        <h4>Quality Inspector</h4>
-        <p class="muted">Hyderabad · Metrology · Documentation</p>
-        <p>
-          Use calipers, micrometers, CMM/height gauges; prepare inspection reports; support ISO-aligned quality
-          processes.
-        </p>
-        <details class="job-detail">
-          <summary>View full JD</summary>
-          <div class="job-detail-body">
-            <p><strong>Role focus:</strong> dimensional inspection, documentation and production quality control.</p>
-            <ul>
-              <li>Inspect machined components using calipers, micrometers, gauges and CMM/height gauges where available.</li>
-              <li>Prepare inspection reports, non-conformance notes and customer-facing quality records.</li>
-              <li>Support incoming, in-process and final inspection activities.</li>
-              <li>Work with production teams to maintain ISO-aligned quality practices.</li>
-            </ul>
-          </div>
-        </details>
-        <div class="job-actions">
-          <button class="btn apply-btn" data-title="Quality Inspector – Hyderabad">Apply Now</button>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- =======================================================
-       STUDENTS / INTERNS
-  ======================================================== -->
-  <section id="students" class="section-content" data-aos="fade-up">
-    <h3>For Students &amp; Internships</h3>
+    <h3>Unsolicited Applications</h3>
     <p>
-      Internships and project guidance in precision manufacturing, CAD/CAM, additive manufacturing and FEA/CFD. Ideal
-      for students who want exposure to real shop-floor and engineering challenges.
+      We review applications across engineering, CNC machining, quality, manufacturing support and internships as MSK
+      projects grow. Choose the closest role area in the form below and include a short note about your skills,
+      experience and preferred work area.
     </p>
-    <button class="btn apply-btn" data-title="Student Internship">Apply for Internship</button>
   </section>
 
   <!-- =======================================================
@@ -549,7 +475,7 @@
   ======================================================== -->
   <section id="apply" class="section-content" data-aos="fade-up">
     <h2>Apply for a Role</h2>
-    <p>Attach your CV and tell us briefly why you’re a great fit.</p>
+    <p>Attach your CV and tell us briefly where you can contribute at MSK.</p>
     <form
       id="job-form"
       action="https://msk-erp.onrender.com/website-chatbot/api/enquiry/"
@@ -561,15 +487,19 @@
       <input type="hidden" name="source_form" value="job_application" />
       <input type="hidden" name="company_website" style="display:none" tabindex="-1" autocomplete="off" />
 
-      <label for="job_title">Position</label>
-      <input
-        type="text"
-        id="job_title"
-        name="job_title"
-        placeholder="(auto-filled when you click Apply)"
-        readonly
-        required
-      />
+      <label for="job_title">Role Interest</label>
+      <select id="job_title" name="job_title" required>
+        <option value="">Select role interest</option>
+        <option value="Design / Mechanical Engineer">Design / Mechanical Engineer</option>
+        <option value="CAD/CAM Engineer">CAD/CAM Engineer</option>
+        <option value="FEA / Simulation Engineer">FEA / Simulation Engineer</option>
+        <option value="CNC Machinist / Programmer">CNC Machinist / Programmer</option>
+        <option value="Quality Inspector">Quality Inspector</option>
+        <option value="Manufacturing / Production Support">Manufacturing / Production Support</option>
+        <option value="Additive Manufacturing / 3D Printing">Additive Manufacturing / 3D Printing</option>
+        <option value="Student Internship">Student Internship</option>
+        <option value="General Application">General Application</option>
+      </select>
 
       <label for="name">Your Name</label>
       <input type="text" id="name" name="name" required />
