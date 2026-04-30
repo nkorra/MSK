@@ -427,10 +427,11 @@
       email: state.enquiry.email,
       phone: state.enquiry.phone || "",
       company: state.enquiry.company || "",
-      service_required: state.enquiry.service_required,
+      service_required: state.enquiry.service_required || "General Quote Request",
       project_details: state.enquiry.project_details,
       source_form: "chatbot",
-      enquiry_type: "quote",
+      enquiry_type: "chatbot",
+      quote_status: "draft",
       source: "mskprecisiongroup.com",
       company_website: "",
     };
