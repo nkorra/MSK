@@ -499,8 +499,16 @@ form button:disabled {
   margin-bottom: 14px;
 }
 
-body.msk-form-section-visible #msk-chatbot-root {
+body.msk-form-section-visible #msk-chatbot-panel.is-open {
   display: none;
+}
+
+@media (max-width: 700px) {
+  #contact,
+  #quote,
+  #apply {
+    padding-bottom: 86px;
+  }
 }
 
 /* ============================

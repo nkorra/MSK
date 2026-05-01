@@ -214,6 +214,6 @@
   }
 }
 
-body.msk-form-section-visible #msk-chatbot-root {
+body.msk-form-section-visible #msk-chatbot-panel.is-open {
   display: none;
 }
