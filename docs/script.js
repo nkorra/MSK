@@ -196,6 +196,9 @@ document.addEventListener("DOMContentLoaded", () => {
         readField(form, "form_name") ||
         "Website Enquiry",
       project_details: buildProjectDetails(form),
+      enquiry_type: readField(form, "enquiry_type"),
+      source_form: readField(form, "source_form") || readField(form, "form_name") || "website_form",
+      quote_status: readField(form, "quote_status"),
       source: "mskprecisiongroup.com",
       company_website: readField(form, "company_website"),
     };
@@ -207,8 +210,6 @@ document.addEventListener("DOMContentLoaded", () => {
     Object.keys(payload).forEach((key) => {
       formData.set(key, payload[key]);
     });
-
-    formData.set("source_form", readField(form, "source_form") || readField(form, "form_name") || "website_form");
 
     return formData;
   }
@@ -223,6 +224,17 @@ document.addEventListener("DOMContentLoaded", () => {
     return "";
   }
 
+  function validateFormFiles(form) {
+    if (!form || form.id !== "job-form") return "";
+
+    const fileInput = form.elements.uploaded_file;
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+      return "Please attach your CV before submitting the application.";
+    }
+
+    return "";
+  }
+
   async function submitForm(form, statusEl) {
     if (!form) return;
 
@@ -234,6 +246,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (validationError) {
       if (statusEl) statusEl.textContent = validationError;
+      return;
+    }
+
+    const fileValidationError = validateFormFiles(form);
+    if (fileValidationError) {
+      if (statusEl) statusEl.textContent = fileValidationError;
       return;
     }
 

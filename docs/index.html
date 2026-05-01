@@ -484,7 +484,9 @@
     >
       <input type="hidden" name="form_name" value="Job Application" />
       <input type="hidden" name="service_required" value="Job Application" />
+      <input type="hidden" name="enquiry_type" value="job_application" />
       <input type="hidden" name="source_form" value="job_application" />
+      <input type="hidden" name="quote_status" value="not_required" />
       <input type="hidden" name="company_website" style="display:none" tabindex="-1" autocomplete="off" />
 
       <label for="job_title">Role Interest</label>
@@ -508,7 +510,7 @@
       <input type="email" id="email" name="email" required />
 
       <label for="cv">Attach CV (PDF/DOCX)</label>
-      <input type="file" id="cv" name="uploaded_file" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.png,.jpg,.jpeg,.step,.stp,.iges,.igs,.stl" />
+      <input type="file" id="cv" name="uploaded_file" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.png,.jpg,.jpeg,.step,.stp,.iges,.igs,.stl" required />
       <p class="form-note">Accepted files: PDF, DOC, DOCX, XLS, XLSX, ZIP, PNG, JPG, STEP, STP, IGES, IGS or STL.</p>
 
       <label for="message">Message</label>
@@ -664,7 +666,9 @@
     >
       <input type="hidden" name="form_name" value="Quote Request" />
       <input type="hidden" name="service_required" value="General Quote Request" />
+      <input type="hidden" name="enquiry_type" value="quote" />
       <input type="hidden" name="source_form" value="quote" />
+      <input type="hidden" name="quote_status" value="draft" />
       <input type="hidden" name="company_website" style="display:none" tabindex="-1" autocomplete="off" />
 
       <input type="text" name="name" placeholder="Your Name" required />
