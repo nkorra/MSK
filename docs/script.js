@@ -219,6 +219,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!payload.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
       return "Please enter a valid email address.";
     }
+    if (payload.source_form === "quote" || payload.enquiry_type === "quote") {
+      if (!payload.company) return "Company name is required";
+      if (!payload.phone) return "Phone number is required";
+    }
     if (!payload.service_required) return "Please select a service.";
     if (!payload.project_details) return "Please enter your enquiry details.";
     return "";
