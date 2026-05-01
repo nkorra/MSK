@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const ERP_ENQUIRY_ENDPOINT =
     "https://msk-erp.onrender.com/website-chatbot/api/enquiry/";
   const FORM_FAILURE_MESSAGE =
-    "Please email info@mskprecisiongroup.com with your drawings/details.";
+    "Submission failed. Please try again or email info@mskprecisiongroup.com";
+  const FORM_SLOW_MESSAGE = "Please wait, submitting your request...";
 
   // -----------------------------
   // 2. Fixed-header offsets
@@ -225,7 +226,8 @@ document.addEventListener("DOMContentLoaded", () => {
   async function submitForm(form, statusEl) {
     if (!form) return;
 
-    if (statusEl) statusEl.textContent = "Sending…";
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton ? submitButton.textContent : "";
 
     const payload = buildPayload(form);
     const validationError = validatePayload(payload);
@@ -234,6 +236,16 @@ document.addEventListener("DOMContentLoaded", () => {
       if (statusEl) statusEl.textContent = validationError;
       return;
     }
+
+    if (statusEl) statusEl.textContent = "Submitting...";
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Submitting...";
+    }
+
+    const slowTimer = window.setTimeout(() => {
+      if (statusEl) statusEl.textContent = FORM_SLOW_MESSAGE;
+    }, 3500);
 
     try {
       const res = await fetch(ERP_ENQUIRY_ENDPOINT, {
@@ -259,24 +271,17 @@ document.addEventListener("DOMContentLoaded", () => {
       if (statusEl) {
         statusEl.textContent = FORM_FAILURE_MESSAGE;
       }
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+      }
+    } finally {
+      window.clearTimeout(slowTimer);
     }
   }
 
   // -----------------------------
-  // 10. Contact form
-  // -----------------------------
-  const contactForm = document.getElementById("contact-form");
-  const contactStatus = document.getElementById("contact-status");
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      submitForm(contactForm, contactStatus);
-    });
-  }
-
-  // -----------------------------
-  // 11. Quote form
+  // 10. Quote form
   // -----------------------------
   const quoteForm = document.getElementById("quote-form");
   const quoteStatus = document.getElementById("quote-status");
@@ -289,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -----------------------------
-  // 12. Job Apply form
+  // 11. Job Apply form
   // -----------------------------
   const applyForm = document.getElementById("job-form");
   const applyStatus = document.getElementById("apply-status");
@@ -299,6 +304,36 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       submitForm(applyForm, applyStatus);
     });
+  }
+
+  // -----------------------------
+  // 12. Keep chatbot clear of public forms
+  // -----------------------------
+  const formSections = ["quote", "contact", "apply"]
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+
+  if ("IntersectionObserver" in window && formSections.length) {
+    const visibleSections = new Set();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            visibleSections.add(entry.target.id);
+          } else {
+            visibleSections.delete(entry.target.id);
+          }
+        });
+
+        document.body.classList.toggle(
+          "msk-form-section-visible",
+          visibleSections.size > 0
+        );
+      },
+      { threshold: 0.22 }
+    );
+
+    formSections.forEach((section) => observer.observe(section));
   }
 
   // -----------------------------

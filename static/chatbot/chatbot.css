@@ -213,3 +213,7 @@
     float: right;
   }
 }
+
+body.msk-form-section-visible #msk-chatbot-root {
+  display: none;
+}

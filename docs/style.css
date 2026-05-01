@@ -471,6 +471,11 @@ form button:hover {
   background: #105c95;
 }
 
+form button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
 .form-note {
   font-size: 0.92rem;
   color: #0d6fb3;
@@ -488,6 +493,14 @@ form button:hover {
 .contact-block {
   margin-bottom: 20px;
   max-width: 640px;
+}
+
+.contact-block p {
+  margin-bottom: 14px;
+}
+
+body.msk-form-section-visible #msk-chatbot-root {
+  display: none;
 }
 
 /* ============================
