@@ -188,9 +188,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function buildPayload(form) {
     const countryCode = readField(form, "country_code");
     const phone = readField(form, "phone");
+    const compactPhone = phone.replace(/[\s()-]/g, "");
     const fullPhone =
       countryCode && phone && countryCode !== "Other"
-        ? `${countryCode} ${phone}`
+        ? `${countryCode}${compactPhone}`
         : phone;
 
     return {
