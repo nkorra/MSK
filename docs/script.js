@@ -186,10 +186,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function buildPayload(form) {
+    const countryCode = readField(form, "country_code");
+    const phone = readField(form, "phone");
+    const fullPhone =
+      countryCode && phone && countryCode !== "Other"
+        ? `${countryCode} ${phone}`
+        : phone;
+
     return {
       name: readField(form, "name"),
       email: readField(form, "email"),
-      phone: readField(form, "phone"),
+      phone: fullPhone,
       company: readField(form, "company"),
       service_required:
         readField(form, "service_required") ||
@@ -220,6 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return "Please enter a valid email address.";
     }
     if (payload.source_form === "quote" || payload.enquiry_type === "quote") {
+      if (!payload.service_required) return "Please select service type.";
       if (!payload.company) return "Company name is required";
       if (!payload.phone) return "Phone number is required";
     }
