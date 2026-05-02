@@ -198,10 +198,8 @@ document.addEventListener("DOMContentLoaded", () => {
       email: readField(form, "email"),
       phone: fullPhone,
       company: readField(form, "company"),
-      service_required:
-        readField(form, "service_required") ||
-        readField(form, "form_name") ||
-        "Website Enquiry",
+      country_code: countryCode,
+      service_required: readField(form, "service_required"),
       project_details: buildProjectDetails(form),
       enquiry_type: readField(form, "enquiry_type"),
       source_form: readField(form, "source_form") || readField(form, "form_name") || "website_form",
@@ -229,6 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (payload.source_form === "quote" || payload.enquiry_type === "quote") {
       if (!payload.service_required) return "Please select service type.";
       if (!payload.company) return "Company name is required";
+      if (!payload.country_code) return "Please select country code.";
       if (!payload.phone) return "Phone number is required";
     }
     if (!payload.service_required) return "Please select a service.";
