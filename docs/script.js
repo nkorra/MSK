@@ -329,34 +329,62 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -----------------------------
-  // 12. Keep chatbot clear of public forms
+  // 12. Keep chatbot launcher active
   // -----------------------------
-  const formSections = ["quote", "contact", "apply"]
-    .map((id) => document.getElementById(id))
-    .filter(Boolean);
+  function keepChatbotButtonClickable() {
+    document.body.classList.remove("msk-form-section-visible");
 
-  if ("IntersectionObserver" in window && formSections.length) {
-    const visibleSections = new Set();
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            visibleSections.add(entry.target.id);
-          } else {
-            visibleSections.delete(entry.target.id);
-          }
-        });
+    const root = document.getElementById("msk-chatbot-root");
+    const button = document.getElementById("msk-chatbot-toggle");
 
-        document.body.classList.toggle(
-          "msk-form-section-visible",
-          visibleSections.size > 0
-        );
-      },
-      { threshold: 0.22 }
-    );
+    if (root) {
+      root.style.zIndex = "2147483647";
+      root.style.pointerEvents = "auto";
+      root.style.visibility = "visible";
+    }
 
-    formSections.forEach((section) => observer.observe(section));
+    if (button) {
+      button.style.zIndex = "2147483647";
+      button.style.pointerEvents = "auto";
+      button.style.visibility = "visible";
+      button.style.opacity = "1";
+      button.removeAttribute("hidden");
+      button.disabled = false;
+    }
   }
+
+  keepChatbotButtonClickable();
+
+  window.addEventListener("load", keepChatbotButtonClickable);
+
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("#msk-chatbot-toggle");
+    if (!button) return;
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    document.body.classList.remove("msk-form-section-visible");
+    keepChatbotButtonClickable();
+
+    const panel = document.getElementById("msk-chatbot-panel");
+    const input = document.getElementById("msk-chatbot-input");
+
+    if (!panel) return;
+
+    const isOpen = panel.classList.contains("is-open");
+
+    if (isOpen) {
+      panel.classList.remove("is-open");
+      button.setAttribute("aria-expanded", "false");
+    } else {
+      panel.classList.add("is-open");
+      button.setAttribute("aria-expanded", "true");
+
+      setTimeout(() => {
+        input?.focus();
+      }, 100);
+    }
+  }, true);
 
   // -----------------------------
   // 13. Prefill Apply form & scroll
