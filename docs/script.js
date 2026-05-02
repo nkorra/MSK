@@ -1,5 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
+  // 0. Light copy deterrent
+  // -----------------------------
+  const isInteractiveElement = (target) =>
+    Boolean(
+      target.closest(
+        "input, textarea, select, button, a, label, form, [contenteditable='true'], #msk-chatbot-root, #msk-chatbot-panel, #msk-chatbot-toggle"
+      )
+    );
+
+  document.addEventListener("contextmenu", (event) => {
+    if (isInteractiveElement(event.target)) return;
+    event.preventDefault();
+  });
+
+  document.addEventListener("selectstart", (event) => {
+    if (isInteractiveElement(event.target)) return;
+    event.preventDefault();
+  });
+
+  // -----------------------------
   // 1. MSK ERP enquiry endpoint
   // -----------------------------
   const ERP_ENQUIRY_ENDPOINT =
