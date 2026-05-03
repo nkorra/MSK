@@ -290,6 +290,136 @@
     "submit enquiry",
   ];
 
+  const intentDefinitions = [
+    {
+      name: "quote_request",
+      keywords: quoteTriggers,
+      response:
+        "I can help capture a quote request for the MSK team.\n\nPlease share the basic details and we will route it for engineering or manufacturing review.",
+      quickReplies: ["Start Quote", "Services", "Contact details"],
+      startsQuoteFlow: true,
+    },
+    {
+      name: "cnc_machining",
+      keywords: [
+        "cnc",
+        "machining",
+        "machine shop",
+        "milling",
+        "turning",
+        "precision machining",
+        "manufacture part",
+        "make component",
+      ],
+      response:
+        "MSK supports CNC machining for prototypes, fixtures and precision components.\n\n- Drawing/CAD review, material and tolerance checks\n- CNC milling/turning process planning\n- Inspection and manufacturability review\n\nShare drawings, material, quantity and timeline to request a quote.",
+      quickReplies: ["Request Quote", "CAD / CAM / CAE", "Contact details"],
+    },
+    {
+      name: "3d_printing",
+      keywords: ["3d printing", "3d print", "additive", "additive manufacturing", "prototype", "prototyping"],
+      response:
+        "MSK can support 3D printing and additive manufacturing for early prototypes, fit checks and R&D trials.\n\nShare part size, material preference, purpose, quantity and CAD files for review.",
+      quickReplies: ["Request Quote", "R&D", "Contact details"],
+    },
+    {
+      name: "scanning_reverse_engineering",
+      keywords: [
+        "3d scanning",
+        "scanning",
+        "scan",
+        "reverse engineering",
+        "reverse engineer",
+        "point cloud",
+        "copy part",
+        "legacy part",
+      ],
+      response:
+        "MSK can support 3D scanning and reverse engineering workflows.\n\n- Existing part review and measurement capture\n- CAD reconstruction and drawing creation where feasible\n- Manufacturing-ready data support after technical review",
+      quickReplies: ["Request Quote", "CAD", "Contact details"],
+    },
+    {
+      name: "cad_cam_cae",
+      keywords: [
+        "cad",
+        "cam",
+        "cae",
+        "drawing",
+        "drawings",
+        "3d model",
+        "3d modelling",
+        "3d modeling",
+        "toolpath",
+        "simulation",
+        "fea",
+        "fem",
+        "cfd",
+        "stress analysis",
+      ],
+      response:
+        "MSK supports CAD/CAM/CAE for design and manufacturing readiness.\n\n- CAD: 3D models, assemblies, drawings, jigs and fixtures\n- CAM: CNC strategy, setup and toolpath planning\n- CAE: FEA/FEM, CFD and technical review reports",
+      quickReplies: ["Request Quote", "Engineering services", "CNC machining"],
+    },
+    {
+      name: "welding_fabrication",
+      keywords: ["welding", "fabrication", "fabricate", "weld", "frames", "brackets", "sheet metal", "heavy fabrication"],
+      response:
+        "MSK can support welding and fabrication enquiries for frames, brackets, fixtures and industrial assemblies.\n\nShare drawings, material, quantity, weld requirements and use conditions for a quote.",
+      quickReplies: ["Request Quote", "CNC machining", "Contact details"],
+    },
+    {
+      name: "r_and_d",
+      keywords: [
+        "r&d",
+        "rnd",
+        "research and development",
+        "product development",
+        "new product",
+        "concept",
+        "prototype development",
+        "innovation",
+      ],
+      response:
+        "MSK can support R&D and product development from concept to prototype readiness.\n\n- Concept review and CAD strategy\n- Prototype, simulation and manufacturing feasibility planning\n- Validation and next-step engineering support",
+      quickReplies: ["Request Quote", "3D Printing", "Engineering services"],
+    },
+    {
+      name: "contact_request",
+      keywords: [
+        "contact",
+        "email",
+        "phone",
+        "mobile",
+        "call",
+        "reach you",
+        "reach msk",
+        "how to contact",
+        "where are you",
+        "location",
+        "address",
+      ],
+      response:
+        "You can contact MSK at info@mskprecisiongroup.com.\n\nYou can also describe your requirement here and I will capture it for the team.",
+      quickReplies: ["Request Quote", "Services", "Location"],
+    },
+    {
+      name: "general_enquiry",
+      keywords: [
+        "service",
+        "services",
+        "what do you do",
+        "what msk does",
+        "about msk",
+        "tell me about msk",
+        "capabilities",
+        "industries",
+      ],
+      response:
+        "MSK supports engineering and manufacturing teams with design, CAD/CAM/CAE, CNC machining, 3D printing, scanning, fabrication and R&D support.\n\nTell me the service you need or choose Request Quote.",
+      quickReplies: ["Request Quote", "CNC machining", "CAD / CAM / CAE"],
+    },
+  ];
+
   const guidedSteps = [
     {
       key: "name",
@@ -386,6 +516,11 @@
     return match ? match[0].trim() : "";
   }
 
+  function extractName(text) {
+    const match = String(text || "").match(/\b(?:my name is|i am|i'm|this is)\s+([a-z][a-z\s.'-]{1,50})/i);
+    return match ? match[1].replace(/\s+/g, " ").trim() : "";
+  }
+
   function includesAny(message, keywords) {
     const text = normalise(message);
     return keywords.some(function (keyword) {
@@ -403,16 +538,32 @@
     return includesAny(message, quoteTriggers);
   }
 
-  function captureContactDetails(message) {
+  function detectIntent(message) {
+    const text = normalise(message);
+    return (
+      intentDefinitions.find(function (intent) {
+        return intent.keywords.some(function (keyword) {
+          return text.includes(normalise(keyword));
+        });
+      }) || intentDefinitions.find(function (intent) {
+        return intent.name === "general_enquiry";
+      })
+    );
+  }
+
+  function captureKnownDetails(message) {
+    const name = extractName(message);
     const email = extractEmail(message);
     const phone = extractPhone(message);
 
-    if (!email && !phone) return false;
+    if (!name && !email && !phone) return false;
 
+    if (name) state.enquiry.name = name;
     if (email) state.enquiry.email = email;
     if (phone) state.enquiry.phone = phone;
 
     const captured = [];
+    if (state.enquiry.name) captured.push(`Name: ${state.enquiry.name}`);
     if (state.enquiry.email) captured.push(`Email: ${state.enquiry.email}`);
     if (state.enquiry.phone) captured.push(`Phone: ${state.enquiry.phone}`);
 
@@ -421,6 +572,37 @@
     );
     renderQuickReplies(["Request Quote", "Services", "Contact details"]);
     return true;
+  }
+
+  function currentStepHasValidValue(step) {
+    const value = String(state.enquiry[step.key] || "").trim();
+    return Boolean(value && !step.validate(value));
+  }
+
+  function nextMissingStepIndex(startIndex) {
+    for (let index = startIndex; index < guidedSteps.length; index += 1) {
+      if (!currentStepHasValidValue(guidedSteps[index])) {
+        return index;
+      }
+    }
+    return guidedSteps.length;
+  }
+
+  function promptGuidedStep() {
+    if (state.stepIndex >= guidedSteps.length) {
+      clearQuickReplies();
+      submitEnquiry();
+      return;
+    }
+
+    const step = guidedSteps[state.stepIndex];
+    setComposerPlaceholder();
+    if (step.key === "service_required") {
+      renderQuickReplies(services);
+    } else {
+      clearQuickReplies();
+    }
+    botReply(step.prompt);
   }
 
   function scrollMessages() {
@@ -505,20 +687,22 @@
 
   function startGuidedFlow() {
     state.mode = "guided";
-    state.stepIndex = 0;
+    const existing = state.enquiry || {};
     state.enquiry = {
-      email: state.enquiry.email || "",
-      phone: state.enquiry.phone || "",
+      name: existing.name || "",
+      email: existing.email || "",
+      phone: existing.phone || "",
+      company: existing.company || "",
+      service_required: existing.service_required || "",
     };
-    setComposerPlaceholder();
-    clearQuickReplies();
-    botReply(guidedSteps[0].prompt);
+    state.stepIndex = nextMissingStepIndex(0);
+    promptGuidedStep();
   }
 
   function handleQuickReply(option) {
     const action = normalise(option);
 
-    if (action === "request quote" || action === "talk to team") {
+    if (action === "request quote" || action === "start quote" || action === "talk to team") {
       addMessage("user", option);
       startGuidedFlow();
       return;
@@ -543,22 +727,9 @@
     }
 
     state.enquiry[step.key] = step.key === "phone" && answer.toLowerCase() === "n/a" ? "" : answer;
-    state.stepIndex += 1;
+    state.stepIndex = nextMissingStepIndex(state.stepIndex + 1);
 
-    if (state.stepIndex < guidedSteps.length) {
-      const nextStep = guidedSteps[state.stepIndex];
-      setComposerPlaceholder();
-      if (nextStep.key === "service_required") {
-        renderQuickReplies(services);
-      } else {
-        clearQuickReplies();
-      }
-      botReply(nextStep.prompt);
-      return;
-    }
-
-    clearQuickReplies();
-    submitEnquiry();
+    promptGuidedStep();
   }
 
   async function submitEnquiry() {
@@ -618,26 +789,23 @@
   }
 
   function handleChatMessage(text) {
-    const capturedContactDetails = captureContactDetails(text);
+    const capturedKnownDetails = captureKnownDetails(text);
+    const intent = detectIntent(text);
 
-    if (shouldStartGuidedFlow(text)) {
+    if (intent.startsQuoteFlow || shouldStartGuidedFlow(text)) {
+      if (capturedKnownDetails) {
+        addMessage("bot", "I'll use the details already captured and collect only what is still missing.");
+      }
       startGuidedFlow();
       return;
     }
 
-    if (capturedContactDetails) {
+    if (capturedKnownDetails) {
       return;
     }
 
-    const matched = matchKnowledge(text);
-    if (matched) {
-      botReply(matched.response);
-      renderQuickReplies(POST_ANSWER_REPLIES);
-      return;
-    }
-
-    botReply(FALLBACK_REPLY);
-    renderQuickReplies(POST_ANSWER_REPLIES);
+    botReply(intent.response || FALLBACK_REPLY);
+    renderQuickReplies(intent.quickReplies || POST_ANSWER_REPLIES);
   }
 
   function handleUserText(rawText) {
