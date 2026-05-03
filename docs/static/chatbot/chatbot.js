@@ -3,8 +3,10 @@
 
   const API_ENDPOINT = "https://msk-erp.onrender.com/website-chatbot/api/enquiry/";
   const FALLBACK_REPLY =
-    "I can help with MSK services, CNC machining, engineering consultancy, 3D printing, industries, careers, training, or quote requests. What would you like to know?";
-  const SUCCESS_REPLY = "Thank you. Our engineering team will contact you.";
+    "I can help with engineering services, CNC machining, CAD/CAM/CAE, 3D printing, scanning, welding/fabrication, contact details, or quote requests. What would you like to know?";
+  const SUCCESS_REPLY = "Thank you. Your enquiry has been received. Our team will contact you shortly.";
+  const SUBMISSION_FALLBACK_REPLY =
+    "Thank you. Our team will review your enquiry and contact you shortly. You can also email info@mskprecisiongroup.com.";
   const POST_ANSWER_REPLIES = ["Request Quote", "Talk to Team", "View Services"];
   const WELCOME_POPUP_MESSAGE = "Welcome to MSK Precision Engineering Works. How can we help you today?";
   const AUTO_POPUP_STORAGE_KEY = "msk_chatbot_welcome_shown";
@@ -16,7 +18,10 @@
     "FEA / FEM / Structural Analysis",
     "CFD / Simulation",
     "CNC Machining",
+    "CAD / CAM / CAE",
     "3D Printing / Additive Manufacturing",
+    "Scanning / Reverse Engineering",
+    "Welding / Fabrication",
     "Product Design / R&D",
     "Manufacturing / Precision Works",
     "Training",
@@ -44,6 +49,7 @@
       keywords: [
         "service",
         "services",
+        "engineering services",
         "what do you do",
         "what msk does",
         "what does msk do",
@@ -53,7 +59,7 @@
         "work do you do",
       ],
       response:
-        "MSK helps customers turn engineering requirements into practical, manufacturable solutions.\n\n- Design, CAD/CAM, FEM/FEA, CFD and technical reports\n- CNC machining, precision parts, prototypes and fixtures\n- R&D, validation planning, training and project support",
+        "MSK helps customers turn engineering requirements into practical, manufacturable solutions.\n\n- Engineering: design review, CAD/CAM/CAE, FEA/CFD and reports\n- Manufacturing: CNC machining, welding, fabrication and precision parts\n- R&D: prototypes, 3D printing, scanning and product development\n\nFor a quotation, tell me your service and project details.",
     },
     {
       keywords: [
@@ -61,6 +67,8 @@
         "contact msk",
         "email",
         "phone",
+        "mobile",
+        "call",
         "reach you",
         "reach msk",
         "talk to you",
@@ -69,7 +77,7 @@
         "how to contact",
       ],
       response:
-        "You can contact MSK by emailing info@mskprecisiongroup.com. You can also share your requirement here and I can capture it for the engineering team.",
+        "You can contact MSK at info@mskprecisiongroup.com.\n\nYou can also share your requirement here and I will capture it for the engineering team.",
     },
     {
       keywords: [
@@ -103,10 +111,12 @@
         "make component",
       ],
       response:
-        "MSK can support CNC machining from drawing review to manufacturable parts.\n\n- Capability: milling/turning workflow planning, tolerances, materials, inspection and DFM review\n- Industries: aerospace, defence, automotive, medical fixtures, mining, agriculture and industrial equipment",
+        "MSK supports CNC machining from drawing review to finished parts.\n\n- CNC milling/turning workflow planning, tolerances and material review\n- CAD/CAM readiness, DFM checks and inspection planning\n- Suitable for prototypes, fixtures and precision components\n\nShare drawings, material, quantity and timeline for a quote.",
     },
     {
       keywords: [
+        "engineering",
+        "engineering services",
         "engineering consultancy",
         "consultancy",
         "consultant",
@@ -117,7 +127,53 @@
         "technical support",
       ],
       response:
-        "MSK engineering consultancy is built around practical design decisions and manufacturable outcomes.\n\n- FEM/FEA, CFD, offshore/marine structures and mechanical design support\n- Concept review, CAD strategy, load cases, validation plans and technical documentation",
+        "MSK engineering services focus on practical, manufacturable decisions.\n\n- Mechanical design, design review, DFM and technical documentation\n- FEA/FEM, CFD, load cases, boundary conditions and validation planning\n- Support for concept, prototype and industrial product development\n\nFor a quote, share the problem statement, inputs and expected deliverables.",
+    },
+    {
+      keywords: [
+        "cad",
+        "computer aided design",
+        "drawing",
+        "drawings",
+        "2d drawing",
+        "manufacturing drawing",
+        "3d model",
+        "3d modelling",
+        "3d modeling",
+        "modelling",
+        "modeling",
+      ],
+      response:
+        "MSK can support CAD work for engineering and manufacturing.\n\n- 3D models, 2D manufacturing drawings, assemblies, fixtures and jigs\n- Drawing cleanup, concept layouts and design-for-manufacture review\n\nShare sketches, photos, existing drawings or part requirements to start a quote.",
+    },
+    {
+      keywords: [
+        "cam",
+        "computer aided manufacturing",
+        "toolpath",
+        "tool path",
+        "machining strategy",
+        "cnc programming",
+        "g code",
+      ],
+      response:
+        "MSK can support CAM and manufacturing planning for CNC jobs.\n\n- Toolpath strategy, setup planning, machining sequence and fixture approach\n- CAD/CAM review for manufacturability, tolerance and inspection needs\n\nShare CAD files, drawings, material and quantity for review.",
+    },
+    {
+      keywords: [
+        "cae",
+        "analysis",
+        "simulation",
+        "fea",
+        "fem",
+        "cfd",
+        "structural analysis",
+        "stress analysis",
+        "thermal analysis",
+        "flow analysis",
+      ],
+      response:
+        "MSK supports CAE, FEA and simulation planning for engineering decisions.\n\n- Structural FEA/FEM, CFD/flow, thermal and design review support\n- Load cases, boundary conditions, assumptions, acceptance criteria and reports\n\nFor a quote, share geometry, loads, constraints, materials and required outputs.",
     },
     {
       keywords: [
@@ -130,7 +186,53 @@
         "printing",
       ],
       response:
-        "MSK can support 3D printing and additive manufacturing for prototypes, fixtures, design validation, and early R&D trials. Share the part purpose, material need, size, and available files.",
+        "MSK can support 3D printing and additive manufacturing for prototypes, fixtures and design validation.\n\n- Useful for early R&D, fit checks, concept trials and low-volume prototype parts\n- Share part size, material preference, purpose, quantity and available CAD files for review.",
+    },
+    {
+      keywords: [
+        "scanning",
+        "3d scanning",
+        "scan",
+        "reverse engineering",
+        "reverse engineer",
+        "part scanning",
+        "point cloud",
+        "measure existing part",
+        "copy part",
+        "legacy part",
+      ],
+      response:
+        "MSK can support 3D scanning and reverse engineering workflows.\n\n- Existing part review, scan/point-cloud input, measurement capture and CAD reconstruction\n- Output can include 3D model, drawing, fit/function notes and manufacturing-ready data where feasible\n\nShare photos, dimensions and the part purpose to start.",
+    },
+    {
+      keywords: [
+        "welding",
+        "fabrication",
+        "fabricate",
+        "weld",
+        "structure fabrication",
+        "frames",
+        "brackets",
+        "sheet metal",
+        "heavy fabrication",
+      ],
+      response:
+        "MSK can support welding and fabrication enquiries for industrial components and equipment structures.\n\n- Frames, brackets, fixtures, sheet-metal items and welded assemblies\n- Review of drawings, material, weld requirements, tolerances and inspection expectations\n\nFor a quote, share drawings, material, quantity and usage conditions.",
+    },
+    {
+      keywords: [
+        "r&d",
+        "rnd",
+        "research and development",
+        "product development",
+        "new product",
+        "prototype development",
+        "concept development",
+        "design development",
+        "innovation",
+      ],
+      response:
+        "MSK can support R&D and product development from concept to prototype readiness.\n\n- Concept review, CAD strategy, prototype planning and validation approach\n- Engineering calculations, FEA/CFD planning, manufacturing feasibility and test notes\n\nShare your product idea, target use, constraints and required output.",
     },
     {
       keywords: ["training", "course", "student", "learn", "workshop", "cad training", "cnc training", "intern training"],
@@ -162,6 +264,9 @@
         "how to get quote",
         "how do i get a quote",
         "quotation",
+        "quote",
+        "request quote",
+        "get quote",
         "proposal process",
       ],
       response:
@@ -179,6 +284,10 @@
     "pricing",
     "estimate",
     "rfq",
+    "request quote",
+    "get a quote",
+    "send enquiry",
+    "submit enquiry",
   ];
 
   const guidedSteps = [
@@ -267,6 +376,16 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   }
 
+  function extractEmail(text) {
+    const match = String(text || "").match(/[^\s@]+@[^\s@]+\.[^\s@]+/);
+    return match ? match[0].trim() : "";
+  }
+
+  function extractPhone(text) {
+    const match = String(text || "").match(/(?:\+\d{1,3}[\s-]?)?(?:\(?\d{2,5}\)?[\s-]?)?\d{3,5}[\s-]?\d{3,5}/);
+    return match ? match[0].trim() : "";
+  }
+
   function includesAny(message, keywords) {
     const text = normalise(message);
     return keywords.some(function (keyword) {
@@ -282,6 +401,26 @@
 
   function shouldStartGuidedFlow(message) {
     return includesAny(message, quoteTriggers);
+  }
+
+  function captureContactDetails(message) {
+    const email = extractEmail(message);
+    const phone = extractPhone(message);
+
+    if (!email && !phone) return false;
+
+    if (email) state.enquiry.email = email;
+    if (phone) state.enquiry.phone = phone;
+
+    const captured = [];
+    if (state.enquiry.email) captured.push(`Email: ${state.enquiry.email}`);
+    if (state.enquiry.phone) captured.push(`Phone: ${state.enquiry.phone}`);
+
+    botReply(
+      `Thanks, I captured these contact details:\n\n${captured.join("\n")}\n\nFor a quote, please type "Request Quote" and I will collect the remaining project details.`
+    );
+    renderQuickReplies(["Request Quote", "Services", "Contact details"]);
+    return true;
   }
 
   function scrollMessages() {
@@ -367,7 +506,10 @@
   function startGuidedFlow() {
     state.mode = "guided";
     state.stepIndex = 0;
-    state.enquiry = {};
+    state.enquiry = {
+      email: state.enquiry.email || "",
+      phone: state.enquiry.phone || "",
+    };
     setComposerPlaceholder();
     clearQuickReplies();
     botReply(guidedSteps[0].prompt);
@@ -433,7 +575,7 @@
       service_required: state.enquiry.service_required || "General Quote Request",
       project_details: state.enquiry.project_details,
       source_form: "chatbot",
-      enquiry_type: "chatbot",
+      enquiry_type: "quote",
       quote_status: "draft",
       source: "mskprecisiongroup.com",
       company_website: "",
@@ -466,7 +608,7 @@
       state.stepIndex = 0;
       state.enquiry = {};
     } catch (error) {
-      addMessage("bot", "Please email info@mskprecisiongroup.com with your drawings/details.");
+      addMessage("bot", SUBMISSION_FALLBACK_REPLY);
     } finally {
       state.isSubmitting = false;
       setInputEnabled(true);
@@ -476,8 +618,14 @@
   }
 
   function handleChatMessage(text) {
+    const capturedContactDetails = captureContactDetails(text);
+
     if (shouldStartGuidedFlow(text)) {
       startGuidedFlow();
+      return;
+    }
+
+    if (capturedContactDetails) {
       return;
     }
 
