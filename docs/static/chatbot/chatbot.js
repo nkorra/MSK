@@ -14,9 +14,11 @@
   const AUTO_POPUP_STORAGE_KEY = "msk_chatbot_welcome_shown";
   const AUTO_POPUP_DELAY_MS = 2500;
   const SUBMISSION_TIMEOUT_MS = 45000;
+  const ROUTE_CLOSE_DELAY_MS = 650;
   const QUOTE_FORM_URL = "#quote";
   const CAREERS_URL = "#apply";
   const CONTACT_URL = "#contact";
+  const ROUTABLE_ANCHORS = [QUOTE_FORM_URL, CAREERS_URL, CONTACT_URL];
 
   const services = [
     "Engineering Consultancy",
@@ -605,6 +607,55 @@
     return includesAny(message, quoteTriggers);
   }
 
+  function closeChatbotPanel() {
+    const panel = document.getElementById("msk-chatbot-panel");
+    const toggleButton = document.getElementById("msk-chatbot-toggle");
+
+    if (panel) panel.classList.remove("is-open");
+    if (toggleButton) toggleButton.setAttribute("aria-expanded", "false");
+  }
+
+  function scrollToWebsiteSection(href, shouldClose) {
+    if (!href || href.charAt(0) !== "#") return false;
+
+    const target = document.querySelector(href);
+    if (!target) return false;
+
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    if (window.history && window.history.pushState) {
+      window.history.pushState(null, "", href);
+    } else {
+      window.location.hash = href;
+    }
+
+    if (shouldClose) {
+      window.setTimeout(closeChatbotPanel, ROUTE_CLOSE_DELAY_MS);
+    }
+
+    return true;
+  }
+
+  function getPrimaryRoute(intent) {
+    const actions = intent && intent.actionLinks ? intent.actionLinks : [];
+    const route = actions.find(function (action) {
+      return ROUTABLE_ANCHORS.includes(action.href);
+    });
+    return route ? route.href : "";
+  }
+
+  function routeIntentAndClose(intent) {
+    const route = getPrimaryRoute(intent);
+    if (!route) return false;
+
+    window.setTimeout(function () {
+      scrollToWebsiteSection(route, false);
+      closeChatbotPanel();
+    }, ROUTE_CLOSE_DELAY_MS);
+
+    return true;
+  }
+
   function detectIntent(message) {
     const text = normalise(message);
     return (
@@ -704,6 +755,12 @@
         },
         action.label
       );
+      link.addEventListener("click", function (event) {
+        if (!ROUTABLE_ANCHORS.includes(action.href)) return;
+
+        event.preventDefault();
+        scrollToWebsiteSection(action.href, true);
+      });
       actionWrap.appendChild(link);
     });
     messages.appendChild(actionWrap);
@@ -915,6 +972,10 @@
 
     botReply(intent.response || FALLBACK_REPLY, intent.actionLinks || []);
     renderQuickReplies(intent.quickReplies || POST_ANSWER_REPLIES);
+
+    if (intent.name === "quote_request" || intent.name === "job_request" || intent.name === "contact_request") {
+      routeIntentAndClose(intent);
+    }
   }
 
   function handleUserText(rawText) {
@@ -1014,8 +1075,7 @@
     }
 
     function closePanel() {
-      panel.classList.remove("is-open");
-      toggleButton.setAttribute("aria-expanded", "false");
+      closeChatbotPanel();
     }
 
     toggleButton.addEventListener("click", function () {
