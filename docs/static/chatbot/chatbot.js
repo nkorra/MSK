@@ -6,6 +6,9 @@
     "I can help with MSK services, CNC machining, engineering consultancy, 3D printing, industries, careers, training, or quote requests. What would you like to know?";
   const SUCCESS_REPLY = "Thank you. Our engineering team will contact you.";
   const POST_ANSWER_REPLIES = ["Request Quote", "Talk to Team", "View Services"];
+  const WELCOME_POPUP_MESSAGE = "Welcome to MSK Precision Engineering Works. How can we help you today?";
+  const AUTO_POPUP_STORAGE_KEY = "msk_chatbot_welcome_shown";
+  const AUTO_POPUP_DELAY_MS = 2500;
 
   const services = [
     "Engineering Consultancy",
@@ -505,6 +508,22 @@
     }
   }
 
+  function hasAutoPopupShown() {
+    try {
+      return window.sessionStorage.getItem(AUTO_POPUP_STORAGE_KEY) === "1";
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function markAutoPopupShown() {
+    try {
+      window.sessionStorage.setItem(AUTO_POPUP_STORAGE_KEY, "1");
+    } catch (error) {
+      // Ignore storage failures so the chatbot still works in privacy-restricted browsers.
+    }
+  }
+
   function buildChatbot() {
     if (document.getElementById("msk-chatbot-root")) return;
 
@@ -558,15 +577,35 @@
     root.appendChild(toggleButton);
     document.body.appendChild(root);
 
+    function openPanel(shouldFocus) {
+      panel.classList.add("is-open");
+      toggleButton.setAttribute("aria-expanded", "true");
+
+      if (shouldFocus) {
+        window.setTimeout(function () {
+          input.focus();
+        }, 100);
+      }
+    }
+
+    function closePanel() {
+      panel.classList.remove("is-open");
+      toggleButton.setAttribute("aria-expanded", "false");
+    }
+
     toggleButton.addEventListener("click", function () {
-      const isOpen = panel.classList.toggle("is-open");
-      toggleButton.setAttribute("aria-expanded", String(isOpen));
-      if (isOpen) input.focus();
+      const isOpen = panel.classList.contains("is-open");
+
+      if (isOpen) {
+        closePanel();
+      } else {
+        openPanel(true);
+        markAutoPopupShown();
+      }
     });
 
     closeButton.addEventListener("click", function () {
-      panel.classList.remove("is-open");
-      toggleButton.setAttribute("aria-expanded", "false");
+      closePanel();
     });
 
     form.addEventListener("submit", function (event) {
@@ -575,8 +614,15 @@
     });
 
     setComposerPlaceholder();
-    addMessage("bot", "Hi, I'm MSK Engineering Assistant. How can I help you?");
+    addMessage("bot", WELCOME_POPUP_MESSAGE);
     renderQuickReplies(["Services", "Industries", "Quote process", "Request a quote"]);
+
+    window.setTimeout(function () {
+      if (hasAutoPopupShown()) return;
+
+      openPanel(false);
+      markAutoPopupShown();
+    }, AUTO_POPUP_DELAY_MS);
   }
 
   ready(buildChatbot);
