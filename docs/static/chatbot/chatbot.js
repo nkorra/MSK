@@ -6,11 +6,14 @@
     "I can help with engineering services, CNC machining, CAD/CAM/CAE, 3D printing, scanning, welding/fabrication, contact details, or quote requests. What would you like to know?";
   const SUCCESS_REPLY = "Thank you. Your enquiry has been received. Our team will contact you shortly.";
   const SUBMISSION_FALLBACK_REPLY =
-    "Thank you. Our team will review your enquiry and contact you shortly. You can also email info@mskprecisiongroup.com.";
+    "The ERP system is taking longer than expected. Please email your enquiry to info@mskprecisiongroup.com, or try again in a few minutes.";
+  const SUBMISSION_WAIT_REPLY =
+    "Submitting your enquiry to MSK ERP. This may take up to 30 seconds if the system is waking up.";
   const POST_ANSWER_REPLIES = ["Request Quote", "Talk to Team", "View Services"];
   const WELCOME_POPUP_MESSAGE = "Welcome to MSK Precision Engineering Works. How can we help you today?";
   const AUTO_POPUP_STORAGE_KEY = "msk_chatbot_welcome_shown";
   const AUTO_POPUP_DELAY_MS = 2500;
+  const SUBMISSION_TIMEOUT_MS = 45000;
 
   const services = [
     "Engineering Consultancy",
@@ -736,7 +739,7 @@
     if (state.isSubmitting) return;
     state.isSubmitting = true;
     setInputEnabled(false);
-    addMessage("bot", "Submitting your enquiry to MSK ERP...");
+    addMessage("bot", SUBMISSION_WAIT_REPLY);
 
     const payload = {
       name: state.enquiry.name,
@@ -752,10 +755,16 @@
       company_website: "",
     };
 
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(function () {
+      controller.abort();
+    }, SUBMISSION_TIMEOUT_MS);
+
     try {
       const response = await fetch(API_ENDPOINT, {
         method: "POST",
         mode: "cors",
+        signal: controller.signal,
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -781,6 +790,7 @@
     } catch (error) {
       addMessage("bot", SUBMISSION_FALLBACK_REPLY);
     } finally {
+      window.clearTimeout(timeoutId);
       state.isSubmitting = false;
       setInputEnabled(true);
       setComposerPlaceholder();
