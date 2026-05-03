@@ -135,6 +135,38 @@
   margin-left: auto;
 }
 
+.msk-chat-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -2px 0 12px;
+  max-width: 92%;
+}
+
+.msk-chat-action-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #0f2742;
+  background: #0f2742;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 8px 11px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.msk-chat-action-link:hover,
+.msk-chat-action-link:focus {
+  background: #173a5f;
+  border-color: #173a5f;
+  color: #ffffff;
+  text-decoration: none;
+}
+
 .msk-chat-typing {
   color: #61758f;
   font-style: italic;

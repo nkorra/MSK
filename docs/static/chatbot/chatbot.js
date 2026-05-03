@@ -14,6 +14,9 @@
   const AUTO_POPUP_STORAGE_KEY = "msk_chatbot_welcome_shown";
   const AUTO_POPUP_DELAY_MS = 2500;
   const SUBMISSION_TIMEOUT_MS = 45000;
+  const QUOTE_FORM_URL = "#quote";
+  const CAREERS_URL = "#apply";
+  const CONTACT_URL = "#contact";
 
   const services = [
     "Engineering Consultancy",
@@ -298,9 +301,38 @@
       name: "quote_request",
       keywords: quoteTriggers,
       response:
-        "I can help capture a quote request for the MSK team.\n\nPlease share the basic details and we will route it for engineering or manufacturing review.",
-      quickReplies: ["Start Quote", "Services", "Contact details"],
-      startsQuoteFlow: true,
+        "For a detailed quotation, please use our Request Quote form so you can provide drawings, files, contact details and project requirements.\n\nIf you prefer, I can still capture a basic enquiry here.",
+      quickReplies: ["Capture in Chat", "Services", "Contact details"],
+      actionLinks: [
+        { label: "Open Request Quote Form", href: QUOTE_FORM_URL },
+        { label: "Contact MSK", href: CONTACT_URL },
+      ],
+    },
+    {
+      name: "job_request",
+      keywords: [
+        "job",
+        "jobs",
+        "career",
+        "careers",
+        "vacancy",
+        "hiring",
+        "internship",
+        "intern",
+        "work with you",
+        "work with msk",
+        "resume",
+        "cv",
+        "employment",
+        "apply",
+      ],
+      response:
+        "For job, internship or career enquiries, please use the Careers / Apply section so you can submit your role interest and CV.\n\nIf the form is not convenient, email your CV and details to info@mskprecisiongroup.com.",
+      quickReplies: ["Contact details", "Services"],
+      actionLinks: [
+        { label: "Open Careers / Job Enquiry", href: CAREERS_URL },
+        { label: "Contact MSK", href: CONTACT_URL },
+      ],
     },
     {
       name: "cnc_machining",
@@ -315,15 +347,23 @@
         "make component",
       ],
       response:
-        "MSK supports CNC machining for prototypes, fixtures and precision components.\n\n- Drawing/CAD review, material and tolerance checks\n- CNC milling/turning process planning\n- Inspection and manufacturability review\n\nShare drawings, material, quantity and timeline to request a quote.",
+        "MSK supports CNC machining for prototypes, fixtures and precision components.\n\n- Drawing/CAD review, material and tolerance checks\n- CNC milling/turning process planning\n- Inspection and manufacturability review",
       quickReplies: ["Request Quote", "CAD / CAM / CAE", "Contact details"],
+      actionLinks: [
+        { label: "Request Quote", href: QUOTE_FORM_URL },
+        { label: "Contact MSK", href: CONTACT_URL },
+      ],
     },
     {
       name: "3d_printing",
       keywords: ["3d printing", "3d print", "additive", "additive manufacturing", "prototype", "prototyping"],
       response:
-        "MSK can support 3D printing and additive manufacturing for early prototypes, fit checks and R&D trials.\n\nShare part size, material preference, purpose, quantity and CAD files for review.",
+        "MSK can support 3D printing and additive manufacturing for early prototypes, fit checks and R&D trials.\n\nFor detailed review, the quote form is best because you can provide files, material, size and quantity.",
       quickReplies: ["Request Quote", "R&D", "Contact details"],
+      actionLinks: [
+        { label: "Request Quote", href: QUOTE_FORM_URL },
+        { label: "Contact MSK", href: CONTACT_URL },
+      ],
     },
     {
       name: "scanning_reverse_engineering",
@@ -340,6 +380,10 @@
       response:
         "MSK can support 3D scanning and reverse engineering workflows.\n\n- Existing part review and measurement capture\n- CAD reconstruction and drawing creation where feasible\n- Manufacturing-ready data support after technical review",
       quickReplies: ["Request Quote", "CAD", "Contact details"],
+      actionLinks: [
+        { label: "Request Quote", href: QUOTE_FORM_URL },
+        { label: "Contact MSK", href: CONTACT_URL },
+      ],
     },
     {
       name: "cad_cam_cae",
@@ -362,13 +406,21 @@
       response:
         "MSK supports CAD/CAM/CAE for design and manufacturing readiness.\n\n- CAD: 3D models, assemblies, drawings, jigs and fixtures\n- CAM: CNC strategy, setup and toolpath planning\n- CAE: FEA/FEM, CFD and technical review reports",
       quickReplies: ["Request Quote", "Engineering services", "CNC machining"],
+      actionLinks: [
+        { label: "Request Quote", href: QUOTE_FORM_URL },
+        { label: "Contact MSK", href: CONTACT_URL },
+      ],
     },
     {
       name: "welding_fabrication",
       keywords: ["welding", "fabrication", "fabricate", "weld", "frames", "brackets", "sheet metal", "heavy fabrication"],
       response:
-        "MSK can support welding and fabrication enquiries for frames, brackets, fixtures and industrial assemblies.\n\nShare drawings, material, quantity, weld requirements and use conditions for a quote.",
+        "MSK can support welding and fabrication enquiries for frames, brackets, fixtures and industrial assemblies.\n\nUse the quote form to share drawings, material, quantity, weld requirements and use conditions.",
       quickReplies: ["Request Quote", "CNC machining", "Contact details"],
+      actionLinks: [
+        { label: "Request Quote", href: QUOTE_FORM_URL },
+        { label: "Contact MSK", href: CONTACT_URL },
+      ],
     },
     {
       name: "r_and_d",
@@ -385,6 +437,10 @@
       response:
         "MSK can support R&D and product development from concept to prototype readiness.\n\n- Concept review and CAD strategy\n- Prototype, simulation and manufacturing feasibility planning\n- Validation and next-step engineering support",
       quickReplies: ["Request Quote", "3D Printing", "Engineering services"],
+      actionLinks: [
+        { label: "Request Quote", href: QUOTE_FORM_URL },
+        { label: "Contact MSK", href: CONTACT_URL },
+      ],
     },
     {
       name: "contact_request",
@@ -404,6 +460,10 @@
       response:
         "You can contact MSK at info@mskprecisiongroup.com.\n\nYou can also describe your requirement here and I will capture it for the team.",
       quickReplies: ["Request Quote", "Services", "Location"],
+      actionLinks: [
+        { label: "Contact MSK", href: CONTACT_URL },
+        { label: "Request Quote", href: QUOTE_FORM_URL },
+      ],
     },
     {
       name: "general_enquiry",
@@ -420,6 +480,10 @@
       response:
         "MSK supports engineering and manufacturing teams with design, CAD/CAM/CAE, CNC machining, 3D printing, scanning, fabrication and R&D support.\n\nTell me the service you need or choose Request Quote.",
       quickReplies: ["Request Quote", "CNC machining", "CAD / CAM / CAE"],
+      actionLinks: [
+        { label: "Request Quote", href: QUOTE_FORM_URL },
+        { label: "Contact MSK", href: CONTACT_URL },
+      ],
     },
   ];
 
@@ -615,13 +679,34 @@
 
   function addMessage(sender, text) {
     const messages = document.getElementById("msk-chatbot-messages");
-    if (!messages) return;
+    if (!messages) return null;
 
     const message = createElement("div", {
       className: `msk-chat-message msk-chat-message-${sender}`,
     });
     message.textContent = text;
     messages.appendChild(message);
+    scrollMessages();
+    return message;
+  }
+
+  function addActionLinks(actions) {
+    const messages = document.getElementById("msk-chatbot-messages");
+    if (!messages || !actions || !actions.length) return;
+
+    const actionWrap = createElement("div", { className: "msk-chat-actions" });
+    actions.forEach(function (action) {
+      const link = createElement(
+        "a",
+        {
+          href: action.href,
+          className: "msk-chat-action-link",
+        },
+        action.label
+      );
+      actionWrap.appendChild(link);
+    });
+    messages.appendChild(actionWrap);
     scrollMessages();
   }
 
@@ -645,9 +730,10 @@
     }, 350);
   }
 
-  function botReply(text) {
+  function botReply(text, actions) {
     showTyping(function () {
       addMessage("bot", text);
+      addActionLinks(actions);
     });
   }
 
@@ -705,7 +791,20 @@
   function handleQuickReply(option) {
     const action = normalise(option);
 
-    if (action === "request quote" || action === "start quote" || action === "talk to team") {
+    if (action === "request quote") {
+      addMessage("user", option);
+      botReply(
+        "For a detailed quotation, please use the full Request Quote form. I can also capture a basic enquiry here if you choose Capture in Chat.",
+        [
+          { label: "Open Request Quote Form", href: QUOTE_FORM_URL },
+          { label: "Contact MSK", href: CONTACT_URL },
+        ]
+      );
+      renderQuickReplies(["Capture in Chat", "Services", "Contact details"]);
+      return;
+    }
+
+    if (action === "capture in chat" || action === "start quote" || action === "talk to team") {
       addMessage("user", option);
       startGuidedFlow();
       return;
@@ -802,7 +901,7 @@
     const capturedKnownDetails = captureKnownDetails(text);
     const intent = detectIntent(text);
 
-    if (intent.startsQuoteFlow || shouldStartGuidedFlow(text)) {
+    if (intent.startsQuoteFlow) {
       if (capturedKnownDetails) {
         addMessage("bot", "I'll use the details already captured and collect only what is still missing.");
       }
@@ -814,7 +913,7 @@
       return;
     }
 
-    botReply(intent.response || FALLBACK_REPLY);
+    botReply(intent.response || FALLBACK_REPLY, intent.actionLinks || []);
     renderQuickReplies(intent.quickReplies || POST_ANSWER_REPLIES);
   }
 
