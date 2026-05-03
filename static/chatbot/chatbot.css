@@ -7,6 +7,13 @@
   color: #172033;
   pointer-events: auto;
   visibility: visible;
+  box-sizing: border-box;
+}
+
+#msk-chatbot-root *,
+#msk-chatbot-root *::before,
+#msk-chatbot-root *::after {
+  box-sizing: border-box;
 }
 
 #msk-chatbot-toggle,
@@ -40,26 +47,26 @@
   display: none;
   position: relative;
   z-index: 2147483647;
-  width: 380px;
+  width: 420px;
   max-width: calc(100vw - 40px);
-  max-height: min(680px, calc(100vh - 96px));
+  max-height: min(700px, calc(100vh - 96px));
   background: #ffffff;
-  border: 1px solid #d7dee8;
-  border-radius: 14px;
-  box-shadow: 0 18px 48px rgba(15, 39, 66, 0.22);
+  border: 1px solid #d6e0ea;
+  border-radius: 16px;
+  box-shadow: 0 20px 54px rgba(15, 39, 66, 0.24);
   overflow: hidden;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 #msk-chatbot-panel.is-open {
   display: grid;
-  grid-template-rows: auto minmax(220px, 1fr) auto auto;
+  grid-template-rows: auto minmax(230px, 1fr) auto auto;
 }
 
 .msk-chatbot-header {
   background: #0f2742;
   color: #ffffff;
-  padding: 14px 16px;
+  padding: 16px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -85,13 +92,23 @@
   font-size: 22px;
   line-height: 1;
   cursor: pointer;
+  min-width: 34px;
+  min-height: 34px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#msk-chatbot-close:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 #msk-chatbot-messages {
-  min-height: 260px;
-  max-height: 410px;
+  min-height: 280px;
+  max-height: 430px;
   overflow-y: auto;
-  padding: 14px;
+  padding: 16px;
   background: #f7f9fc;
 }
 
@@ -99,8 +116,8 @@
   width: fit-content;
   max-width: 86%;
   border-radius: 13px;
-  padding: 10px 12px;
-  margin-bottom: 10px;
+  padding: 11px 13px;
+  margin-bottom: 11px;
   font-size: 13px;
   line-height: 1.45;
   white-space: pre-wrap;
@@ -125,23 +142,28 @@
 
 #msk-chatbot-quick-replies {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 9px;
   overflow-x: auto;
-  padding: 10px 12px;
+  max-height: 112px;
+  padding: 12px 14px;
   border-top: 1px solid #e6edf5;
   background: #ffffff;
+  scrollbar-width: thin;
 }
 
 #msk-chatbot-quick-replies button {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   border: 1px solid #bfd0e2;
   background: #f8fafc;
   color: #173a5f;
   border-radius: 999px;
-  padding: 7px 10px;
+  padding: 8px 12px;
   font-size: 12px;
   font-weight: 700;
+  line-height: 1.25;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 #msk-chatbot-quick-replies button:hover {
@@ -151,8 +173,9 @@
 
 #msk-chatbot-composer {
   display: flex;
-  gap: 8px;
-  padding: 12px;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
   border-top: 1px solid #e6edf5;
   background: #ffffff;
 }
@@ -161,9 +184,11 @@
   min-width: 0;
   flex: 1 1 auto;
   border: 1px solid #cbd5e1;
-  border-radius: 10px;
-  padding: 10px 11px;
-  font-size: 13px;
+  border-radius: 12px;
+  min-height: 44px;
+  padding: 11px 13px;
+  font-size: 14px;
+  line-height: 1.35;
   color: #172033;
   outline: none;
 }
@@ -181,11 +206,12 @@
 #msk-chatbot-send {
   flex: 0 0 auto;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #0f2742;
   color: #ffffff;
-  padding: 10px 13px;
-  font-size: 13px;
+  min-height: 44px;
+  padding: 11px 16px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -209,12 +235,35 @@
   #msk-chatbot-panel {
     width: 100%;
     max-width: none;
-    max-height: calc(100vh - 92px);
+    max-height: calc(100vh - 88px);
+    border-radius: 14px;
   }
 
   #msk-chatbot-messages {
-    min-height: 250px;
-    max-height: calc(100vh - 290px);
+    min-height: 230px;
+    max-height: calc(100vh - 320px);
+    padding: 14px;
+  }
+
+  #msk-chatbot-quick-replies {
+    flex-wrap: nowrap;
+    padding: 11px 12px;
+  }
+
+  #msk-chatbot-composer {
+    gap: 8px;
+    padding: 12px;
+  }
+
+  #msk-chatbot-input {
+    font-size: 13px;
+    min-height: 42px;
+  }
+
+  #msk-chatbot-send {
+    min-height: 42px;
+    padding: 10px 13px;
+    font-size: 13px;
   }
 
   #msk-chatbot-toggle {
