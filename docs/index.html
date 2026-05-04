@@ -473,11 +473,17 @@
   <!-- =======================================================
        APPLY FORM
   ======================================================== -->
-  <section id="apply" class="section-content" data-aos="fade-up">
+  <section id="apply" class="section-content conversion-section" data-aos="fade-up">
+    <p class="section-kicker">Careers / Applications</p>
     <h2>Apply for a Role</h2>
-    <p>Attach your CV and tell us briefly where you can contribute at MSK.</p>
+    <p class="form-intro">
+      We are always interested in capable engineers, CNC machinists, quality professionals, interns and manufacturing
+      support talent. Select your role interest, attach your CV and tell us where you can contribute.
+    </p>
+    <p class="required-note">Fields marked <span aria-hidden="true">*</span> are required.</p>
     <form
       id="job-form"
+      class="msk-form-card"
       action="https://msk-erp.onrender.com/website-chatbot/api/enquiry/"
       method="POST"
       enctype="multipart/form-data"
@@ -489,7 +495,7 @@
       <input type="hidden" name="quote_status" value="not_required" />
       <input type="hidden" name="company_website" style="display:none" tabindex="-1" autocomplete="off" />
 
-      <label for="job_title">Role Interest</label>
+      <label for="job_title" class="required-field">Role Interest</label>
       <select id="job_title" name="job_title" required>
         <option value="">Select role interest</option>
         <option value="Design / Mechanical Engineer">Design / Mechanical Engineer</option>
@@ -503,17 +509,17 @@
         <option value="General Application">General Application</option>
       </select>
 
-      <label for="name">Your Name</label>
+      <label for="name" class="required-field">Your Name</label>
       <input type="text" id="name" name="name" required />
 
-      <label for="email">Email</label>
+      <label for="email" class="required-field">Email</label>
       <input type="email" id="email" name="email" required />
 
-      <label for="cv">Attach CV (PDF/DOCX)</label>
+      <label for="cv" class="required-field">Attach CV</label>
       <input type="file" id="cv" name="uploaded_file" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.png,.jpg,.jpeg,.step,.stp,.iges,.igs,.stl" required />
-      <p class="form-note">Accepted files: PDF, DOC, DOCX, XLS, XLSX, ZIP, PNG, JPG, STEP, STP, IGES, IGS or STL.</p>
+      <p class="form-note">CV upload is required. Accepted files: PDF, DOC, DOCX, XLS, XLSX, ZIP, PNG, JPG, STEP, STP, IGES, IGS or STL.</p>
 
-      <label for="message">Message</label>
+      <label for="message" class="required-field">Message</label>
       <textarea id="message" name="project_details" placeholder="Cover note / key highlights" required></textarea>
 
       <button type="submit" class="btn">Submit Application</button>
@@ -629,8 +635,12 @@
   <!-- =======================================================
        CONTACT
   ======================================================== -->
-  <section id="contact" class="section-content" data-aos="fade-up">
+  <section id="contact" class="section-content conversion-section" data-aos="fade-up">
+    <p class="section-kicker">Contact</p>
     <h2>Contact Us</h2>
+    <p class="form-intro">
+      For engineering, manufacturing, quotation or career enquiries, email MSK directly or use the dedicated forms below.
+    </p>
     <div class="contact-block">
       <p>
         <strong>Registered Office:</strong><br />
@@ -646,20 +656,27 @@
         <strong>Email:</strong>
         <a href="mailto:info@mskprecisiongroup.com">info@mskprecisiongroup.com</a>
       </p>
+      <div class="contact-actions" aria-label="Contact actions">
+        <a class="btn" href="#quote">Request Quote</a>
+        <a class="btn btn-outline" href="#apply">Apply for Role</a>
+      </div>
     </div>
   </section>
 
   <!-- =======================================================
        QUOTE
   ======================================================== -->
-  <section id="quote" class="section-content" data-aos="fade-up">
-    <h2>Speak to an Engineer / Request a Quote</h2>
-    <p>
-      Have a part, drawing or idea? Share your requirements and we’ll help you turn it into a manufacturable solution.
-      MSK will review DFM, plan the process and respond with lead time and pricing.
+  <section id="quote" class="section-content conversion-section" data-aos="fade-up">
+    <p class="section-kicker">Engineering / Manufacturing Enquiry</p>
+    <h2>Request a Quote</h2>
+    <p class="form-intro">
+      Share your project requirement, service type, drawings or files. MSK will review the scope, technical inputs,
+      lead time and pricing before preparing a quotation.
     </p>
+    <p class="required-note">Fields marked <span aria-hidden="true">*</span> are required.</p>
     <form
       id="quote-form"
+      class="msk-form-card"
       action="https://msk-erp.onrender.com/website-chatbot/api/enquiry/"
       method="POST"
       enctype="multipart/form-data"
@@ -670,9 +687,14 @@
       <input type="hidden" name="quote_status" value="draft" />
       <input type="hidden" name="company_website" style="display:none" tabindex="-1" autocomplete="off" />
 
-      <input type="text" name="name" placeholder="Your Name" required />
-      <input type="email" name="email" placeholder="Email" required />
-      <select name="service_required" required>
+      <label for="quote-name" class="required-field">Your Name</label>
+      <input id="quote-name" type="text" name="name" placeholder="Your name" required />
+
+      <label for="quote-email" class="required-field">Email</label>
+      <input id="quote-email" type="email" name="email" placeholder="name@example.com" required />
+
+      <label for="quote-service" class="required-field">Service Type</label>
+      <select id="quote-service" name="service_required" required>
         <option value="">Select Service Type</option>
         <option value="engineering">Engineering / Design / Simulation</option>
         <option value="manufacturing">CNC / Manufacturing</option>
@@ -680,7 +702,9 @@
         <option value="training">Training / Workshops</option>
         <option value="other">Other</option>
       </select>
-      <select name="country_code" required>
+
+      <label for="quote-country" class="required-field">Country Code</label>
+      <select id="quote-country" name="country_code" required>
         <option value="+91">+91 India</option>
         <option value="+61">+61 Australia</option>
         <option value="+971">+971 UAE</option>
@@ -688,10 +712,19 @@
         <option value="+44">+44 UK</option>
         <option value="Other">Other</option>
       </select>
-      <input type="tel" name="phone" placeholder="Phone" required />
-      <input type="text" name="company" placeholder="Company" required />
-      <input type="file" name="uploaded_file" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.png,.jpg,.jpeg,.step,.stp,.iges,.igs,.stl" />
-      <textarea name="project_details" placeholder="Project Details" required></textarea>
+
+      <label for="quote-phone" class="required-field">Phone</label>
+      <input id="quote-phone" type="tel" name="phone" placeholder="Phone number" required />
+
+      <label for="quote-company" class="required-field">Company</label>
+      <input id="quote-company" type="text" name="company" placeholder="Company name" required />
+
+      <label for="quote-file">Upload Drawings / Files</label>
+      <input id="quote-file" type="file" name="uploaded_file" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.png,.jpg,.jpeg,.step,.stp,.iges,.igs,.stl" />
+      <p class="form-note">Optional but recommended. Upload drawings, CAD files, RFQs, sketches, photos or specifications to speed up review.</p>
+
+      <label for="quote-details" class="required-field">Project Details</label>
+      <textarea id="quote-details" name="project_details" placeholder="Describe the part, analysis, quantity, material, deadline, standards, drawings/files available or expected deliverables." required></textarea>
       <button type="submit">Submit Quote</button>
       <p id="quote-status" class="form-note" aria-live="polite"></p>
     </form>

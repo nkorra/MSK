@@ -55,6 +55,43 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -----------------------------
+  // 2a. Highlight routed sections
+  // -----------------------------
+  const routedSectionHashes = new Set(["#quote", "#apply", "#contact"]);
+
+  function highlightRoutedSection() {
+    const hash = window.location.hash;
+    if (!routedSectionHashes.has(hash)) return;
+
+    const section = document.querySelector(hash);
+    if (!section) return;
+
+    section.classList.remove("section-route-highlight");
+    window.requestAnimationFrame(() => {
+      section.classList.add("section-route-highlight");
+    });
+
+    window.setTimeout(() => {
+      section.classList.remove("section-route-highlight");
+    }, 2000);
+  }
+
+  ["pushState", "replaceState"].forEach((methodName) => {
+    const originalMethod = window.history[methodName];
+    if (typeof originalMethod !== "function") return;
+
+    window.history[methodName] = function patchedHistoryMethod() {
+      const result = originalMethod.apply(this, arguments);
+      window.dispatchEvent(new Event("msk-location-change"));
+      return result;
+    };
+  });
+
+  window.addEventListener("hashchange", highlightRoutedSection);
+  window.addEventListener("msk-location-change", highlightRoutedSection);
+  window.addEventListener("load", highlightRoutedSection);
+
+  // -----------------------------
   // 3. Header effect on scroll
   // -----------------------------
   window.addEventListener("scroll", () => {
@@ -128,6 +165,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const h = header ? header.offsetHeight : headerHeight;
       const y = target.getBoundingClientRect().top + window.pageYOffset - h;
       window.scrollTo({ top: y, behavior: "smooth" });
+      if (routedSectionHashes.has(id)) {
+        window.history.pushState(null, "", id);
+      }
 
       closeNavAfterClick();
     });
@@ -277,24 +317,40 @@ document.addEventListener("DOMContentLoaded", () => {
     const validationError = validatePayload(payload);
 
     if (validationError) {
-      if (statusEl) statusEl.textContent = validationError;
+      if (statusEl) {
+        statusEl.textContent = validationError;
+        statusEl.classList.remove("is-info", "is-success");
+        statusEl.classList.add("is-error");
+      }
       return;
     }
 
     const fileValidationError = validateFormFiles(form);
     if (fileValidationError) {
-      if (statusEl) statusEl.textContent = fileValidationError;
+      if (statusEl) {
+        statusEl.textContent = fileValidationError;
+        statusEl.classList.remove("is-info", "is-success");
+        statusEl.classList.add("is-error");
+      }
       return;
     }
 
-    if (statusEl) statusEl.textContent = "Submitting...";
+    if (statusEl) {
+      statusEl.textContent = "Submitting...";
+      statusEl.classList.remove("is-error", "is-success");
+      statusEl.classList.add("is-info");
+    }
     if (submitButton) {
       submitButton.disabled = true;
       submitButton.textContent = "Submitting...";
     }
 
     const slowTimer = window.setTimeout(() => {
-      if (statusEl) statusEl.textContent = FORM_SLOW_MESSAGE;
+      if (statusEl) {
+        statusEl.textContent = FORM_SLOW_MESSAGE;
+        statusEl.classList.remove("is-error", "is-success");
+        statusEl.classList.add("is-info");
+      }
     }, 3500);
 
     try {
@@ -320,6 +376,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       if (statusEl) {
         statusEl.textContent = FORM_FAILURE_MESSAGE;
+        statusEl.classList.remove("is-info", "is-success");
+        statusEl.classList.add("is-error");
       }
       if (submitButton) {
         submitButton.disabled = false;

@@ -208,6 +208,50 @@ section,
   margin-bottom: 10px;
 }
 
+.conversion-section {
+  border: 1px solid transparent;
+  border-radius: 16px;
+  padding: 26px 24px;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section-route-highlight {
+  background: #f6fbff;
+  border-color: #b9dcf5;
+  box-shadow: 0 14px 34px rgba(13, 111, 179, 0.14);
+}
+
+.section-kicker {
+  color: #0d6fb3;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.form-intro {
+  max-width: 780px;
+  color: #34465c;
+  margin-bottom: 10px;
+}
+
+.required-note {
+  color: #5d6b7a;
+  font-size: 0.92rem;
+  margin-bottom: 16px;
+}
+
+.required-note span,
+.required-field::after {
+  color: #b42318;
+  font-weight: 800;
+}
+
+.required-field::after {
+  content: " *";
+}
+
 /* ============================
    Bullets
    ============================ */
@@ -440,21 +484,50 @@ form {
   max-width: 640px;
 }
 
+.msk-form-card {
+  background: #ffffff;
+  border: 1px solid #dce6f0;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(15, 39, 66, 0.08);
+  padding: 22px;
+  margin-top: 14px;
+}
+
 form label {
   font-weight: 600;
   color: #0d6fb3;
+  margin-bottom: -6px;
 }
 
 form input,
-form textarea {
+form textarea,
+form select {
+  width: 100%;
   padding: 12px;
   border: 1px solid #cfcfcf;
   border-radius: 8px;
   font-size: 1rem;
+  background: #ffffff;
+  color: #24384f;
+}
+
+form input[type="file"] {
+  padding: 10px;
+  background: #f8fbfe;
+  border-style: dashed;
 }
 
 form textarea {
   min-height: 120px;
+  resize: vertical;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+  border-color: #0d6fb3;
+  box-shadow: 0 0 0 3px rgba(13, 111, 179, 0.12);
+  outline: none;
 }
 
 form button {
@@ -482,6 +555,20 @@ form button:disabled {
   margin-top: 6px;
 }
 
+.form-note.is-info {
+  color: #0d6fb3;
+}
+
+.form-note.is-error {
+  color: #b42318;
+  font-weight: 700;
+}
+
+.form-note.is-success {
+  color: #087443;
+  font-weight: 700;
+}
+
 .form-status {
   font-size: 0.9rem;
   color: #0d6fb3;
@@ -491,12 +578,28 @@ form button:disabled {
 
 /* Contact block info */
 .contact-block {
-  margin-bottom: 20px;
-  max-width: 640px;
+  margin: 18px 0 20px;
+  max-width: 760px;
+  background: #f8fbfe;
+  border: 1px solid #dce6f0;
+  border-radius: 16px;
+  padding: 22px;
 }
 
 .contact-block p {
   margin-bottom: 14px;
+}
+
+.contact-block a {
+  color: #0d6fb3;
+  font-weight: 700;
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
 }
 
 body.msk-form-section-visible #msk-chatbot-panel.is-open {
@@ -508,6 +611,27 @@ body.msk-form-section-visible #msk-chatbot-panel.is-open {
   #quote,
   #apply {
     padding-bottom: 86px;
+  }
+
+  .conversion-section {
+    padding: 22px 16px;
+  }
+
+  .msk-form-card,
+  .contact-block {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  form {
+    max-width: none;
+    width: 100%;
+  }
+
+  form button,
+  .contact-actions .btn {
+    width: 100%;
+    text-align: center;
   }
 }
 
