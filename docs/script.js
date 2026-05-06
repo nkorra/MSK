@@ -35,11 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const setOffsets = () => {
     const h = header ? header.offsetHeight : 0;
+    const anchorOffset = h + 18;
 
     document.body.style.paddingTop = h + "px";
     document
       .querySelectorAll("section, .section-content")
-      .forEach((el) => (el.style.scrollMarginTop = h + "px"));
+      .forEach((el) => (el.style.scrollMarginTop = anchorOffset + "px"));
 
     return h;
   };
@@ -163,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
 
       const h = header ? header.offsetHeight : headerHeight;
-      const y = target.getBoundingClientRect().top + window.pageYOffset - h;
+      const y = target.getBoundingClientRect().top + window.pageYOffset - h - 18;
       window.scrollTo({ top: y, behavior: "smooth" });
       if (routedSectionHashes.has(id)) {
         window.history.pushState(null, "", id);
@@ -529,7 +530,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const y =
           applySection.getBoundingClientRect().top +
           window.pageYOffset -
-          h;
+          h -
+          18;
 
         window.scrollTo({ top: y, behavior: "smooth" });
 

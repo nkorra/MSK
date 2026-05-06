@@ -137,7 +137,7 @@ header.scrolled {
    ============================ */
 section,
 .section-content {
-  scroll-margin-top: 140px;
+  scroll-margin-top: 168px;
 }
 
 /* ============================
@@ -231,6 +231,10 @@ section,
   padding: 0 20px;
 }
 
+.compact-section {
+  margin: 54px auto;
+}
+
 .section-content h2 {
   font-size: 2rem;
   color: #0f2742;
@@ -248,7 +252,18 @@ section,
   border: 1px solid transparent;
   border-radius: 16px;
   padding: 26px 24px;
+  background: #ffffff;
+  position: relative;
+  z-index: 1;
   transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#quote {
+  margin-top: 86px;
+}
+
+#contact {
+  margin-bottom: 48px;
 }
 
 .section-route-highlight {
@@ -590,6 +605,11 @@ section,
   box-shadow: 0 20px 44px rgba(15, 39, 66, 0.16);
 }
 
+.team-card:focus {
+  outline: 3px solid rgba(13, 111, 179, 0.24);
+  outline-offset: 4px;
+}
+
 .team-photo {
   position: relative;
   width: 100%;
@@ -609,7 +629,8 @@ section,
 }
 
 .team-card:hover .team-photo img,
-.team-card:focus-within .team-photo img {
+.team-card:focus-within .team-photo img,
+.team-card:focus .team-photo img {
   transform: scale(1.05);
 }
 
@@ -628,7 +649,8 @@ section,
 }
 
 .team-card:hover .team-overlay,
-.team-card:focus-within .team-overlay {
+.team-card:focus-within .team-overlay,
+.team-card:focus .team-overlay {
   opacity: 1;
   transform: translateY(0);
 }
@@ -660,13 +682,6 @@ section,
 .team-card .role {
   color: #0d6fb3;
   font-weight: 850;
-  margin-bottom: 10px;
-}
-
-.team-card .bio {
-  font-size: 0.9rem;
-  color: #475569;
-  line-height: 1.45;
   margin-bottom: 0;
 }
 
@@ -845,6 +860,16 @@ form button:disabled {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 18px;
+}
+
+.contact-actions .btn {
+  min-width: 150px;
+  text-align: center;
+}
+
+.contact-actions .btn-outline {
+  color: #0d6fb3;
+  background: #ffffff;
 }
 
 body.msk-form-section-visible #msk-chatbot-panel.is-open {
