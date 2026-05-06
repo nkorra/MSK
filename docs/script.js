@@ -208,6 +208,48 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -----------------------------
+  // 7a. Animated statistics
+  // -----------------------------
+  const statNumbers = document.querySelectorAll(".stat-number[data-count]");
+
+  function formatStatValue(value) {
+    return Number(value).toLocaleString("en-US");
+  }
+
+  function animateStat(stat) {
+    const target = Number(stat.dataset.count || 0);
+    const duration = 1200;
+    const startTime = performance.now();
+
+    function step(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      stat.textContent = formatStatValue(Math.round(target * eased));
+
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    }
+
+    window.requestAnimationFrame(step);
+  }
+
+  if (statNumbers.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting || entry.target.dataset.animated === "true") return;
+          entry.target.dataset.animated = "true";
+          animateStat(entry.target);
+        });
+      },
+      { threshold: 0.35 }
+    );
+
+    statNumbers.forEach((stat) => observer.observe(stat));
+  }
+
+  // -----------------------------
   // 8. Success message block
   // -----------------------------
   const successHTML = `
@@ -497,4 +539,28 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  // -----------------------------
+  // 14. Cookie consent
+  // -----------------------------
+  const cookieBanner = document.getElementById("cookie-banner");
+  const cookieAccept = document.getElementById("cookie-accept");
+  const cookieStorageKey = "msk_cookie_consent_accepted";
+
+  if (cookieBanner && cookieAccept && localStorage.getItem(cookieStorageKey) !== "true") {
+    window.setTimeout(() => {
+      cookieBanner.hidden = false;
+      window.requestAnimationFrame(() => {
+        cookieBanner.classList.add("is-visible");
+      });
+    }, 500);
+
+    cookieAccept.addEventListener("click", () => {
+      localStorage.setItem(cookieStorageKey, "true");
+      cookieBanner.classList.remove("is-visible");
+      window.setTimeout(() => {
+        cookieBanner.hidden = true;
+      }, 300);
+    });
+  }
 });
