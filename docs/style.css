@@ -140,6 +140,16 @@ section,
   scroll-margin-top: 168px;
 }
 
+#quote,
+#contact,
+#apply,
+#team,
+#services,
+#industries,
+#training {
+  scroll-margin-top: 168px;
+}
+
 /* ============================
    Hero
    ============================ */
@@ -685,6 +695,10 @@ section,
   margin-bottom: 0;
 }
 
+.team-detail-toggle {
+  display: none;
+}
+
 /* ============================
    Gallery – Fading Slider
    ============================ */
@@ -865,6 +879,8 @@ form button:disabled {
 .contact-actions .btn {
   min-width: 150px;
   text-align: center;
+  color: #ffffff;
+  background: #0d6fb3;
 }
 
 .contact-actions .btn-outline {
@@ -1121,9 +1137,29 @@ footer {
   }
 
   .team-overlay {
+    display: none;
+    background: linear-gradient(180deg, rgba(5, 24, 41, 0.12), rgba(5, 24, 41, 0.94));
     opacity: 1;
     transform: none;
-    background: linear-gradient(180deg, transparent 5%, rgba(5, 24, 41, 0.9));
+  }
+
+  .team-card.is-expanded .team-overlay {
+    display: flex;
+  }
+
+  .team-detail-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    min-height: 38px;
+    padding: 8px 12px;
+    border: 1px solid #bfd8ec;
+    border-radius: 999px;
+    background: #f6fbff;
+    color: #0d6fb3;
+    font-weight: 800;
+    cursor: pointer;
   }
 
   .gallery-slider {

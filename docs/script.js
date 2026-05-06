@@ -134,6 +134,17 @@ document.addEventListener("DOMContentLoaded", () => {
       .forEach((m) => m.classList.remove("show"));
   };
 
+  document.addEventListener("click", (event) => {
+    if (window.innerWidth > 900 || !navLinks?.classList.contains("open")) return;
+    if (event.target.closest(".navbar")) return;
+    closeNavAfterClick();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    closeNavAfterClick();
+  });
+
   // -----------------------------
   // 5. Smooth scroll (nav & hero buttons)
   // -----------------------------
@@ -195,6 +206,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Toggle this one
       menu.classList.toggle("show");
+    });
+  });
+
+  // -----------------------------
+  // 6a. Mobile team details
+  // -----------------------------
+  document.querySelectorAll(".team-detail-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
+      const card = button.closest(".team-card");
+      if (!card) return;
+
+      const isExpanded = card.classList.toggle("is-expanded");
+      button.setAttribute("aria-expanded", String(isExpanded));
+      button.textContent = isExpanded ? "Hide details" : "View details";
     });
   });
 
