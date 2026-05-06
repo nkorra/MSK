@@ -289,22 +289,24 @@ section,
   text-align: center;
 }
 
-.stat-number {
+.stat-number,
+.stat-title {
   display: block;
   color: #0f4f82;
-  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-size: clamp(1.12rem, 2vw, 1.45rem);
   font-weight: 950;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  line-height: 1.18;
+  letter-spacing: 0;
 }
 
 .stat-card p {
-  margin-top: 8px;
+  margin-top: 10px;
   color: #526275;
-  font-size: 0.84rem;
-  font-weight: 850;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.45;
 }
 
 .premium-section,
@@ -662,9 +664,10 @@ section,
 }
 
 .team-card .bio {
-  font-size: 0.93rem;
+  font-size: 0.9rem;
   color: #475569;
-  line-height: 1.5;
+  line-height: 1.45;
+  margin-bottom: 0;
 }
 
 /* ============================
