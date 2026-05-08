@@ -157,6 +157,13 @@
        HERO
   ======================================================== -->
   <section id="home" class="hero" data-aos="fade-in">
+    <!-- TODO: Replace local visual references with MSK-owned or licensed imagery before final commercial use if source is uncertain. -->
+    <div class="hero-slides" aria-hidden="true">
+      <span class="hero-slide hero-slide-1"></span>
+      <span class="hero-slide hero-slide-2"></span>
+      <span class="hero-slide hero-slide-3"></span>
+      <span class="hero-slide hero-slide-4"></span>
+    </div>
     <div class="hero-content">
       <div class="hero-copy">
         <p class="hero-kicker">MSK Precision Engineering Group</p>
@@ -168,6 +175,7 @@
           <a class="btn" href="#quote">Request Quote</a>
           <a class="btn btn-outline" href="#services">Explore Services</a>
         </div>
+        <p class="hero-support">From design review to manufacturing readiness.</p>
       </div>
     </div>
   </section>
@@ -181,6 +189,7 @@
     <p class="section-intro">
       MSK Precision Engineering Group supports precision manufacturing, CAD/CAM readiness, structural validation and
       engineering-led manufacturing coordination for marine, offshore, defence, aerospace and industrial applications.
+      MSK also supports propulsion system design, propeller prototyping and validation for marine and unmanned applications.
     </p>
   </section>
 
@@ -192,35 +201,98 @@
     <h2>Services</h2>
     <div class="service-grid">
       <article class="feature-card">
-        <span aria-hidden="true">01</span>
+        <span class="service-icon" aria-hidden="true">CNC</span>
         <h3>CNC Manufacturing</h3>
         <p>Precision machining support for prototypes, fixtures and production components.</p>
       </article>
       <article class="feature-card">
-        <span aria-hidden="true">02</span>
+        <span class="service-icon" aria-hidden="true">CAM</span>
         <h3>CAD/CAM &amp; Manufacturing Engineering</h3>
         <p>Manufacturing-ready models, CAM preparation and drawing support.</p>
       </article>
       <article class="feature-card">
-        <span aria-hidden="true">03</span>
+        <span class="service-icon" aria-hidden="true">FEA</span>
         <h3>Structural Analysis &amp; FEA</h3>
         <p>Structural checks and FEA support where validation is required.</p>
       </article>
       <article class="feature-card">
-        <span aria-hidden="true">04</span>
+        <span class="service-icon" aria-hidden="true">LIFT</span>
         <h3>Lifting &amp; Handling Support</h3>
         <p>Engineering support for lifting frames, interfaces and handling structures.</p>
       </article>
       <article class="feature-card">
-        <span aria-hidden="true">05</span>
+        <span class="service-icon" aria-hidden="true">QA</span>
         <h3>Inspection &amp; QA Support</h3>
         <p>Inspection documentation, traceability and quality review support.</p>
       </article>
       <article class="feature-card">
-        <span aria-hidden="true">06</span>
+        <span class="service-icon" aria-hidden="true">PROP</span>
+        <h3>Propulsion &amp; Rotating Equipment Support</h3>
+        <p>Propeller design support, 3D printed prototypes, vibration validation and performance evaluation.</p>
+      </article>
+      <article class="feature-card">
+        <span class="service-icon" aria-hidden="true">DOC</span>
         <h3>Engineering Documentation Support</h3>
         <p>Drawing review, technical notes and structured document control support.</p>
       </article>
+    </div>
+    <div class="work-visual-strip" aria-label="What MSK works on">
+      <div class="section-mini-head">
+        <p class="section-kicker">Visual Guide</p>
+        <h3>What We Work On</h3>
+        <p>Visual guide to the type of engineering and manufacturing support MSK provides.</p>
+      </div>
+      <div class="work-card-grid">
+        <article class="work-card">
+          <img src="gallery1.jpg" alt="Precision machined component reference" loading="lazy" />
+          <div>
+            <h4>Precision machined components</h4>
+            <p>Machining support for practical component requirements.</p>
+          </div>
+        </article>
+        <article class="work-card">
+          <img src="assets/products/equipment-handling-transport-frame-3.jpeg" alt="Fixture and tooling reference" loading="lazy" />
+          <div>
+            <h4>Fixtures, tooling and jigs</h4>
+            <p>Support for setup, holding and manufacturing readiness.</p>
+          </div>
+        </article>
+        <article class="work-card">
+          <img src="assets/products/equipment-handling-transport-frame-1.jpeg" alt="Equipment support frame reference" loading="lazy" />
+          <div>
+            <h4>Equipment support frames</h4>
+            <p>Frame and interface support for equipment handling.</p>
+          </div>
+        </article>
+        <article class="work-card">
+          <img src="assets/products/modular-lifting-frame-1.jpeg" alt="Lifting and handling interface reference" loading="lazy" />
+          <div>
+            <h4>Lifting and handling interfaces</h4>
+            <p>Engineering support for lifting and handling details.</p>
+          </div>
+        </article>
+        <article class="work-card">
+          <img src="gallery2.jpg" alt="CAD CAM and drawing review reference" loading="lazy" />
+          <div>
+            <h4>CAD/CAM and manufacturing drawings</h4>
+            <p>Drawing, model and manufacturing package support.</p>
+          </div>
+        </article>
+        <article class="work-card">
+          <img src="gallery3.jpg" alt="Inspection and documentation reference" loading="lazy" />
+          <div>
+            <h4>Inspection and documentation support</h4>
+            <p>Traceability, review and document coordination support.</p>
+          </div>
+        </article>
+        <article class="work-card">
+          <img src="assets/products/vibration-isolation-mounting-system-1.jpeg" alt="Propulsion and rotating equipment support reference" loading="lazy" />
+          <div>
+            <h4>Propulsion &amp; Propeller Development</h4>
+            <p>Design, prototype and validation support for marine and unmanned platforms.</p>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -289,7 +361,7 @@
       </article>
       <article id="additive" class="card">
         <h3>Additive Manufacturing</h3>
-        <p>Design for AM, build orientation, supports, post-processing and finishing.</p>
+        <p>Rapid prototyping of components, fixtures and development parts, including propeller prototypes for testing and validation.</p>
       </article>
       <article id="structural" class="card">
         <h3>Structural &amp; Fluid Analysis</h3>
@@ -469,15 +541,43 @@
     <div class="gallery-grid">
       <figure>
         <img src="gallery1.jpg" alt="Precision manufacturing detail" loading="lazy" />
-        <figcaption>Manufacturing detail</figcaption>
+        <figcaption>Manufacturing Detail</figcaption>
       </figure>
       <figure>
         <img src="gallery2.jpg" alt="Engineering drawing and measuring tools" loading="lazy" />
-        <figcaption>Design review</figcaption>
+        <figcaption>Design Review</figcaption>
       </figure>
       <figure>
         <img src="gallery3.jpg" alt="Technical drawing and drafting detail" loading="lazy" />
-        <figcaption>Documentation support</figcaption>
+        <figcaption>CNC Support</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/products/equipment-handling-transport-frame-3.jpeg" alt="Fixture and tooling support reference" loading="lazy" />
+        <figcaption>Fixture &amp; Tooling</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/products/modular-lifting-frame-2.jpeg" alt="Lifting interface support reference" loading="lazy" />
+        <figcaption>Lifting Interface</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/products/vibration-isolation-mounting-system-2.jpeg" alt="Inspection support reference" loading="lazy" />
+        <figcaption>Propulsion Prototype Support</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/products/equipment-handling-transport-frame-2.jpeg" alt="Marine and industrial support reference" loading="lazy" />
+        <figcaption>Marine / Industrial Support</figcaption>
+      </figure>
+      <figure aria-hidden="true">
+        <img src="gallery1.jpg" alt="" loading="lazy" />
+        <figcaption>Manufacturing Detail</figcaption>
+      </figure>
+      <figure aria-hidden="true">
+        <img src="gallery2.jpg" alt="" loading="lazy" />
+        <figcaption>Design Review</figcaption>
+      </figure>
+      <figure aria-hidden="true">
+        <img src="assets/products/modular-lifting-frame-2.jpeg" alt="" loading="lazy" />
+        <figcaption>Lifting Interface</figcaption>
       </figure>
     </div>
   </section>
