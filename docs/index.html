@@ -142,10 +142,45 @@
       <ul class="nav-links">
         <li><a href="#home">Home</a></li>
         <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#industries">Industries</a></li>
-        <li><a href="#training">Training</a></li>
-        <li><a href="#careers">Careers</a></li>
+        <li class="dropdown">
+          <a href="#services">Services</a>
+          <ul class="dropdown-menu">
+            <li><a href="#service-cnc">CNC Manufacturing</a></li>
+            <li><a href="#service-cadcam">CAD/CAM &amp; Manufacturing Engineering</a></li>
+            <li><a href="#service-fea">Structural Analysis &amp; FEA</a></li>
+            <li><a href="#service-lifting">Lifting &amp; Handling Support</a></li>
+            <li><a href="#service-qa">Inspection &amp; QA Support</a></li>
+            <li><a href="#service-propulsion">Propulsion &amp; Rotating Equipment Support</a></li>
+            <li><a href="#service-docs">Engineering Documentation Support</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#industries">Industries</a>
+          <ul class="dropdown-menu">
+            <li><a href="#marine">Marine &amp; Offshore</a></li>
+            <li><a href="#defence">Defence &amp; Naval Systems</a></li>
+            <li><a href="#aerospace">Aerospace Support</a></li>
+            <li><a href="#oilgas">Oil &amp; Gas</a></li>
+            <li><a href="#industrial">Industrial Machinery</a></li>
+            <li><a href="#rail">Rail &amp; Agriculture</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#training">Training</a>
+          <ul class="dropdown-menu">
+            <li><a href="#cnc">CNC Programming</a></li>
+            <li><a href="#cadcam">CAD/CAM Design</a></li>
+            <li><a href="#additive">Additive Manufacturing</a></li>
+            <li><a href="#structural">Structural &amp; Fluid Analysis</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#careers">Careers</a>
+          <ul class="dropdown-menu">
+            <li><a href="#careers">Careers at MSK</a></li>
+            <li><a href="#apply">Apply for a Role</a></li>
+          </ul>
+        </li>
         <li><a href="#team">Team</a></li>
         <li><a href="#gallery">Gallery</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -163,6 +198,7 @@
       <span class="hero-slide hero-slide-2"></span>
       <span class="hero-slide hero-slide-3"></span>
       <span class="hero-slide hero-slide-4"></span>
+      <span class="hero-slide hero-slide-5"></span>
     </div>
     <div class="hero-content">
       <div class="hero-copy">
@@ -200,37 +236,37 @@
     <p class="section-kicker">Services</p>
     <h2>Services</h2>
     <div class="service-grid">
-      <article class="feature-card">
+      <article id="service-cnc" class="feature-card">
         <span class="service-icon" aria-hidden="true">CNC</span>
         <h3>CNC Manufacturing</h3>
         <p>Precision machining support for prototypes, fixtures and production components.</p>
       </article>
-      <article class="feature-card">
+      <article id="service-cadcam" class="feature-card">
         <span class="service-icon" aria-hidden="true">CAM</span>
         <h3>CAD/CAM &amp; Manufacturing Engineering</h3>
         <p>Manufacturing-ready models, CAM preparation and drawing support.</p>
       </article>
-      <article class="feature-card">
+      <article id="service-fea" class="feature-card">
         <span class="service-icon" aria-hidden="true">FEA</span>
         <h3>Structural Analysis &amp; FEA</h3>
         <p>Structural checks and FEA support where validation is required.</p>
       </article>
-      <article class="feature-card">
+      <article id="service-lifting" class="feature-card">
         <span class="service-icon" aria-hidden="true">LIFT</span>
         <h3>Lifting &amp; Handling Support</h3>
         <p>Engineering support for lifting frames, interfaces and handling structures.</p>
       </article>
-      <article class="feature-card">
+      <article id="service-qa" class="feature-card">
         <span class="service-icon" aria-hidden="true">QA</span>
         <h3>Inspection &amp; QA Support</h3>
         <p>Inspection documentation, traceability and quality review support.</p>
       </article>
-      <article class="feature-card">
+      <article id="service-propulsion" class="feature-card">
         <span class="service-icon" aria-hidden="true">PROP</span>
         <h3>Propulsion &amp; Rotating Equipment Support</h3>
         <p>Propeller design support, 3D printed prototypes, vibration validation and performance evaluation.</p>
       </article>
-      <article class="feature-card">
+      <article id="service-docs" class="feature-card">
         <span class="service-icon" aria-hidden="true">DOC</span>
         <h3>Engineering Documentation Support</h3>
         <p>Drawing review, technical notes and structured document control support.</p>
@@ -286,7 +322,7 @@
           </div>
         </article>
         <article class="work-card">
-          <img src="assets/products/vibration-isolation-mounting-system-1.jpeg" alt="Propulsion and rotating equipment support reference" loading="lazy" />
+          <img src="assets/propulsion/propeller.jpeg" alt="Propulsion and propeller development support reference" loading="lazy" />
           <div>
             <h4>Propulsion &amp; Propeller Development</h4>
             <p>Design, prototype and validation support for marine and unmanned platforms.</p>
@@ -541,27 +577,31 @@
     <div class="gallery-grid">
       <figure>
         <img src="gallery1.jpg" alt="Precision manufacturing detail" loading="lazy" />
-        <figcaption>Manufacturing Detail</figcaption>
+        <figcaption>CNC / Manufacturing Detail</figcaption>
       </figure>
       <figure>
         <img src="gallery2.jpg" alt="Engineering drawing and measuring tools" loading="lazy" />
-        <figcaption>Design Review</figcaption>
+        <figcaption>CAD / Design Review</figcaption>
       </figure>
       <figure>
-        <img src="gallery3.jpg" alt="Technical drawing and drafting detail" loading="lazy" />
-        <figcaption>CNC Support</figcaption>
+        <img src="assets/propulsion/propeller.jpeg" alt="Propulsion prototype support reference" loading="lazy" />
+        <figcaption>Propulsion Prototype Support</figcaption>
       </figure>
       <figure>
         <img src="assets/products/equipment-handling-transport-frame-3.jpeg" alt="Fixture and tooling support reference" loading="lazy" />
         <figcaption>Fixture &amp; Tooling</figcaption>
       </figure>
       <figure>
+        <img src="assets/products/equipment-handling-transport-frame-1.jpeg" alt="Equipment support frame reference" loading="lazy" />
+        <figcaption>Equipment Support Frame</figcaption>
+      </figure>
+      <figure>
         <img src="assets/products/modular-lifting-frame-2.jpeg" alt="Lifting interface support reference" loading="lazy" />
         <figcaption>Lifting Interface</figcaption>
       </figure>
       <figure>
-        <img src="assets/products/vibration-isolation-mounting-system-2.jpeg" alt="Inspection support reference" loading="lazy" />
-        <figcaption>Propulsion Prototype Support</figcaption>
+        <img src="gallery3.jpg" alt="Inspection documentation reference" loading="lazy" />
+        <figcaption>Inspection Documentation</figcaption>
       </figure>
       <figure>
         <img src="assets/products/equipment-handling-transport-frame-2.jpeg" alt="Marine and industrial support reference" loading="lazy" />
@@ -569,15 +609,35 @@
       </figure>
       <figure aria-hidden="true">
         <img src="gallery1.jpg" alt="" loading="lazy" />
-        <figcaption>Manufacturing Detail</figcaption>
+        <figcaption>CNC / Manufacturing Detail</figcaption>
       </figure>
       <figure aria-hidden="true">
         <img src="gallery2.jpg" alt="" loading="lazy" />
-        <figcaption>Design Review</figcaption>
+        <figcaption>CAD / Design Review</figcaption>
+      </figure>
+      <figure aria-hidden="true">
+        <img src="assets/propulsion/propeller.jpeg" alt="" loading="lazy" />
+        <figcaption>Propulsion Prototype Support</figcaption>
+      </figure>
+      <figure aria-hidden="true">
+        <img src="assets/products/equipment-handling-transport-frame-3.jpeg" alt="" loading="lazy" />
+        <figcaption>Fixture &amp; Tooling</figcaption>
+      </figure>
+      <figure aria-hidden="true">
+        <img src="assets/products/equipment-handling-transport-frame-1.jpeg" alt="" loading="lazy" />
+        <figcaption>Equipment Support Frame</figcaption>
       </figure>
       <figure aria-hidden="true">
         <img src="assets/products/modular-lifting-frame-2.jpeg" alt="" loading="lazy" />
         <figcaption>Lifting Interface</figcaption>
+      </figure>
+      <figure aria-hidden="true">
+        <img src="gallery3.jpg" alt="" loading="lazy" />
+        <figcaption>Inspection Documentation</figcaption>
+      </figure>
+      <figure aria-hidden="true">
+        <img src="assets/products/equipment-handling-transport-frame-2.jpeg" alt="" loading="lazy" />
+        <figcaption>Marine / Industrial Support</figcaption>
       </figure>
     </div>
   </section>

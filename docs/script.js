@@ -110,6 +110,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const navToggle = document.querySelector(".nav-toggle");
   const navLinks = document.querySelector(".nav-links");
 
+  const closeDropdowns = () => {
+    document
+      .querySelectorAll(".dropdown-menu.show")
+      .forEach((m) => m.classList.remove("show"));
+  };
+
   if (navToggle && navLinks) {
     navToggle.addEventListener("click", () => {
       navLinks.classList.toggle("open");
@@ -129,20 +135,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Also close any open submenus
-    document
-      .querySelectorAll(".dropdown-menu.show")
-      .forEach((m) => m.classList.remove("show"));
+    closeDropdowns();
   };
 
   document.addEventListener("click", (event) => {
-    if (window.innerWidth > 900 || !navLinks?.classList.contains("open")) return;
-    if (event.target.closest(".navbar")) return;
-    closeNavAfterClick();
+    if (event.target.closest(".dropdown")) return;
+    if (event.target.closest(".navbar")) {
+      if (window.innerWidth > 900) closeDropdowns();
+      return;
+    }
+    closeDropdowns();
+    if (window.innerWidth <= 900 && navLinks?.classList.contains("open")) {
+      closeNavAfterClick();
+    }
   });
 
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
     closeNavAfterClick();
+    closeDropdowns();
   });
 
   // -----------------------------
