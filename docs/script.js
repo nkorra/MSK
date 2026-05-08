@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     Boolean(
       target.closest(
         "input, textarea, select, button, a, label, form, [contenteditable='true'], #msk-chatbot-root, #msk-chatbot-panel, #msk-chatbot-toggle"
+          + ", .gallery-scroll, .gallery-card"
       )
     );
 
@@ -109,11 +110,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   const navToggle = document.querySelector(".nav-toggle");
   const navLinks = document.querySelector(".nav-links");
+  const dropdowns = Array.from(document.querySelectorAll(".dropdown"));
 
-  const closeDropdowns = () => {
-    document
-      .querySelectorAll(".dropdown-menu.show")
-      .forEach((m) => m.classList.remove("show"));
+  const setDropdownOpen = (drop, isOpen) => {
+    const menu = drop?.querySelector(".dropdown-menu");
+    const toggle = drop?.querySelector(".dropdown-toggle");
+    if (!drop || !menu || !toggle) return;
+
+    drop.classList.toggle("is-open", isOpen);
+    menu.classList.toggle("show", isOpen);
+    toggle.setAttribute("aria-expanded", String(isOpen));
+  };
+
+  const closeDropdowns = (except = null) => {
+    dropdowns.forEach((drop) => {
+      if (drop !== except) setDropdownOpen(drop, false);
+    });
   };
 
   if (navToggle && navLinks) {
@@ -172,11 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
         link.closest(".dropdown") && !link.closest(".dropdown-menu");
 
       if (isTopLevelDropdownLink) {
-        // Desktop: prevent jump to section; just leave dropdown open
-        if (window.innerWidth > 900) {
-          e.preventDefault();
-        }
-        // Mobile: do nothing here; Section 6 handler will toggle the submenu
+        e.preventDefault();
         return;
       }
 
@@ -199,24 +207,43 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   // 6. Dropdown behaviour (click-driven)
   // -----------------------------
-  document.querySelectorAll(".dropdown").forEach((drop) => {
+  dropdowns.forEach((drop) => {
     const menu = drop.querySelector(".dropdown-menu");
-    const triggerLink = drop.querySelector("a[href^='#']");
+    const triggerLink = drop.querySelector(".dropdown-toggle");
 
     if (!menu || !triggerLink) return;
 
+    drop.addEventListener("mouseenter", () => {
+      if (window.innerWidth <= 900) return;
+      closeDropdowns(drop);
+      setDropdownOpen(drop, true);
+    });
+
+    drop.addEventListener("mouseleave", () => {
+      if (window.innerWidth <= 900) return;
+      setDropdownOpen(drop, false);
+    });
+
+    drop.addEventListener("focusin", () => {
+      if (window.innerWidth <= 900) return;
+      closeDropdowns(drop);
+      setDropdownOpen(drop, true);
+    });
+
+    drop.addEventListener("focusout", () => {
+      if (window.innerWidth <= 900) return;
+      window.setTimeout(() => {
+        if (!drop.contains(document.activeElement)) {
+          setDropdownOpen(drop, false);
+        }
+      }, 0);
+    });
+
     triggerLink.addEventListener("click", (e) => {
-      // Top-level dropdown labels (Services / Industries / Training / Careers)
-      // should only toggle the submenu, not scroll the page.
       e.preventDefault();
-
-      // Close any other open dropdowns first
-      document.querySelectorAll(".dropdown-menu.show").forEach((m) => {
-        if (m !== menu) m.classList.remove("show");
-      });
-
-      // Toggle this one
-      menu.classList.toggle("show");
+      const isOpen = drop.classList.contains("is-open");
+      closeDropdowns(drop);
+      setDropdownOpen(drop, !isOpen);
     });
   });
 

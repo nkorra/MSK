@@ -140,10 +140,10 @@
         <span></span>
       </button>
       <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li class="dropdown">
-          <a href="#services">Services</a>
+        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#services" aria-haspopup="true" aria-expanded="false">Services</a>
           <ul class="dropdown-menu">
             <li><a href="#service-cnc">CNC Manufacturing</a></li>
             <li><a href="#service-cadcam">CAD/CAM &amp; Manufacturing Engineering</a></li>
@@ -154,8 +154,8 @@
             <li><a href="#service-docs">Engineering Documentation Support</a></li>
           </ul>
         </li>
-        <li class="dropdown">
-          <a href="#industries">Industries</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#industries" aria-haspopup="true" aria-expanded="false">Industries</a>
           <ul class="dropdown-menu">
             <li><a href="#marine">Marine &amp; Offshore</a></li>
             <li><a href="#defence">Defence &amp; Naval Systems</a></li>
@@ -165,8 +165,8 @@
             <li><a href="#rail">Rail &amp; Agriculture</a></li>
           </ul>
         </li>
-        <li class="dropdown">
-          <a href="#training">Training</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#training" aria-haspopup="true" aria-expanded="false">Training</a>
           <ul class="dropdown-menu">
             <li><a href="#cnc">CNC Programming</a></li>
             <li><a href="#cadcam">CAD/CAM Design</a></li>
@@ -174,16 +174,16 @@
             <li><a href="#structural">Structural &amp; Fluid Analysis</a></li>
           </ul>
         </li>
-        <li class="dropdown">
-          <a href="#careers">Careers</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#careers" aria-haspopup="true" aria-expanded="false">Careers</a>
           <ul class="dropdown-menu">
             <li><a href="#careers">Careers at MSK</a></li>
             <li><a href="#apply">Apply for a Role</a></li>
           </ul>
         </li>
-        <li><a href="#team">Team</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
+        <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
       </ul>
     </nav>
   </header>
@@ -574,71 +574,71 @@
   <section id="gallery" class="section-content" data-aos="fade-up">
     <p class="section-kicker">Visual Reference</p>
     <h2>Gallery</h2>
-    <div class="gallery-grid">
-      <figure>
+    <div class="gallery-scroll is-marquee" aria-label="MSK visual reference gallery">
+      <article class="gallery-card">
         <img src="gallery1.jpg" alt="Precision manufacturing detail" loading="lazy" />
-        <figcaption>CNC / Manufacturing Detail</figcaption>
-      </figure>
-      <figure>
+        <span class="gallery-label">CNC / Manufacturing Detail</span>
+      </article>
+      <article class="gallery-card">
         <img src="gallery2.jpg" alt="Engineering drawing and measuring tools" loading="lazy" />
-        <figcaption>CAD / Design Review</figcaption>
-      </figure>
-      <figure>
+        <span class="gallery-label">CAD / Design Review</span>
+      </article>
+      <article class="gallery-card">
         <img src="assets/propulsion/propeller.jpeg" alt="Propulsion prototype support reference" loading="lazy" />
-        <figcaption>Propulsion Prototype Support</figcaption>
-      </figure>
-      <figure>
+        <span class="gallery-label">Propulsion Prototype Support</span>
+      </article>
+      <article class="gallery-card">
         <img src="assets/products/equipment-handling-transport-frame-3.jpeg" alt="Fixture and tooling support reference" loading="lazy" />
-        <figcaption>Fixture &amp; Tooling</figcaption>
-      </figure>
-      <figure>
+        <span class="gallery-label">Fixture &amp; Tooling</span>
+      </article>
+      <article class="gallery-card">
         <img src="assets/products/equipment-handling-transport-frame-1.jpeg" alt="Equipment support frame reference" loading="lazy" />
-        <figcaption>Equipment Support Frame</figcaption>
-      </figure>
-      <figure>
+        <span class="gallery-label">Equipment Support Frame</span>
+      </article>
+      <article class="gallery-card">
         <img src="assets/products/modular-lifting-frame-2.jpeg" alt="Lifting interface support reference" loading="lazy" />
-        <figcaption>Lifting Interface</figcaption>
-      </figure>
-      <figure>
+        <span class="gallery-label">Lifting Interface</span>
+      </article>
+      <article class="gallery-card">
         <img src="gallery3.jpg" alt="Inspection documentation reference" loading="lazy" />
-        <figcaption>Inspection Documentation</figcaption>
-      </figure>
-      <figure>
+        <span class="gallery-label">Inspection Documentation</span>
+      </article>
+      <article class="gallery-card">
         <img src="assets/products/equipment-handling-transport-frame-2.jpeg" alt="Marine and industrial support reference" loading="lazy" />
-        <figcaption>Marine / Industrial Support</figcaption>
-      </figure>
-      <figure aria-hidden="true">
+        <span class="gallery-label">Marine / Industrial Support</span>
+      </article>
+      <article class="gallery-card gallery-card-duplicate" aria-hidden="true">
         <img src="gallery1.jpg" alt="" loading="lazy" />
-        <figcaption>CNC / Manufacturing Detail</figcaption>
-      </figure>
-      <figure aria-hidden="true">
+        <span class="gallery-label">CNC / Manufacturing Detail</span>
+      </article>
+      <article class="gallery-card gallery-card-duplicate" aria-hidden="true">
         <img src="gallery2.jpg" alt="" loading="lazy" />
-        <figcaption>CAD / Design Review</figcaption>
-      </figure>
-      <figure aria-hidden="true">
+        <span class="gallery-label">CAD / Design Review</span>
+      </article>
+      <article class="gallery-card gallery-card-duplicate" aria-hidden="true">
         <img src="assets/propulsion/propeller.jpeg" alt="" loading="lazy" />
-        <figcaption>Propulsion Prototype Support</figcaption>
-      </figure>
-      <figure aria-hidden="true">
+        <span class="gallery-label">Propulsion Prototype Support</span>
+      </article>
+      <article class="gallery-card gallery-card-duplicate" aria-hidden="true">
         <img src="assets/products/equipment-handling-transport-frame-3.jpeg" alt="" loading="lazy" />
-        <figcaption>Fixture &amp; Tooling</figcaption>
-      </figure>
-      <figure aria-hidden="true">
+        <span class="gallery-label">Fixture &amp; Tooling</span>
+      </article>
+      <article class="gallery-card gallery-card-duplicate" aria-hidden="true">
         <img src="assets/products/equipment-handling-transport-frame-1.jpeg" alt="" loading="lazy" />
-        <figcaption>Equipment Support Frame</figcaption>
-      </figure>
-      <figure aria-hidden="true">
+        <span class="gallery-label">Equipment Support Frame</span>
+      </article>
+      <article class="gallery-card gallery-card-duplicate" aria-hidden="true">
         <img src="assets/products/modular-lifting-frame-2.jpeg" alt="" loading="lazy" />
-        <figcaption>Lifting Interface</figcaption>
-      </figure>
-      <figure aria-hidden="true">
+        <span class="gallery-label">Lifting Interface</span>
+      </article>
+      <article class="gallery-card gallery-card-duplicate" aria-hidden="true">
         <img src="gallery3.jpg" alt="" loading="lazy" />
-        <figcaption>Inspection Documentation</figcaption>
-      </figure>
-      <figure aria-hidden="true">
+        <span class="gallery-label">Inspection Documentation</span>
+      </article>
+      <article class="gallery-card gallery-card-duplicate" aria-hidden="true">
         <img src="assets/products/equipment-handling-transport-frame-2.jpeg" alt="" loading="lazy" />
-        <figcaption>Marine / Industrial Support</figcaption>
-      </figure>
+        <span class="gallery-label">Marine / Industrial Support</span>
+      </article>
     </div>
   </section>
 

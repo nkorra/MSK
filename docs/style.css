@@ -19,6 +19,7 @@ body {
   line-height: 1.6;
   scroll-behavior: smooth;
   padding-top: 140px; /* offset for fixed header - JS refines */
+  overflow-x: hidden;
 }
 
 /* ============================
@@ -85,7 +86,12 @@ header.scrolled {
   flex-wrap: wrap;
 }
 
-.nav-links a {
+.nav-item {
+  position: relative;
+}
+
+.nav-links a,
+.nav-link {
   color: #0B2A4A;
   text-decoration: none;
   font-weight: 850;
@@ -95,17 +101,14 @@ header.scrolled {
   white-space: nowrap;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-link:hover {
   background: #eef5fb;
 }
 
 /* ============================
    Dropdown Menus
    ============================ */
-.dropdown {
-  position: relative;
-}
-
 .dropdown-menu {
   display: block;
   position: absolute;
@@ -138,12 +141,26 @@ header.scrolled {
   background: #eef5fb;
 }
 
-.dropdown:hover .dropdown-menu,
-.dropdown:focus-within .dropdown-menu,
+.dropdown-toggle::after {
+  content: "▾";
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 0.72em;
+}
+
+.dropdown:hover > .dropdown-menu,
+.dropdown.is-open > .dropdown-menu,
 .dropdown-menu.show {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+}
+
+@media (min-width: 901px) {
+  .nav-links > .dropdown:nth-child(n+5) > .dropdown-menu {
+    left: auto;
+    right: 0;
+  }
 }
 
 /* ============================
@@ -1049,9 +1066,9 @@ section,
   overflow: hidden;
 }
 
-.gallery-grid {
+.gallery-scroll {
   display: flex;
-  gap: 14px;
+  gap: 18px;
   margin-top: 16px;
   overflow: visible;
   padding-bottom: 4px;
@@ -1059,11 +1076,15 @@ section,
   animation: galleryMarquee 42s linear infinite;
   will-change: transform;
   width: max-content;
+  pointer-events: auto;
+  touch-action: auto;
 }
 
-.gallery-grid:hover,
-.gallery-grid:focus-within {
-  animation-play-state: paused;
+@media (hover: hover) and (pointer: fine) {
+  .gallery-scroll.is-marquee:hover,
+  .gallery-scroll.is-marquee:focus-within {
+    animation-play-state: paused;
+  }
 }
 
 @keyframes galleryMarquee {
@@ -1071,11 +1092,11 @@ section,
     transform: translateX(0);
   }
   to {
-    transform: translateX(calc(-50% - 7px));
+    transform: translateX(calc(-50% - 9px));
   }
 }
 
-.gallery-grid figure {
+.gallery-card {
   flex: 0 0 310px;
   position: relative;
   overflow: hidden;
@@ -1085,7 +1106,7 @@ section,
   scroll-snap-align: start;
 }
 
-.gallery-grid img {
+.gallery-card img {
   display: block;
   width: 100%;
   height: 100%;
@@ -1093,11 +1114,11 @@ section,
   transition: transform 0.24s ease;
 }
 
-.gallery-grid figure:hover img {
+.gallery-card:hover img {
   transform: scale(1.035);
 }
 
-.gallery-grid figcaption {
+.gallery-label {
   position: absolute;
   left: 12px;
   bottom: 12px;
@@ -1451,11 +1472,15 @@ footer {
     left: 0;
     right: 0;
     flex-direction: column;
+    align-items: stretch;
     background: #ffffff;
     padding: 10px 16px 14px;
     gap: 4px;
     display: none;
     border-bottom: 1px solid #cddfeb;
+    max-height: calc(100vh - 92px);
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .nav-links.open {
@@ -1465,6 +1490,7 @@ footer {
   .nav-links a {
     font-size: 0.95rem;
     padding: 8px 10px;
+    width: 100%;
   }
 
   /* Dropdown menus inline on mobile */
@@ -1476,18 +1502,27 @@ footer {
     border-radius: 0;
     margin-top: 4px;
     min-width: 0;
+    width: 100%;
+    padding: 6px;
     opacity: 1;
     visibility: visible;
     transform: none;
+    transition: none;
   }
 
-  .dropdown:hover .dropdown-menu,
-  .dropdown:focus-within .dropdown-menu {
+  .dropdown:hover > .dropdown-menu {
     display: none;
   }
 
+  .dropdown.is-open > .dropdown-menu,
   .dropdown-menu.show {
     display: block;
+  }
+
+  .dropdown-menu li a {
+    white-space: normal;
+    padding: 8px 10px;
+    font-size: 0.9rem;
   }
 
   .hero {
@@ -1535,6 +1570,66 @@ footer {
   }
 }
 
+@media (max-width: 768px) {
+  #gallery {
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  .gallery-scroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    width: 100%;
+    max-width: 100%;
+    animation: none !important;
+    transform: none !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+    padding: 0 0 12px;
+    will-change: auto;
+    scrollbar-width: none;
+  }
+
+  .gallery-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gallery-card-duplicate {
+    display: none;
+  }
+
+  .gallery-card {
+    flex: 0 0 84vw;
+    min-width: 84vw;
+    max-width: 84vw;
+    height: 220px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .gallery-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+
+  .gallery-card:hover img {
+    transform: none;
+  }
+
+  .gallery-label {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    max-width: none;
+    font-size: 0.72rem;
+  }
+}
+
 @media (max-width: 640px) {
   .logo img {
     height: 68px;
@@ -1557,18 +1652,6 @@ footer {
   }
 
   .team-photo {
-    height: 210px;
-  }
-
-  .gallery-grid {
-    overflow-x: auto;
-    width: auto;
-    animation-duration: 48s;
-    scroll-snap-type: x proximity;
-  }
-
-  .gallery-grid figure {
-    flex-basis: min(78vw, 300px);
     height: 210px;
   }
 
