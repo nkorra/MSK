@@ -146,7 +146,12 @@ section,
 #contact,
 #apply,
 #team,
+#about,
+#workflow,
 #services,
+#products,
+#case,
+#why-msk,
 #industries,
 #training {
   scroll-margin-top: 168px;
@@ -302,6 +307,33 @@ section,
   max-width: 1100px;
   margin: 58px auto;
   padding: 0 20px;
+}
+
+.section-surface,
+.section-alt,
+.section-tint {
+  padding-top: 38px;
+  padding-bottom: 38px;
+}
+
+.section-alt {
+  background: #f7fafc;
+  border-top: 1px solid #e0edf7;
+  border-bottom: 1px solid #e0edf7;
+  box-shadow: 0 0 0 100vmax #f7fafc;
+  clip-path: inset(0 -100vmax);
+}
+
+.section-tint {
+  background: #f1f7fc;
+  border-top: 1px solid #cddfeb;
+  border-bottom: 1px solid #cddfeb;
+  box-shadow: 0 0 0 100vmax #f1f7fc;
+  clip-path: inset(0 -100vmax);
+}
+
+.section-white {
+  background: #ffffff;
 }
 
 .compact-section {
@@ -512,6 +544,131 @@ section,
   color: #415b73;
 }
 
+.workflow-section .btn {
+  margin-top: 20px;
+}
+
+.workflow-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.workflow-steps article,
+.why-grid article,
+.case-process-card article {
+  border: 1px solid #cddfeb;
+  background: #ffffff;
+  padding: 18px;
+}
+
+.workflow-steps span,
+.case-process-card span {
+  display: inline-flex;
+  margin-bottom: 10px;
+  color: #0d6fb3;
+  font-size: 0.78rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+}
+
+.workflow-steps ul {
+  display: grid;
+  gap: 7px;
+  margin-top: 10px;
+  padding-left: 18px;
+  color: #415b73;
+  font-size: 0.94rem;
+}
+
+.workflow-summary {
+  margin-top: 18px;
+  color: #0B2A4A;
+  font-weight: 850;
+}
+
+.erp-workflow-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.72fr) 1fr;
+  gap: 18px;
+  margin-top: 20px;
+  padding: 20px;
+  border-left: 4px solid #0B2A4A;
+  background: #ffffff;
+  box-shadow: 0 18px 42px rgba(11, 42, 74, 0.06);
+}
+
+.erp-workflow-card p:last-child {
+  color: #415b73;
+}
+
+.case-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1fr);
+  gap: 28px;
+  align-items: stretch;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  border: 1px solid #cddfeb;
+  box-shadow: 0 22px 54px rgba(11, 42, 74, 0.06);
+}
+
+.case-copy > p:not(.section-kicker):not(.section-intro) {
+  color: #415b73;
+  margin-bottom: 16px;
+}
+
+.output-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.output-list li {
+  padding: 7px 10px;
+  border: 1px solid #cddfeb;
+  background: #f8fbfe;
+  color: #0B2A4A;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.case-process-card {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  background:
+    linear-gradient(135deg, rgba(11, 42, 74, 0.95), rgba(18, 58, 99, 0.9)),
+    url("assets/products/equipment-handling-transport-frame-1.jpeg") center / cover no-repeat;
+}
+
+.case-process-card article {
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.case-process-card p {
+  color: #415b73;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.why-grid article {
+  border-top: 4px solid #0B2A4A;
+}
+
+.why-grid p {
+  color: #415b73;
+}
+
 .line-section {
   border-top: 1px solid #cddfeb;
   border-bottom: 1px solid #cddfeb;
@@ -589,6 +746,44 @@ section,
   color: #0B2A4A;
   font-weight: 900;
   letter-spacing: 0.01em;
+}
+
+.quote-prep-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 26px;
+  padding: 22px;
+  border: 1px solid #0B2A4A;
+  background: linear-gradient(135deg, #f8fbfe, #ffffff);
+}
+
+.quote-prep-strip h3 {
+  color: #0B2A4A;
+}
+
+.quote-prep-strip p {
+  color: #415b73;
+  margin-top: 6px;
+}
+
+.quote-prep-strip ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.quote-prep-strip li {
+  padding: 6px 9px;
+  border: 1px solid #cddfeb;
+  background: #ffffff;
+  color: #0B2A4A;
+  font-size: 0.85rem;
+  font-weight: 800;
 }
 
 .split-premium {
@@ -939,9 +1134,14 @@ section,
    ============================ */
 .gallery-grid {
   display: grid;
-  grid-template-columns: 1.2fr 0.9fr 0.9fr;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(280px, 36%);
   gap: 14px;
   margin-top: 16px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scroll-snap-type: x proximity;
+  scrollbar-color: #0B2A4A #e7f0f8;
 }
 
 .gallery-grid figure {
@@ -950,6 +1150,7 @@ section,
   min-height: 250px;
   border: 1px solid #cddfeb;
   background: #f8fbfe;
+  scroll-snap-align: start;
 }
 
 .gallery-grid img {
@@ -1364,7 +1565,9 @@ footer {
   }
 
   .hero-trust-grid,
-  .product-grid {
+  .product-grid,
+  .workflow-steps,
+  .why-grid {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -1376,11 +1579,17 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .gallery-grid {
+  .case-section,
+  .erp-workflow-card {
     grid-template-columns: 1fr;
   }
 
-  .product-cta {
+  .gallery-grid {
+    grid-auto-columns: minmax(260px, 62%);
+  }
+
+  .product-cta,
+  .quote-prep-strip {
     align-items: flex-start;
     flex-direction: column;
   }
@@ -1406,7 +1615,9 @@ footer {
   }
 
   .hero-trust-grid,
-  .product-grid {
+  .product-grid,
+  .workflow-steps,
+  .why-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1447,6 +1658,10 @@ footer {
   .gallery-grid figure,
   .gallery-grid img {
     min-height: 220px;
+  }
+
+  .gallery-grid {
+    grid-auto-columns: minmax(240px, 86%);
   }
 
   .contact-layout {
