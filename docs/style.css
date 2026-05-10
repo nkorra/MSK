@@ -998,6 +998,7 @@ section,
   color: #ffffff;
   border: 1px solid #153b60;
   box-shadow: 0 34px 78px rgba(8, 17, 31, .22);
+  animation: platformHeroIn .72s ease-out both;
 }
 
 .platform-hero::before {
@@ -1016,6 +1017,10 @@ section,
 .platform-mockup {
   position: relative;
   z-index: 1;
+}
+
+.platform-hero-copy {
+  animation: platformCopyIn .7s ease-out .08s both;
 }
 
 .platform-kicker {
@@ -1066,16 +1071,25 @@ section,
   background: linear-gradient(135deg, #38bdf8, #0f63a8 52%, #0B2A4A);
   color: #ffffff;
   box-shadow: 0 18px 38px rgba(56, 189, 248, .22);
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+
+.platform-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 44px rgba(56, 189, 248, .28);
 }
 
 .platform-secondary {
   color: #ffffff;
   border-color: rgba(255,255,255,.72);
   background: rgba(255,255,255,.08);
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
 }
 
 .platform-secondary:hover {
   background: rgba(255,255,255,.14);
+  border-color: rgba(255,255,255,.92);
+  transform: translateY(-2px);
 }
 
 .platform-chips {
@@ -1094,6 +1108,13 @@ section,
   font-size: .82rem;
   font-weight: 850;
   backdrop-filter: blur(12px);
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.platform-chips span:hover {
+  transform: translateY(-2px);
+  border-color: rgba(186, 230, 253, .46);
+  background: rgba(255,255,255,.12);
 }
 
 .platform-mockup {
@@ -1108,6 +1129,7 @@ section,
   overflow: hidden;
   transform: perspective(1200px) rotateY(-5deg) rotateX(2deg);
   transition: transform .35s ease, box-shadow .35s ease;
+  animation: platformMockupIn .78s ease-out .18s both;
 }
 
 .platform-mockup:hover {
@@ -1136,6 +1158,13 @@ section,
   padding: 8px 9px;
   font-size: .78rem;
   font-weight: 850;
+  transition: color .18s ease, background .18s ease, transform .18s ease;
+}
+
+.mock-sidebar span:hover {
+  color: #ffffff;
+  background: rgba(255,255,255,.08);
+  transform: translateX(2px);
 }
 
 .mock-sidebar span.active {
@@ -1182,6 +1211,7 @@ section,
   font-size: .72rem;
   font-style: normal;
   font-weight: 900;
+  animation: platformStatusPulse 2.8s ease-in-out infinite;
 }
 
 .mock-kpis {
@@ -1200,7 +1230,22 @@ section,
 }
 
 .mock-kpis div {
+  position: relative;
+  overflow: hidden;
   padding: 12px;
+}
+
+.mock-kpis div::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #38bdf8;
+  box-shadow: 0 0 0 0 rgba(56, 189, 248, .42);
+  animation: platformKpiPulse 2.7s ease-in-out infinite;
 }
 
 .mock-kpis span {
@@ -1249,6 +1294,8 @@ section,
   height: 9px;
   border-radius: 999px;
   background: #38bdf8;
+  box-shadow: 0 0 0 0 rgba(56, 189, 248, .4);
+  animation: platformKpiPulse 2.7s ease-in-out infinite;
 }
 
 .products-grid-wrap {
@@ -1293,7 +1340,8 @@ section,
   transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
 }
 
-.product-card:hover {
+.product-card:hover,
+.product-card:focus-within {
   transform: translateY(-4px);
   border-color: rgba(15, 79, 139, .42);
   box-shadow: 0 22px 48px rgba(11, 42, 74, 0.11);
@@ -1311,6 +1359,13 @@ section,
   font-weight: 950;
   margin-bottom: 14px;
   box-shadow: 0 12px 28px rgba(15, 79, 139, .16);
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+
+.product-card:hover .product-icon,
+.product-card:focus-within .product-icon {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 16px 32px rgba(15, 79, 139, .2);
 }
 
 .icon-blue { background: linear-gradient(135deg, #0f4f8b, #38bdf8); }
@@ -1420,6 +1475,15 @@ section,
   border-radius: 20px;
   padding: 18px 14px;
   min-height: 185px;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
+}
+
+.workflow-node:hover,
+.workflow-node:focus-within {
+  transform: translateY(-4px);
+  border-color: rgba(15, 79, 139, .32);
+  background: #ffffff;
+  box-shadow: 0 16px 34px rgba(11, 42, 74, .08);
 }
 
 .workflow-node span {
@@ -1434,6 +1498,13 @@ section,
   font-size: .75rem;
   font-weight: 950;
   margin-bottom: 14px;
+  transition: transform .22s ease, background .22s ease;
+}
+
+.workflow-node:hover span,
+.workflow-node:focus-within span {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #0B2A4A, #0f63a8);
 }
 
 .workflow-node strong {
@@ -1493,6 +1564,42 @@ section,
   max-width: 780px;
   color: #475569;
   font-weight: 650;
+}
+
+@keyframes platformHeroIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes platformCopyIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes platformMockupIn {
+  from { opacity: 0; transform: perspective(1200px) rotateY(-8deg) rotateX(3deg) translateY(22px); }
+  to { opacity: 1; transform: perspective(1200px) rotateY(-5deg) rotateX(2deg); }
+}
+
+@keyframes platformKpiPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, .34); opacity: .86; }
+  50% { box-shadow: 0 0 0 8px rgba(56, 189, 248, 0); opacity: 1; }
+}
+
+@keyframes platformStatusPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, .22); }
+  50% { box-shadow: 0 0 0 7px rgba(34, 197, 94, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .platform-hero,
+  .platform-hero-copy,
+  .platform-mockup,
+  .mock-kpis div::after,
+  .mock-activity span,
+  .mock-top em {
+    animation: none;
+  }
 }
 
 .nav-link.active {
@@ -2089,11 +2196,14 @@ footer {
     grid-template-columns: 1fr;
     min-height: 0;
     padding: 42px 24px;
+    gap: 28px;
   }
 
   .platform-mockup {
     transform: none;
     grid-template-columns: 132px 1fr;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .platform-mockup:hover {
@@ -2219,6 +2329,8 @@ footer {
     margin-top: 12px;
     border-left: 0;
     border-right: 0;
+    padding: 32px 18px;
+    gap: 24px;
   }
 
   .platform-hero h1 {
@@ -2234,6 +2346,25 @@ footer {
   .platform-mockup {
     grid-template-columns: 1fr;
     border-radius: 22px;
+    min-height: 0;
+    transform: none;
+  }
+
+  .platform-mockup:hover {
+    transform: none;
+  }
+
+  .mock-main {
+    padding: 14px;
+    min-width: 0;
+  }
+
+  .mock-top {
+    align-items: flex-start;
+  }
+
+  .mock-top strong {
+    font-size: 1rem;
   }
 
   .mock-sidebar {
@@ -2258,12 +2389,22 @@ footer {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .mock-chart svg {
+    height: 118px;
+  }
+
   .workflow-chain {
     grid-template-columns: 1fr;
   }
 
   .workflow-node {
     min-height: 0;
+  }
+
+  .platform-workflow,
+  .platform-statement,
+  .products-note {
+    border-radius: 20px;
   }
 
   .product-card-actions {
