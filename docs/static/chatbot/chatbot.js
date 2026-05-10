@@ -9,16 +9,19 @@
     "The ERP system is taking longer than expected. Please email your enquiry to info@mskprecisiongroup.com, or try again in a few minutes.";
   const SUBMISSION_WAIT_REPLY =
     "Submitting your enquiry to MSK ERP. This may take up to 30 seconds if the system is waking up.";
-  const POST_ANSWER_REPLIES = ["Request Quote", "Talk to Team", "View Services"];
+  const POST_ANSWER_REPLIES = ["Request Quote", "Digital Platforms", "View Services"];
   const WELCOME_POPUP_MESSAGE = "Welcome to MSK Precision Engineering Works. How can we help you today?";
   const AUTO_POPUP_STORAGE_KEY = "msk_chatbot_welcome_shown";
   const AUTO_POPUP_DELAY_MS = 2500;
   const SUBMISSION_TIMEOUT_MS = 45000;
   const ROUTE_CLOSE_DELAY_MS = 650;
-  const QUOTE_FORM_URL = "#quote";
-  const CAREERS_URL = "#apply";
-  const CONTACT_URL = "#contact";
-  const ROUTABLE_ANCHORS = [QUOTE_FORM_URL, CAREERS_URL, CONTACT_URL];
+  const QUOTE_FORM_URL = "index.html#quote";
+  const CAREERS_URL = "index.html#apply";
+  const CONTACT_URL = "index.html#contact";
+  const SERVICES_URL = "index.html#services";
+  const PLATFORMS_URL = "products.html#platforms";
+  const LOGIN_URL = "https://msk-erp.onrender.com/accounts/login/";
+  const ROUTABLE_LINKS = [QUOTE_FORM_URL, CAREERS_URL, CONTACT_URL, SERVICES_URL, PLATFORMS_URL];
 
   const services = [
     "Engineering Consultancy",
@@ -68,6 +71,20 @@
       ],
       response:
         "MSK helps customers turn engineering requirements into practical, manufacturable solutions.\n\n- Engineering: design review, CAD/CAM/CAE, FEA/CFD and reports\n- Manufacturing: CNC machining, welding, fabrication and precision parts\n- R&D: prototypes, 3D printing, scanning and product development\n\nFor a quotation, tell me your service and project details.",
+    },
+    {
+      keywords: [
+        "digital platform",
+        "digital platforms",
+        "platform",
+        "platforms",
+        "erp",
+        "software platform",
+        "simm platform",
+        "msk platform",
+      ],
+      response:
+        "MSK Digital Platforms support inspection, maintenance, production, inventory, document control and engineering review workflows. You can view the platform overview or request a demo.",
     },
     {
       keywords: [
@@ -300,11 +317,34 @@
 
   const intentDefinitions = [
     {
+      name: "digital_platforms",
+      keywords: [
+        "digital platform",
+        "digital platforms",
+        "platform",
+        "platforms",
+        "erp",
+        "software platform",
+        "simm platform",
+        "msk platform",
+        "platform demo",
+        "simm demo",
+      ],
+      response:
+        "MSK Digital Platforms support inspection, maintenance, production, inventory, document control and engineering review workflows. You can view the platform overview or request a demo.",
+      quickReplies: ["Request Demo", "Services", "Contact MSK"],
+      actionLinks: [
+        { label: "View Digital Platforms", href: PLATFORMS_URL },
+        { label: "Request Demo", href: QUOTE_FORM_URL },
+        { label: "Login to Platform", href: LOGIN_URL },
+      ],
+    },
+    {
       name: "quote_request",
       keywords: quoteTriggers,
       response:
         "For a detailed quotation, please use our Request Quote form so you can provide drawings, files, contact details and project requirements.\n\nIf you prefer, I can still capture a basic enquiry here.",
-      quickReplies: ["Capture in Chat", "Services", "Contact details"],
+      quickReplies: ["Capture in Chat", "Services", "Digital Platforms"],
       actionLinks: [
         { label: "Open Request Quote Form", href: QUOTE_FORM_URL },
         { label: "Contact MSK", href: CONTACT_URL },
@@ -330,7 +370,7 @@
       ],
       response:
         "For job, internship or career enquiries, please use the Careers / Apply section so you can submit your role interest and CV.\n\nIf the form is not convenient, email your CV and details to info@mskprecisiongroup.com.",
-      quickReplies: ["Contact details", "Services"],
+      quickReplies: ["Contact MSK", "Services"],
       actionLinks: [
         { label: "Open Careers / Job Enquiry", href: CAREERS_URL },
         { label: "Contact MSK", href: CONTACT_URL },
@@ -481,8 +521,9 @@
       ],
       response:
         "MSK supports engineering and manufacturing teams with design, CAD/CAM/CAE, CNC machining, 3D printing, scanning, fabrication and R&D support.\n\nTell me the service you need or choose Request Quote.",
-      quickReplies: ["Request Quote", "CNC machining", "CAD / CAM / CAE"],
+      quickReplies: ["Request Quote", "Digital Platforms", "CNC machining"],
       actionLinks: [
+        { label: "Services", href: SERVICES_URL },
         { label: "Request Quote", href: QUOTE_FORM_URL },
         { label: "Contact MSK", href: CONTACT_URL },
       ],
@@ -615,18 +656,26 @@
     if (toggleButton) toggleButton.setAttribute("aria-expanded", "false");
   }
 
-  function scrollToWebsiteSection(href, shouldClose) {
-    if (!href || href.charAt(0) !== "#") return false;
+  function isSamePage(url) {
+    const currentPath = window.location.pathname.replace(/\/$/, "");
+    const targetPath = url.pathname.replace(/\/$/, "");
+    const currentIsIndex = !currentPath || currentPath.endsWith("/index.html") || currentPath.endsWith("/docs/index.html");
+    const targetIsIndex = targetPath.endsWith("/index.html") || targetPath.endsWith("/docs/index.html");
+    return currentPath === targetPath || (currentIsIndex && targetIsIndex);
+  }
 
-    const target = document.querySelector(href);
+  function scrollToWebsiteSection(hash, shouldClose) {
+    if (!hash || hash.charAt(0) !== "#") return false;
+
+    const target = document.querySelector(hash);
     if (!target) return false;
 
     target.scrollIntoView({ behavior: "smooth", block: "start" });
 
     if (window.history && window.history.pushState) {
-      window.history.pushState(null, "", href);
+      window.history.pushState(null, "", hash);
     } else {
-      window.location.hash = href;
+      window.location.hash = hash;
     }
 
     if (shouldClose) {
@@ -636,10 +685,33 @@
     return true;
   }
 
+  function routeToWebsiteLink(href, shouldClose) {
+    if (!href) return false;
+
+    if (href.charAt(0) === "#") {
+      return scrollToWebsiteSection(href, shouldClose);
+    }
+
+    let url;
+    try {
+      url = new URL(href, window.location.href);
+    } catch (error) {
+      return false;
+    }
+
+    if (url.hash && isSamePage(url)) {
+      return scrollToWebsiteSection(url.hash, shouldClose);
+    }
+
+    if (shouldClose) closeChatbotPanel();
+    window.location.href = url.href;
+    return true;
+  }
+
   function getPrimaryRoute(intent) {
     const actions = intent && intent.actionLinks ? intent.actionLinks : [];
     const route = actions.find(function (action) {
-      return ROUTABLE_ANCHORS.includes(action.href);
+      return ROUTABLE_LINKS.includes(action.href);
     });
     return route ? route.href : "";
   }
@@ -649,7 +721,7 @@
     if (!route) return false;
 
     window.setTimeout(function () {
-      scrollToWebsiteSection(route, false);
+      routeToWebsiteLink(route, false);
       closeChatbotPanel();
     }, ROUTE_CLOSE_DELAY_MS);
 
@@ -688,7 +760,7 @@
     botReply(
       `Thanks, I captured these contact details:\n\n${captured.join("\n")}\n\nFor a quote, please type "Request Quote" and I will collect the remaining project details.`
     );
-    renderQuickReplies(["Request Quote", "Services", "Contact details"]);
+    renderQuickReplies(["Request Quote", "Digital Platforms", "Contact MSK"]);
     return true;
   }
 
@@ -756,10 +828,13 @@
         action.label
       );
       link.addEventListener("click", function (event) {
-        if (!ROUTABLE_ANCHORS.includes(action.href)) return;
+        if (!ROUTABLE_LINKS.includes(action.href)) {
+          closeChatbotPanel();
+          return;
+        }
 
         event.preventDefault();
-        scrollToWebsiteSection(action.href, true);
+        routeToWebsiteLink(action.href, true);
       });
       actionWrap.appendChild(link);
     });
@@ -857,7 +932,41 @@
           { label: "Contact MSK", href: CONTACT_URL },
         ]
       );
-      renderQuickReplies(["Capture in Chat", "Services", "Contact details"]);
+      renderQuickReplies(["Capture in Chat", "Services", "Digital Platforms"]);
+      return;
+    }
+
+    if (action === "request demo") {
+      addMessage("user", option);
+      botReply(
+        "Use the Request Quote form to request a Digital Platforms demo or platform access discussion.",
+        [
+          { label: "Request Demo", href: QUOTE_FORM_URL },
+          { label: "View Digital Platforms", href: PLATFORMS_URL },
+        ]
+      );
+      return;
+    }
+
+    if (action === "digital platforms" || action === "view digital platforms") {
+      addMessage("user", option);
+      botReply(
+        "MSK Digital Platforms support inspection, maintenance, production, inventory, document control and engineering review workflows. You can view the platform overview or request a demo.",
+        [
+          { label: "View Digital Platforms", href: PLATFORMS_URL },
+          { label: "Request Demo", href: QUOTE_FORM_URL },
+          { label: "Login to Platform", href: LOGIN_URL },
+        ]
+      );
+      return;
+    }
+
+    if (action === "contact msk" || action === "contact details") {
+      addMessage("user", option);
+      botReply("You can contact MSK through the website contact section or by email at info@mskprecisiongroup.com.", [
+        { label: "Contact MSK", href: CONTACT_URL },
+        { label: "Request Quote", href: QUOTE_FORM_URL },
+      ]);
       return;
     }
 
@@ -867,8 +976,21 @@
       return;
     }
 
-    if (action === "view services") {
-      handleUserText("services");
+    if (action === "view services" || action === "services") {
+      addMessage("user", option);
+      botReply("MSK services include CNC manufacturing, CAD/CAM/CAE, structural analysis, lifting and handling support, inspection, QA and engineering documentation.", [
+        { label: "View Services", href: SERVICES_URL },
+        { label: "Request Quote", href: QUOTE_FORM_URL },
+      ]);
+      return;
+    }
+
+    if (action === "careers" || action === "jobs") {
+      addMessage("user", option);
+      botReply("For careers or internships, please use the Careers / Apply section so you can submit your role interest and CV.", [
+        { label: "Open Careers / Job Enquiry", href: CAREERS_URL },
+        { label: "Contact MSK", href: CONTACT_URL },
+      ]);
       return;
     }
 
@@ -950,7 +1072,7 @@
       state.isSubmitting = false;
       setInputEnabled(true);
       setComposerPlaceholder();
-      renderQuickReplies(["Services", "Industries", "Quote process", "Request a quote"]);
+      renderQuickReplies(["Services", "Digital Platforms", "Quote process", "Request Quote"]);
     }
   }
 
@@ -1100,7 +1222,7 @@
 
     setComposerPlaceholder();
     addMessage("bot", WELCOME_POPUP_MESSAGE);
-    renderQuickReplies(["Services", "Industries", "Quote process", "Request a quote"]);
+    renderQuickReplies(["Services", "Digital Platforms", "Quote process", "Request Quote"]);
 
     window.setTimeout(function () {
       if (hasAutoPopupShown()) return;

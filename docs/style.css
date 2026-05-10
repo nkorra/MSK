@@ -986,7 +986,7 @@ section,
   max-width: 1200px;
   margin: 22px auto 46px;
   padding: 58px 38px;
-  min-height: 620px;
+  min-height: 560px;
   display: grid;
   grid-template-columns: minmax(0, .92fr) minmax(440px, 1.08fr);
   align-items: center;
@@ -1120,7 +1120,7 @@ section,
 .platform-mockup {
   display: grid;
   grid-template-columns: 154px 1fr;
-  min-height: 430px;
+  min-height: 390px;
   border: 1px solid rgba(226,232,240,.23);
   border-radius: 28px;
   background: rgba(255,255,255,.11);
@@ -1259,9 +1259,10 @@ section,
 .mock-kpis strong {
   display: block;
   color: #ffffff;
-  font-size: 1.55rem;
-  line-height: 1;
+  font-size: clamp(.9rem, 1.4vw, 1.08rem);
+  line-height: 1.15;
   margin-top: 8px;
+  overflow-wrap: anywhere;
 }
 
 .mock-chart {
