@@ -977,59 +977,278 @@ section,
    Platforms Page
    ============================ */
 .products-page {
-  background: #f6f9fc;
+  background: #eef4fa;
 }
 
-.products-hero {
+.platform-hero {
   position: relative;
   overflow: hidden;
+  max-width: 1200px;
+  margin: 22px auto 46px;
+  padding: 58px 38px;
+  min-height: 620px;
+  display: grid;
+  grid-template-columns: minmax(0, .92fr) minmax(440px, 1.08fr);
+  align-items: center;
+  gap: 36px;
   background:
-    linear-gradient(135deg, rgba(7, 24, 39, 0.98), rgba(11, 42, 74, 0.96)),
-    url("assets/products/equipment-handling-transport-frame-2.jpeg") center/cover;
+    radial-gradient(circle at 78% 18%, rgba(56, 189, 248, .26), transparent 28%),
+    radial-gradient(circle at 42% 88%, rgba(34, 197, 94, .13), transparent 25%),
+    linear-gradient(135deg, #06111f 0%, #08233d 48%, #0B2A4A 100%);
   color: #ffffff;
   border: 1px solid #153b60;
-  padding: 64px 42px;
-  margin-top: 22px;
-  min-height: 360px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  box-shadow: 0 34px 78px rgba(8, 17, 31, .22);
 }
 
-.products-hero h1 {
-  max-width: 850px;
-  color: #ffffff;
-  font-size: clamp(2.3rem, 4.8vw, 4rem);
-  line-height: 1.08;
-  margin-bottom: 16px;
+.platform-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.95));
+  pointer-events: none;
 }
 
-.products-hero p {
-  max-width: 720px;
-  color: #dbeafe;
-  font-size: 1.12rem;
-  font-weight: 650;
+.platform-hero-copy,
+.platform-mockup {
+  position: relative;
+  z-index: 1;
 }
 
-.products-hero .section-kicker {
+.platform-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: #7dd3fc;
+  font-size: .78rem;
+  font-weight: 950;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
 }
 
-.product-actions,
-.product-card-actions {
+.platform-kicker::before {
+  content: "";
+  width: 34px;
+  height: 2px;
+  background: linear-gradient(90deg, #38bdf8, #22c55e);
+}
+
+.platform-hero h1 {
+  max-width: 720px;
+  color: #ffffff;
+  font-size: clamp(2.65rem, 5.4vw, 5.3rem);
+  line-height: .96;
+  letter-spacing: -0.04em;
+  margin-bottom: 22px;
+}
+
+.platform-hero-copy > p {
+  max-width: 660px;
+  color: #dbeafe;
+  font-size: 1.08rem;
+  font-weight: 650;
+  line-height: 1.7;
+}
+
+.platform-actions {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.platform-primary {
+  border: 0;
+  background: linear-gradient(135deg, #38bdf8, #0f63a8 52%, #0B2A4A);
+  color: #ffffff;
+  box-shadow: 0 18px 38px rgba(56, 189, 248, .22);
+}
+
+.platform-secondary {
+  color: #ffffff;
+  border-color: rgba(255,255,255,.72);
+  background: rgba(255,255,255,.08);
+}
+
+.platform-secondary:hover {
+  background: rgba(255,255,255,.14);
+}
+
+.platform-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: 22px;
 }
 
-.products-hero .btn-outline {
-  color: #ffffff;
-  border-color: #ffffff;
+.platform-chips span {
+  border: 1px solid rgba(186, 230, 253, .28);
+  background: rgba(255,255,255,.08);
+  color: #e0f2fe;
+  padding: 8px 11px;
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 850;
+  backdrop-filter: blur(12px);
 }
 
-.products-hero .btn-outline:hover {
-  background: rgba(255, 255, 255, 0.12);
+.platform-mockup {
+  display: grid;
+  grid-template-columns: 154px 1fr;
+  min-height: 430px;
+  border: 1px solid rgba(226,232,240,.23);
+  border-radius: 28px;
+  background: rgba(255,255,255,.11);
+  box-shadow: 0 28px 70px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.22);
+  backdrop-filter: blur(18px);
+  overflow: hidden;
+  transform: perspective(1200px) rotateY(-5deg) rotateX(2deg);
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.platform-mockup:hover {
+  transform: perspective(1200px) rotateY(-2deg) rotateX(1deg) translateY(-4px);
+  box-shadow: 0 34px 82px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.22);
+}
+
+.mock-sidebar {
+  padding: 20px 14px;
+  background: rgba(3, 12, 26, .54);
+  border-right: 1px solid rgba(226,232,240,.16);
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.mock-sidebar strong {
+  color: #ffffff;
+  font-size: .95rem;
+  margin-bottom: 12px;
+}
+
+.mock-sidebar span {
+  color: #b8c7d8;
+  border-radius: 10px;
+  padding: 8px 9px;
+  font-size: .78rem;
+  font-weight: 850;
+}
+
+.mock-sidebar span.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(56,189,248,.34), rgba(34,197,94,.16));
+}
+
+.mock-main {
+  padding: 20px;
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.mock-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.mock-top span {
+  display: block;
+  color: #93c5fd;
+  font-size: .72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.mock-top strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.15rem;
+  margin-top: 3px;
+}
+
+.mock-top em {
+  color: #bbf7d0;
+  background: rgba(34,197,94,.12);
+  border: 1px solid rgba(187,247,208,.28);
+  border-radius: 999px;
+  padding: 7px 10px;
+  font-size: .72rem;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.mock-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mock-kpis div,
+.mock-chart,
+.mock-activity {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(226,232,240,.18);
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+}
+
+.mock-kpis div {
+  padding: 12px;
+}
+
+.mock-kpis span {
+  display: block;
+  color: #bfdbfe;
+  font-size: .68rem;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.mock-kpis strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.55rem;
+  line-height: 1;
+  margin-top: 8px;
+}
+
+.mock-chart {
+  padding: 14px;
+}
+
+.mock-chart svg {
+  width: 100%;
+  height: 150px;
+  display: block;
+}
+
+.mock-activity {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.mock-activity div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #e2e8f0;
+  font-size: .86rem;
+  font-weight: 850;
+}
+
+.mock-activity span {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #38bdf8;
 }
 
 .products-grid-wrap {
@@ -1062,25 +1281,56 @@ section,
 
 .product-card {
   background: #ffffff;
-  border: 1px solid #cddfeb;
+  border: 1px solid rgba(173, 201, 223, .88);
+  border-radius: 24px;
   padding: 22px;
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 14px 30px rgba(11, 42, 74, 0.045);
+  box-shadow: 0 16px 38px rgba(11, 42, 74, 0.07);
   position: relative;
+  overflow: hidden;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
 }
 
-.product-card::before {
+.product-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(15, 79, 139, .42);
+  box-shadow: 0 22px 48px rgba(11, 42, 74, 0.11);
+}
+
+.product-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: .82rem;
+  font-weight: 950;
+  margin-bottom: 14px;
+  box-shadow: 0 12px 28px rgba(15, 79, 139, .16);
+}
+
+.icon-blue { background: linear-gradient(135deg, #0f4f8b, #38bdf8); }
+.icon-cyan { background: linear-gradient(135deg, #0891b2, #22d3ee); }
+.icon-green { background: linear-gradient(135deg, #15803d, #22c55e); }
+.icon-orange { background: linear-gradient(135deg, #b45309, #f59e0b); }
+.icon-indigo { background: linear-gradient(135deg, #3730a3, #818cf8); }
+.icon-slate { background: linear-gradient(135deg, #334155, #0f4f8b); }
+
+.product-card::after {
   content: "";
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 4px;
-  background: #0B2A4A;
+  inset: auto 18px 0 18px;
+  height: 3px;
+  background: linear-gradient(90deg, #38bdf8, #22c55e);
+  opacity: .72;
 }
 
 .product-card h2 {
-  margin: 12px 0 9px;
+  margin: 11px 0 9px;
   color: #0B2A4A;
   font-size: 1.28rem;
 }
@@ -1121,11 +1371,12 @@ section,
   border: 1px solid #bfdbfe;
   background: #eff6ff;
   color: #1e3a8a;
-  padding: 6px 10px;
-  font-size: 0.76rem;
+  padding: 5px 9px;
+  font-size: 0.7rem;
   font-weight: 850;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  border-radius: 999px;
 }
 
 .product-ready .product-status {
@@ -1134,52 +1385,102 @@ section,
   color: #166534;
 }
 
-.platform-architecture {
+.platform-workflow {
   background: #ffffff;
   border: 1px solid #cddfeb;
   margin-top: 34px;
   padding: 34px;
+  border-radius: 28px;
+  box-shadow: 0 18px 42px rgba(11, 42, 74, .055);
 }
 
-.architecture-grid {
+.workflow-chain {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  border: 1px solid #dbe7f3;
+  gap: 14px;
+  position: relative;
+}
+
+.workflow-chain::before {
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 37px;
+  height: 2px;
+  background: linear-gradient(90deg, #38bdf8, #22c55e);
+  opacity: .34;
+}
+
+.workflow-node {
+  position: relative;
+  z-index: 1;
   background: #f8fbfe;
-}
-
-.architecture-item {
-  min-height: 118px;
+  border: 1px solid #dbe7f3;
+  border-radius: 20px;
   padding: 18px 14px;
-  border-right: 1px solid #dbe7f3;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 18px;
+  min-height: 185px;
 }
 
-.architecture-item:last-child {
-  border-right: 0;
-}
-
-.architecture-item span {
-  color: #0f4f8b;
-  font-size: 0.78rem;
+.workflow-node span {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #0B2A4A;
+  color: #ffffff;
+  font-size: .75rem;
   font-weight: 950;
-  letter-spacing: 0.08em;
+  margin-bottom: 14px;
 }
 
-.architecture-item strong {
+.workflow-node strong {
+  display: block;
   color: #0B2A4A;
   font-size: 1rem;
   line-height: 1.25;
 }
 
+.workflow-node p {
+  margin-top: 8px;
+  color: #64748b;
+  font-size: .9rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.platform-statement {
+  text-align: center;
+  background: #0B2A4A;
+  color: #ffffff;
+  padding: 42px 28px;
+  border-radius: 28px;
+}
+
+.platform-statement h2 {
+  color: #ffffff;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  margin-bottom: 10px;
+}
+
+.platform-statement p {
+  max-width: 680px;
+  margin: 0 auto;
+  color: #dbeafe;
+  font-weight: 650;
+}
+
 .products-note {
-  background: linear-gradient(135deg, #ffffff, #eef6ff);
+  background:
+    radial-gradient(circle at 82% 18%, rgba(56,189,248,.22), transparent 24%),
+    linear-gradient(135deg, #ffffff, #eef6ff);
   border: 1px solid #cddfeb;
-  padding: 34px;
+  border-radius: 28px;
+  padding: 42px 34px;
   margin-bottom: 54px;
+  box-shadow: 0 18px 42px rgba(11, 42, 74, .06);
 }
 
 .products-note h2 {
@@ -1784,12 +2085,27 @@ footer {
     grid-template-columns: 1fr 1fr;
   }
 
-  .architecture-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .platform-hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 42px 24px;
   }
 
-  .architecture-item:nth-child(3n) {
-    border-right: 0;
+  .platform-mockup {
+    transform: none;
+    grid-template-columns: 132px 1fr;
+  }
+
+  .platform-mockup:hover {
+    transform: translateY(-3px);
+  }
+
+  .workflow-chain {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .workflow-chain::before {
+    display: none;
   }
 
   .capability-grid {
@@ -1806,9 +2122,10 @@ footer {
     border-radius: 0;
   }
 
-  .products-hero,
+  .platform-hero,
   .products-note,
-  .platform-architecture {
+  .platform-workflow,
+  .platform-statement {
     padding: 26px 20px;
   }
 }
@@ -1898,21 +2215,57 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .architecture-grid {
+  .platform-hero {
+    margin-top: 12px;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .platform-hero h1 {
+    font-size: 2.35rem;
+  }
+
+  .platform-actions,
+  .product-actions {
+    display: grid;
     grid-template-columns: 1fr;
   }
 
-  .architecture-item {
-    min-height: 0;
+  .platform-mockup {
+    grid-template-columns: 1fr;
+    border-radius: 22px;
+  }
+
+  .mock-sidebar {
+    display: flex;
+    overflow-x: auto;
+    padding: 12px;
     border-right: 0;
-    border-bottom: 1px solid #dbe7f3;
+    border-bottom: 1px solid rgba(226,232,240,.16);
   }
 
-  .architecture-item:last-child {
-    border-bottom: 0;
+  .mock-sidebar strong {
+    flex: 0 0 auto;
+    margin: 0 8px 0 0;
+    align-self: center;
   }
 
-  .product-actions,
+  .mock-sidebar span {
+    flex: 0 0 auto;
+  }
+
+  .mock-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .workflow-chain {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-node {
+    min-height: 0;
+  }
+
   .product-card-actions {
     display: grid;
     grid-template-columns: 1fr;

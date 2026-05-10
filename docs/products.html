@@ -37,15 +37,68 @@
   </header>
 
   <main>
-    <section class="section-content products-hero">
-      <p class="section-kicker">MSK Digital Platforms</p>
-      <h1>MSK Digital Platforms</h1>
-      <p>
-        Engineering workflow platforms for inspection, production, documentation and maintenance control.
-      </p>
-      <div class="product-actions">
-        <a class="btn" href="index.html#quote">Request Demo</a>
-        <a class="btn btn-outline" href="https://msk-erp.onrender.com/accounts/login/">Login to Platform</a>
+    <section class="platform-hero">
+      <div class="platform-hero-copy">
+        <p class="platform-kicker">MSK DIGITAL PLATFORM</p>
+        <h1>One Platform. Complete Engineering Control.</h1>
+        <p>
+          MSK Digital Platforms bring together asset integrity, maintenance, production, inventory and document control in one integrated ecosystem built for engineering-led operations.
+        </p>
+        <div class="platform-actions">
+          <a class="btn platform-primary" href="index.html#quote">Request Demo</a>
+          <a class="btn platform-secondary" href="https://msk-erp.onrender.com/accounts/login/">Login to Platform</a>
+        </div>
+        <div class="platform-chips" aria-label="Platform highlights">
+          <span>Built for Engineering</span>
+          <span>Secure &amp; Role-Based</span>
+          <span>Actionable Insights</span>
+        </div>
+      </div>
+
+      <div class="platform-mockup" aria-label="MSK ERP dashboard preview">
+        <div class="mock-sidebar">
+          <strong>MSK ERP</strong>
+          <span class="active">Dashboard</span>
+          <span>Assets</span>
+          <span>Inspections</span>
+          <span>Issues / Findings</span>
+          <span>Work Orders</span>
+          <span>Documents</span>
+          <span>Inventory</span>
+          <span>Reports</span>
+        </div>
+        <div class="mock-main">
+          <div class="mock-top">
+            <div>
+              <span>Structural Integrity</span>
+              <strong>Management Overview</strong>
+            </div>
+            <em>Live workflow</em>
+          </div>
+          <div class="mock-kpis">
+            <div><span>Total Assets</span><strong>42</strong></div>
+            <div><span>Inspections</span><strong>18</strong></div>
+            <div><span>Open Findings</span><strong>7</strong></div>
+            <div><span>Work Orders</span><strong>5</strong></div>
+          </div>
+          <div class="mock-chart">
+            <svg viewBox="0 0 360 130" role="img" aria-label="Example trend chart">
+              <defs>
+                <linearGradient id="mockLine" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#38bdf8" />
+                  <stop offset="100%" stop-color="#22c55e" />
+                </linearGradient>
+              </defs>
+              <path d="M18 104 C60 70, 84 82, 122 55 S188 31, 226 54 S290 82, 342 26" fill="none" stroke="url(#mockLine)" stroke-width="6" stroke-linecap="round" />
+              <path d="M18 104 C60 70, 84 82, 122 55 S188 31, 226 54 S290 82, 342 26 L342 124 L18 124 Z" fill="rgba(56,189,248,.12)" />
+            </svg>
+          </div>
+          <div class="mock-activity">
+            <div><span></span>Inspection completed</div>
+            <div><span></span>Issue reported</div>
+            <div><span></span>Work order closed</div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -59,13 +112,14 @@
       -->
       <div class="platform-section-head">
         <p class="section-kicker">Platform Modules</p>
-        <h2>Connected workflows under one MSK platform</h2>
+        <h2>All Your Engineering Workflows, Connected.</h2>
         <p>
-          Modules are configured by client access, workflow readiness and agreed pilot scope, so each company sees the areas relevant to its operations.
+          From inspection to maintenance, production to documentation — MSK keeps operations structured and connected.
         </p>
       </div>
       <div class="products-grid">
         <article class="product-card product-ready">
+          <div class="product-icon icon-blue">SI</div>
           <div class="product-status">Available for pilot</div>
           <h2>SIMM Platform</h2>
           <p>Structural Integrity and Maintenance Management support for assets, inspections, findings, evidence and engineer review.</p>
@@ -77,8 +131,9 @@
         </article>
 
         <article class="product-card">
-          <div class="product-status">Available for pilot / under setup</div>
-          <h2>CNC &amp; Production Monitoring</h2>
+          <div class="product-icon icon-cyan">PM</div>
+          <div class="product-status">Under Setup</div>
+          <h2>Production Monitoring</h2>
           <p>Operational visibility for CNC jobs, production status and shop-floor activity tracking where configured.</p>
           <ul>
             <li>Production status overview</li>
@@ -88,8 +143,9 @@
         </article>
 
         <article class="product-card">
-          <div class="product-status">Available for pilot / under setup</div>
-          <h2>Inventory &amp; Stores Management</h2>
+          <div class="product-icon icon-green">IS</div>
+          <div class="product-status">Under Setup</div>
+          <h2>Inventory &amp; Stores</h2>
           <p>Stores and stock workflow support for material visibility, receipts, issues and controlled inventory records.</p>
           <ul>
             <li>Stock and stores overview</li>
@@ -99,8 +155,9 @@
         </article>
 
         <article class="product-card">
-          <div class="product-status">Available for pilot / under setup</div>
-          <h2>Work Order &amp; Maintenance Tracking</h2>
+          <div class="product-icon icon-orange">WO</div>
+          <div class="product-status">Under Setup</div>
+          <h2>Work Order &amp; Maintenance</h2>
           <p>Work order and maintenance planning support for findings, actions, responsibilities and completion tracking.</p>
           <ul>
             <li>Work request records</li>
@@ -110,8 +167,9 @@
         </article>
 
         <article class="product-card">
-          <div class="product-status">Available for pilot / under setup</div>
-          <h2>Project Document Control</h2>
+          <div class="product-icon icon-indigo">DC</div>
+          <div class="product-status">Under Setup</div>
+          <h2>Document Control</h2>
           <p>Document register and project communication support for drawings, transmittals, technical queries and review actions.</p>
           <ul>
             <li>Document register visibility</li>
@@ -121,8 +179,9 @@
         </article>
 
         <article class="product-card">
-          <div class="product-status">Available for pilot / under setup</div>
-          <h2>Engineering Review Portal</h2>
+          <div class="product-icon icon-slate">ER</div>
+          <div class="product-status">Under Setup</div>
+          <h2>Engineering Review</h2>
           <p>Review workflow support for engineering comments, condition confirmation, approval status and controlled report readiness.</p>
           <ul>
             <li>Engineer review queue</li>
@@ -133,27 +192,34 @@
       </div>
     </section>
 
-    <section class="section-content platform-architecture">
+    <section class="section-content platform-workflow">
       <div class="platform-section-head">
-        <p class="section-kicker">Platform Architecture</p>
+        <p class="section-kicker">Workflow</p>
         <h2>One platform, multiple engineering workflows</h2>
         <p>
-          MSK Digital Platforms are structured as connected workflow areas, not isolated software products.
+          Each module supports a practical stage of engineering-led operations, from asset condition records through controlled review and action tracking.
         </p>
       </div>
-      <div class="architecture-grid" aria-label="MSK Digital Platforms workflow groups">
-        <div class="architecture-item"><span>01</span><strong>Asset Integrity</strong></div>
-        <div class="architecture-item"><span>02</span><strong>Maintenance Execution</strong></div>
-        <div class="architecture-item"><span>03</span><strong>Production Monitoring</strong></div>
-        <div class="architecture-item"><span>04</span><strong>Stores &amp; Inventory</strong></div>
-        <div class="architecture-item"><span>05</span><strong>Project Documentation</strong></div>
-        <div class="architecture-item"><span>06</span><strong>Engineering Review</strong></div>
+      <div class="workflow-chain" aria-label="MSK Digital Platforms workflow">
+        <div class="workflow-node"><span>AI</span><strong>Asset Integrity</strong><p>Inspection records, evidence and asset condition tracking.</p></div>
+        <div class="workflow-node"><span>ME</span><strong>Maintenance Execution</strong><p>Findings converted into planned work requests.</p></div>
+        <div class="workflow-node"><span>PM</span><strong>Production Monitoring</strong><p>Status visibility for production and CNC workflows.</p></div>
+        <div class="workflow-node"><span>SI</span><strong>Stores &amp; Inventory</strong><p>Material receipts, issues and stock movement support.</p></div>
+        <div class="workflow-node"><span>PD</span><strong>Project Documentation</strong><p>Registers for drawings, reviews and project records.</p></div>
+        <div class="workflow-node"><span>ER</span><strong>Engineering Review</strong><p>Controlled comments, approvals and report readiness.</p></div>
       </div>
+    </section>
+
+    <section class="section-content platform-statement">
+      <h2>One platform. Multiple workflows.</h2>
+      <p>
+        MSK Digital Platforms are structured as connected workflow systems, not isolated software tools.
+      </p>
     </section>
 
     <section class="section-content products-note">
       <p class="section-kicker">Access &amp; Deployment</p>
-      <h2>Request access to MSK Digital Platforms</h2>
+      <h2>Ready to explore MSK Digital Platforms?</h2>
       <p>
         Software platform modules are configured based on client access, workflow readiness and agreed pilot scope.
         MSK avoids automatic certification or approval claims; engineering sign-off remains a separate controlled process.
