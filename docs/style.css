@@ -1905,7 +1905,7 @@ section,
    Gallery
    ============================ */
 #gallery {
-  overflow: hidden;
+  overflow: visible;
 }
 
 .gallery-scroll {
@@ -1914,22 +1914,46 @@ section,
   margin-top: 16px;
   overflow-x: auto;
   overflow-y: hidden;
-  padding-bottom: 4px;
+  padding: 2px 2px 14px;
   scrollbar-color: #0B2A4A #e7f0f8;
+  scrollbar-width: thin;
   scroll-snap-type: x mandatory;
   width: 100%;
+  max-width: 100%;
   pointer-events: auto;
-  touch-action: auto;
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.gallery-scroll:focus {
+  outline: 2px solid rgba(11, 42, 74, 0.28);
+  outline-offset: 4px;
+}
+
+.gallery-scroll::-webkit-scrollbar {
+  height: 10px;
+}
+
+.gallery-scroll::-webkit-scrollbar-track {
+  background: #e7f0f8;
+  border-radius: 999px;
+}
+
+.gallery-scroll::-webkit-scrollbar-thumb {
+  background: #0B2A4A;
+  border-radius: 999px;
 }
 
 .gallery-card {
-  flex: 0 0 310px;
+  flex: 0 0 clamp(260px, 32vw, 340px);
   position: relative;
   overflow: hidden;
   height: 230px;
   border: 1px solid #cddfeb;
   background: #f8fbfe;
   scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 .gallery-card img {
@@ -2448,7 +2472,7 @@ footer {
 
 @media (max-width: 768px) {
   #gallery {
-    overflow-x: hidden;
+    overflow-x: visible;
     overflow-y: visible;
   }
 
@@ -2467,15 +2491,7 @@ footer {
     overscroll-behavior-x: contain;
     padding: 0 0 12px;
     will-change: auto;
-    scrollbar-width: none;
-  }
-
-  .gallery-scroll::-webkit-scrollbar {
-    display: none;
-  }
-
-  .gallery-card-duplicate {
-    display: none;
+    scrollbar-width: thin;
   }
 
   .gallery-card {
