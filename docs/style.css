@@ -209,13 +209,13 @@ section,
    ============================ */
 .hero {
   background: #061827;
-  min-height: 560px;
+  min-height: 640px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: left;
-  padding: 92px 20px 42px;
+  padding: 104px 20px 54px;
   margin-bottom: 48px;
   color: #ffffff;
   border-bottom: 0;
@@ -283,8 +283,8 @@ section,
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(4, 17, 30, 0.94), rgba(8, 34, 58, 0.74), rgba(8, 34, 58, 0.28)),
-    linear-gradient(180deg, rgba(4, 17, 30, 0.08), rgba(4, 17, 30, 0.34));
+    linear-gradient(90deg, rgba(4, 17, 30, 0.96) 0%, rgba(8, 34, 58, 0.82) 48%, rgba(8, 34, 58, 0.24) 100%),
+    linear-gradient(180deg, rgba(4, 17, 30, 0.04), rgba(4, 17, 30, 0.4));
   display: block;
   z-index: 1;
 }
@@ -299,7 +299,7 @@ section,
 }
 
 .hero-content {
-  max-width: 1180px;
+  max-width: 1220px;
   margin: 0 auto;
   width: 100%;
   display: grid;
@@ -322,21 +322,22 @@ section,
 }
 
 .hero-heading {
-  max-width: 850px;
+  max-width: 980px;
   color: #ffffff;
   font-weight: 900;
-  font-size: clamp(2.35rem, 4.6vw, 4.45rem);
-  line-height: 1.04;
+  font-size: clamp(2.7rem, 5vw, 5.15rem);
+  line-height: 1;
   letter-spacing: 0;
   text-shadow: 0 18px 42px rgba(0, 0, 0, 0.34);
 }
 
 .hero .sub {
-  max-width: 780px;
-  margin: 1rem 0 0;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1.12rem;
+  max-width: 860px;
+  margin: 1.15rem 0 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1.16rem;
   font-weight: 600;
+  line-height: 1.72;
 }
 
 .hero .hero-actions {
@@ -363,8 +364,32 @@ section,
   background: rgba(255, 255, 255, 0.12);
 }
 
+.hero-proof-strip {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 900px;
+}
+
+.hero-proof-strip span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 9px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 850;
+  letter-spacing: 0.01em;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16);
+  backdrop-filter: blur(10px);
+}
+
 .hero-support {
-  margin-top: 14px;
+  margin-top: 18px;
   color: rgba(255, 255, 255, 0.84);
   font-size: 0.95rem;
   font-weight: 700;
@@ -2343,7 +2368,7 @@ footer {
   }
 
   .hero {
-    padding: 62px 16px 46px;
+    padding: 68px 16px 46px;
     min-height: auto;
     margin-bottom: 44px;
   }
@@ -2361,7 +2386,7 @@ footer {
   }
 
   .hero-heading {
-    font-size: 2.2rem;
+    font-size: 2.35rem;
   }
 
   .section-content {
@@ -2508,6 +2533,17 @@ footer {
 
   .hero .sub {
     font-size: 1rem;
+  }
+
+  .hero-proof-strip {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .hero-proof-strip span {
+    width: 100%;
+    min-height: 38px;
   }
 
   .work-card-grid {
