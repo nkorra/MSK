@@ -1910,14 +1910,16 @@ section,
 
 .gallery-scroll {
   display: flex;
-  gap: 18px;
+  flex-wrap: nowrap;
+  gap: 16px;
   margin-top: 16px;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 2px 2px 14px;
+  padding: 2px 2px 10px;
   scrollbar-color: #0B2A4A #e7f0f8;
   scrollbar-width: thin;
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   width: 100%;
   max-width: 100%;
   pointer-events: auto;
@@ -1946,7 +1948,8 @@ section,
 }
 
 .gallery-card {
-  flex: 0 0 clamp(260px, 32vw, 340px);
+  flex: 0 0 auto;
+  width: 280px;
   position: relative;
   overflow: hidden;
   height: 230px;
@@ -2478,26 +2481,26 @@ footer {
 
   .gallery-scroll {
     display: flex;
+    flex-wrap: nowrap;
     gap: 16px;
     overflow-x: auto !important;
     overflow-y: hidden;
     width: 100%;
     max-width: 100%;
-    animation: none !important;
-    transform: none !important;
     scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-x;
     overscroll-behavior-x: contain;
     padding: 0 0 12px;
-    will-change: auto;
     scrollbar-width: thin;
   }
 
   .gallery-card {
-    flex: 0 0 84vw;
-    min-width: 84vw;
-    max-width: 84vw;
+    flex: 0 0 auto;
+    width: 84vw;
+    min-width: 260px;
+    max-width: 320px;
     height: 220px;
     scroll-snap-align: start;
     scroll-snap-stop: always;
