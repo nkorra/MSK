@@ -262,32 +262,44 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -----------------------------
-  // 6b. Gallery arrow controls
+  // 6b. Gallery arrow controls and auto-scroll
   // -----------------------------
   const galleryScroll = document.querySelector(".gallery-scroll");
   const galleryArrowLeft = document.querySelector(".gallery-arrow-left");
   const galleryArrowRight = document.querySelector(".gallery-arrow-right");
 
-  if (galleryScroll && galleryArrowLeft && galleryArrowRight) {
+  if (galleryScroll && !galleryScroll.dataset.autoScrollInitialized) {
+    galleryScroll.dataset.autoScrollInitialized = "true";
+    galleryScroll.style.overflowX = "auto";
+    console.log("Gallery auto-scroll initialized");
+
     let galleryAutoPaused = false;
     let galleryAutoPauseUntil = 0;
     let galleryLastAutoFrame = performance.now();
-    const galleryAutoSpeed = 8;
+    let galleryLastRafTick = performance.now();
+    let galleryAutoPosition = galleryScroll.scrollLeft;
+    let galleryLastScrollLeft = galleryScroll.scrollLeft;
+    let galleryStillFrameCount = 0;
+    const galleryAutoStep = 0.3;
     const galleryAutoResumeDelay = 1800;
 
     const pauseGalleryAutoTemporarily = () => {
       galleryAutoPauseUntil = performance.now() + galleryAutoResumeDelay;
     };
 
-    galleryArrowLeft.addEventListener("click", () => {
-      pauseGalleryAutoTemporarily();
-      galleryScroll.scrollBy({ left: -340, behavior: "smooth" });
-    });
+    if (galleryArrowLeft) {
+      galleryArrowLeft.addEventListener("click", () => {
+        pauseGalleryAutoTemporarily();
+        galleryScroll.scrollBy({ left: -340, behavior: "smooth" });
+      });
+    }
 
-    galleryArrowRight.addEventListener("click", () => {
-      pauseGalleryAutoTemporarily();
-      galleryScroll.scrollBy({ left: 340, behavior: "smooth" });
-    });
+    if (galleryArrowRight) {
+      galleryArrowRight.addEventListener("click", () => {
+        pauseGalleryAutoTemporarily();
+        galleryScroll.scrollBy({ left: 340, behavior: "smooth" });
+      });
+    }
 
     galleryScroll.addEventListener("mouseenter", () => {
       galleryAutoPaused = true;
@@ -314,10 +326,9 @@ document.addEventListener("DOMContentLoaded", () => {
       pauseGalleryAutoTemporarily();
     }, { passive: true });
 
-    function autoScrollGallery(now) {
+    const advanceGalleryScroll = () => {
       const maxScrollLeft = galleryScroll.scrollWidth - galleryScroll.clientWidth;
-      const elapsed = Math.min(now - galleryLastAutoFrame, 64);
-      galleryLastAutoFrame = now;
+      const now = performance.now();
 
       if (
         maxScrollLeft > 4 &&
@@ -325,17 +336,46 @@ document.addEventListener("DOMContentLoaded", () => {
         now > galleryAutoPauseUntil
       ) {
         if (galleryScroll.scrollLeft >= maxScrollLeft - 2) {
-          galleryScroll.scrollTo({ left: 0, behavior: "smooth" });
+          galleryAutoPosition = 0;
+          galleryScroll.scrollLeft = galleryAutoPosition;
           galleryAutoPauseUntil = now + galleryAutoResumeDelay;
         } else {
-          galleryScroll.scrollLeft += (galleryAutoSpeed * elapsed) / 1000;
+          galleryAutoPosition = Math.max(galleryAutoPosition, galleryScroll.scrollLeft) + galleryAutoStep;
+          galleryScroll.scrollLeft = galleryAutoPosition;
         }
+      }
+
+      if (Math.abs(galleryScroll.scrollLeft - galleryLastScrollLeft) < 0.01) {
+        galleryStillFrameCount += 1;
+      } else {
+        galleryStillFrameCount = 0;
+        galleryLastScrollLeft = galleryScroll.scrollLeft;
+        galleryAutoPosition = galleryScroll.scrollLeft;
+      }
+
+      return galleryStillFrameCount;
+    };
+
+    function autoScrollGallery(now) {
+      galleryLastRafTick = performance.now();
+      const elapsed = Math.min(now - galleryLastAutoFrame, 64);
+      galleryLastAutoFrame = now;
+
+      if (elapsed > 0) {
+        advanceGalleryScroll();
       }
 
       window.requestAnimationFrame(autoScrollGallery);
     }
 
     window.requestAnimationFrame(autoScrollGallery);
+
+    window.setInterval(() => {
+      const rafIsDelayed = performance.now() - galleryLastRafTick > 120;
+      if (galleryStillFrameCount > 30 || rafIsDelayed || document.hidden) {
+        advanceGalleryScroll();
+      }
+    }, 20);
   }
 
   // -----------------------------
