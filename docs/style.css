@@ -1906,22 +1906,40 @@ section,
    ============================ */
 #gallery {
   overflow: visible;
+  max-width: 1100px;
+  min-width: 0;
+}
+
+.gallery-viewport {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin-top: 16px;
+  overflow: visible;
+  transform: none;
+}
+
+#gallery[data-aos],
+#gallery.aos-animate {
+  transform: none !important;
 }
 
 .gallery-scroll {
   display: flex;
   flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
   gap: 16px;
-  margin-top: 16px;
-  overflow-x: auto;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  overflow-x: scroll;
   overflow-y: hidden;
-  padding: 2px 2px 10px;
+  padding: 2px 2px 12px;
   scrollbar-color: #0B2A4A #e7f0f8;
   scrollbar-width: thin;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
   scroll-behavior: smooth;
-  width: 100%;
-  max-width: 100%;
   pointer-events: auto;
   touch-action: pan-x;
   overscroll-behavior-x: contain;
@@ -1949,14 +1967,15 @@ section,
 
 .gallery-card {
   flex: 0 0 auto;
-  width: 280px;
+  width: 320px;
+  min-width: 320px;
+  max-width: 320px;
   position: relative;
   overflow: hidden;
   height: 230px;
   border: 1px solid #cddfeb;
   background: #f8fbfe;
   scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 
 .gallery-card img {
@@ -2479,15 +2498,25 @@ footer {
     overflow-y: visible;
   }
 
+  .gallery-viewport {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow: visible;
+  }
+
   .gallery-scroll {
     display: flex;
     flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
     gap: 16px;
-    overflow-x: auto !important;
+    overflow-x: scroll !important;
     overflow-y: hidden;
     width: 100%;
-    max-width: 100%;
-    scroll-snap-type: x mandatory;
+    min-width: 0;
+    max-width: none;
+    scroll-snap-type: x proximity;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-x;
@@ -2498,12 +2527,11 @@ footer {
 
   .gallery-card {
     flex: 0 0 auto;
-    width: 84vw;
-    min-width: 260px;
-    max-width: 320px;
+    width: min(84vw, 320px);
+    min-width: min(84vw, 320px);
+    max-width: none;
     height: 220px;
     scroll-snap-align: start;
-    scroll-snap-stop: always;
   }
 
   .gallery-card img {
