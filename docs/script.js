@@ -262,6 +262,23 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -----------------------------
+  // 6b. Gallery arrow controls
+  // -----------------------------
+  const galleryScroll = document.querySelector(".gallery-scroll");
+  const galleryArrowLeft = document.querySelector(".gallery-arrow-left");
+  const galleryArrowRight = document.querySelector(".gallery-arrow-right");
+
+  if (galleryScroll && galleryArrowLeft && galleryArrowRight) {
+    galleryArrowLeft.addEventListener("click", () => {
+      galleryScroll.scrollBy({ left: -340, behavior: "smooth" });
+    });
+
+    galleryArrowRight.addEventListener("click", () => {
+      galleryScroll.scrollBy({ left: 340, behavior: "smooth" });
+    });
+  }
+
+  // -----------------------------
   // 7. Init AOS
   // -----------------------------
   if (typeof AOS !== "undefined") {

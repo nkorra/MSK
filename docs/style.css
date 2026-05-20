@@ -1924,6 +1924,65 @@ section,
   transform: none !important;
 }
 
+.gallery-heading-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.gallery-heading-row .section-kicker {
+  margin-bottom: 8px;
+}
+
+.gallery-heading-row h2 {
+  margin-bottom: 0;
+}
+
+.gallery-controls {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.gallery-arrow {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #c4d7e6;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0B2A4A;
+  box-shadow: 0 10px 22px rgba(15, 39, 66, 0.12);
+  cursor: pointer;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.gallery-arrow:hover,
+.gallery-arrow:focus-visible {
+  background: #0B2A4A;
+  border-color: #0B2A4A;
+  color: #ffffff;
+  box-shadow: 0 14px 28px rgba(15, 39, 66, 0.18);
+  transform: translateY(-1px);
+}
+
+.gallery-arrow:focus-visible {
+  outline: 3px solid rgba(13, 111, 179, 0.22);
+  outline-offset: 3px;
+}
+
 .gallery-scroll {
   display: flex;
   flex-wrap: nowrap;
@@ -1933,7 +1992,7 @@ section,
   width: 100%;
   min-width: 0;
   max-width: none;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   padding: 2px 2px 12px;
   scrollbar-color: #0B2A4A #e7f0f8;
@@ -2498,6 +2557,21 @@ footer {
     overflow-y: visible;
   }
 
+  .gallery-heading-row {
+    align-items: center;
+    gap: 14px;
+  }
+
+  .gallery-controls {
+    gap: 8px;
+  }
+
+  .gallery-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+
   .gallery-viewport {
     width: 100%;
     max-width: 100%;
@@ -2511,7 +2585,7 @@ footer {
     justify-content: flex-start;
     align-items: stretch;
     gap: 16px;
-    overflow-x: scroll !important;
+    overflow-x: auto !important;
     overflow-y: hidden;
     width: 100%;
     min-width: 0;
