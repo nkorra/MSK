@@ -269,13 +269,73 @@ document.addEventListener("DOMContentLoaded", () => {
   const galleryArrowRight = document.querySelector(".gallery-arrow-right");
 
   if (galleryScroll && galleryArrowLeft && galleryArrowRight) {
+    let galleryAutoPaused = false;
+    let galleryAutoPauseUntil = 0;
+    let galleryLastAutoFrame = performance.now();
+    const galleryAutoSpeed = 8;
+    const galleryAutoResumeDelay = 1800;
+
+    const pauseGalleryAutoTemporarily = () => {
+      galleryAutoPauseUntil = performance.now() + galleryAutoResumeDelay;
+    };
+
     galleryArrowLeft.addEventListener("click", () => {
+      pauseGalleryAutoTemporarily();
       galleryScroll.scrollBy({ left: -340, behavior: "smooth" });
     });
 
     galleryArrowRight.addEventListener("click", () => {
+      pauseGalleryAutoTemporarily();
       galleryScroll.scrollBy({ left: 340, behavior: "smooth" });
     });
+
+    galleryScroll.addEventListener("mouseenter", () => {
+      galleryAutoPaused = true;
+    });
+
+    galleryScroll.addEventListener("mouseleave", () => {
+      galleryAutoPaused = false;
+    });
+
+    galleryScroll.addEventListener("focusin", () => {
+      galleryAutoPaused = true;
+    });
+
+    galleryScroll.addEventListener("focusout", () => {
+      galleryAutoPaused = false;
+    });
+
+    galleryScroll.addEventListener("touchstart", () => {
+      galleryAutoPaused = true;
+    }, { passive: true });
+
+    galleryScroll.addEventListener("touchend", () => {
+      galleryAutoPaused = false;
+      pauseGalleryAutoTemporarily();
+    }, { passive: true });
+
+    function autoScrollGallery(now) {
+      const maxScrollLeft = galleryScroll.scrollWidth - galleryScroll.clientWidth;
+      const elapsed = Math.min(now - galleryLastAutoFrame, 64);
+      galleryLastAutoFrame = now;
+
+      if (
+        maxScrollLeft > 4 &&
+        !galleryAutoPaused &&
+        now > galleryAutoPauseUntil
+      ) {
+        if (galleryScroll.scrollLeft >= maxScrollLeft - 2) {
+          galleryScroll.scrollTo({ left: 0, behavior: "smooth" });
+          galleryAutoPauseUntil = now + galleryAutoResumeDelay;
+        } else {
+          galleryScroll.scrollLeft += (galleryAutoSpeed * elapsed) / 1000;
+        }
+      }
+
+      window.requestAnimationFrame(autoScrollGallery);
+    }
+
+    window.requestAnimationFrame(autoScrollGallery);
   }
 
   // -----------------------------
