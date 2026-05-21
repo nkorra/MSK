@@ -2037,12 +2037,12 @@ section,
   min-width: 0;
 }
 
-.gallery-viewport {
+.gallery-carousel {
   width: 100%;
   max-width: 100%;
   min-width: 0;
   margin-top: 16px;
-  overflow: visible;
+  overflow: hidden;
   transform: none;
 }
 
@@ -2110,7 +2110,7 @@ section,
   outline-offset: 3px;
 }
 
-.gallery-scroll {
+.gallery-track {
   display: flex;
   flex-wrap: nowrap;
   justify-content: flex-start;
@@ -2119,49 +2119,24 @@ section,
   width: 100%;
   min-width: 0;
   max-width: none;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 2px 2px 12px;
-  scrollbar-color: #0B2A4A #e7f0f8;
-  scrollbar-width: thin;
-  scroll-snap-type: x proximity;
-  scroll-behavior: smooth;
+  padding: 2px 2px 4px;
   pointer-events: auto;
-  touch-action: pan-x;
-  overscroll-behavior-x: contain;
-  -webkit-overflow-scrolling: touch;
+  transition: transform 0.6s ease;
+  will-change: transform;
 }
 
-.gallery-scroll:focus {
+.gallery-carousel:focus {
   outline: 2px solid rgba(11, 42, 74, 0.28);
   outline-offset: 4px;
 }
 
-.gallery-scroll::-webkit-scrollbar {
-  height: 10px;
-}
-
-.gallery-scroll::-webkit-scrollbar-track {
-  background: #e7f0f8;
-  border-radius: 999px;
-}
-
-.gallery-scroll::-webkit-scrollbar-thumb {
-  background: #0B2A4A;
-  border-radius: 999px;
-}
-
 .gallery-card {
-  flex: 0 0 auto;
-  width: 320px;
-  min-width: 320px;
-  max-width: 320px;
+  flex: 0 0 320px;
   position: relative;
   overflow: hidden;
   height: 230px;
   border: 1px solid #cddfeb;
   background: #f8fbfe;
-  scroll-snap-align: start;
 }
 
 .gallery-card img {
@@ -2849,40 +2824,30 @@ body.msk-form-section-visible #msk-chatbot-panel.is-open {
     font-size: 1.5rem;
   }
 
-  .gallery-viewport {
+  .gallery-carousel {
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    overflow: visible;
+    overflow: hidden;
   }
 
-  .gallery-scroll {
+  .gallery-track {
     display: flex;
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: stretch;
     gap: 16px;
-    overflow-x: auto !important;
-    overflow-y: hidden;
     width: 100%;
     min-width: 0;
     max-width: none;
-    scroll-snap-type: x proximity;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-x;
-    overscroll-behavior-x: contain;
-    padding: 0 0 12px;
-    scrollbar-width: thin;
+    padding: 0;
+    transition: transform 0.6s ease;
+    will-change: transform;
   }
 
   .gallery-card {
-    flex: 0 0 auto;
-    width: min(84vw, 320px);
-    min-width: min(84vw, 320px);
-    max-width: none;
+    flex: 0 0 85vw;
     height: 220px;
-    scroll-snap-align: start;
   }
 
   .gallery-card img {

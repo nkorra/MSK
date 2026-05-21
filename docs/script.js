@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     Boolean(
       target.closest(
         "input, textarea, select, button, a, label, form, [contenteditable='true'], #msk-chatbot-root, #msk-chatbot-panel, #msk-chatbot-toggle"
-          + ", .gallery-scroll, .gallery-card"
+          + ", .gallery-carousel, .gallery-track, .gallery-card"
       )
     );
 
@@ -262,120 +262,139 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -----------------------------
-  // 6b. Gallery arrow controls and auto-scroll
+  // 6b. Gallery carousel controls and autoplay
   // -----------------------------
-  const galleryScroll = document.querySelector(".gallery-scroll");
+  const galleryCarousel = document.querySelector(".gallery-carousel");
+  const galleryTrack = document.querySelector(".gallery-track");
+  const galleryCards = Array.from(document.querySelectorAll(".gallery-card"));
   const galleryArrowLeft = document.querySelector(".gallery-arrow-left");
   const galleryArrowRight = document.querySelector(".gallery-arrow-right");
 
-  if (galleryScroll && !galleryScroll.dataset.autoScrollInitialized) {
-    galleryScroll.dataset.autoScrollInitialized = "true";
-    galleryScroll.style.overflowX = "auto";
-    console.log("Gallery auto-scroll initialized");
+  if (galleryCarousel && galleryTrack && galleryCards.length && !galleryTrack.dataset.carouselInitialized) {
+    galleryTrack.dataset.carouselInitialized = "true";
 
-    let galleryAutoPaused = false;
-    let galleryAutoPauseUntil = 0;
-    let galleryLastAutoFrame = performance.now();
-    let galleryLastRafTick = performance.now();
-    let galleryAutoPosition = galleryScroll.scrollLeft;
-    let galleryLastScrollLeft = galleryScroll.scrollLeft;
-    let galleryStillFrameCount = 0;
-    const galleryAutoStep = 0.3;
-    const galleryAutoResumeDelay = 1800;
+    let currentGalleryIndex = 0;
+    let galleryStep = 0;
+    let galleryMaxIndex = 0;
+    let galleryAutoplay = null;
+    let galleryPaused = false;
+    let galleryTouchStartX = null;
+    let galleryTouchCurrentX = null;
+    const galleryAutoplayDelay = 3000;
 
-    const pauseGalleryAutoTemporarily = () => {
-      galleryAutoPauseUntil = performance.now() + galleryAutoResumeDelay;
+    const calculateGalleryStep = () => {
+      const firstCard = galleryCards[0];
+      const secondCard = galleryCards[1];
+      if (!firstCard) return;
+
+      const firstRect = firstCard.getBoundingClientRect();
+      if (secondCard) {
+        const secondRect = secondCard.getBoundingClientRect();
+        galleryStep = Math.max(secondRect.left - firstRect.left, firstRect.width);
+      } else {
+        galleryStep = firstRect.width;
+      }
+
+      const maxOffset = Math.max(galleryTrack.scrollWidth - galleryCarousel.clientWidth, 0);
+      galleryMaxIndex = galleryStep > 0 ? Math.ceil(maxOffset / galleryStep) : 0;
+      currentGalleryIndex = Math.min(currentGalleryIndex, galleryMaxIndex);
+    };
+
+    const updateGalleryTransform = () => {
+      calculateGalleryStep();
+      const maxOffset = Math.max(galleryTrack.scrollWidth - galleryCarousel.clientWidth, 0);
+      const offset = Math.min(currentGalleryIndex * galleryStep, maxOffset);
+      galleryTrack.style.transform = `translateX(-${offset}px)`;
+    };
+
+    const moveGallery = (direction) => {
+      calculateGalleryStep();
+      currentGalleryIndex += direction;
+      if (currentGalleryIndex > galleryMaxIndex) {
+        currentGalleryIndex = 0;
+      } else if (currentGalleryIndex < 0) {
+        currentGalleryIndex = galleryMaxIndex;
+      }
+      updateGalleryTransform();
+    };
+
+    const stopGalleryAutoplay = () => {
+      if (galleryAutoplay) {
+        window.clearInterval(galleryAutoplay);
+        galleryAutoplay = null;
+      }
+    };
+
+    const startGalleryAutoplay = () => {
+      stopGalleryAutoplay();
+      galleryAutoplay = window.setInterval(() => {
+        if (!galleryPaused) {
+          moveGallery(1);
+        }
+      }, galleryAutoplayDelay);
+    };
+
+    const resetGalleryAutoplay = () => {
+      stopGalleryAutoplay();
+      startGalleryAutoplay();
     };
 
     if (galleryArrowLeft) {
       galleryArrowLeft.addEventListener("click", () => {
-        pauseGalleryAutoTemporarily();
-        galleryScroll.scrollBy({ left: -340, behavior: "smooth" });
+        moveGallery(-1);
+        resetGalleryAutoplay();
       });
     }
 
     if (galleryArrowRight) {
       galleryArrowRight.addEventListener("click", () => {
-        pauseGalleryAutoTemporarily();
-        galleryScroll.scrollBy({ left: 340, behavior: "smooth" });
+        moveGallery(1);
+        resetGalleryAutoplay();
       });
     }
 
-    galleryScroll.addEventListener("mouseenter", () => {
-      galleryAutoPaused = true;
+    galleryCarousel.addEventListener("mouseenter", () => {
+      galleryPaused = true;
     });
 
-    galleryScroll.addEventListener("mouseleave", () => {
-      galleryAutoPaused = false;
+    galleryCarousel.addEventListener("mouseleave", () => {
+      galleryPaused = false;
     });
 
-    galleryScroll.addEventListener("focusin", () => {
-      galleryAutoPaused = true;
+    galleryCarousel.addEventListener("focusin", () => {
+      galleryPaused = true;
     });
 
-    galleryScroll.addEventListener("focusout", () => {
-      galleryAutoPaused = false;
+    galleryCarousel.addEventListener("focusout", () => {
+      galleryPaused = false;
     });
 
-    galleryScroll.addEventListener("touchstart", () => {
-      galleryAutoPaused = true;
+    galleryCarousel.addEventListener("touchstart", (event) => {
+      galleryPaused = true;
+      galleryTouchStartX = event.touches[0]?.clientX ?? null;
+      galleryTouchCurrentX = galleryTouchStartX;
     }, { passive: true });
 
-    galleryScroll.addEventListener("touchend", () => {
-      galleryAutoPaused = false;
-      pauseGalleryAutoTemporarily();
+    galleryCarousel.addEventListener("touchmove", (event) => {
+      galleryTouchCurrentX = event.touches[0]?.clientX ?? galleryTouchCurrentX;
     }, { passive: true });
 
-    const advanceGalleryScroll = () => {
-      const maxScrollLeft = galleryScroll.scrollWidth - galleryScroll.clientWidth;
-      const now = performance.now();
-
-      if (
-        maxScrollLeft > 4 &&
-        !galleryAutoPaused &&
-        now > galleryAutoPauseUntil
-      ) {
-        if (galleryScroll.scrollLeft >= maxScrollLeft - 2) {
-          galleryAutoPosition = 0;
-          galleryScroll.scrollLeft = galleryAutoPosition;
-          galleryAutoPauseUntil = now + galleryAutoResumeDelay;
-        } else {
-          galleryAutoPosition = Math.max(galleryAutoPosition, galleryScroll.scrollLeft) + galleryAutoStep;
-          galleryScroll.scrollLeft = galleryAutoPosition;
+    galleryCarousel.addEventListener("touchend", () => {
+      if (galleryTouchStartX !== null && galleryTouchCurrentX !== null) {
+        const swipeDistance = galleryTouchCurrentX - galleryTouchStartX;
+        if (Math.abs(swipeDistance) > 40) {
+          moveGallery(swipeDistance < 0 ? 1 : -1);
         }
       }
+      galleryTouchStartX = null;
+      galleryTouchCurrentX = null;
+      galleryPaused = false;
+      resetGalleryAutoplay();
+    }, { passive: true });
 
-      if (Math.abs(galleryScroll.scrollLeft - galleryLastScrollLeft) < 0.01) {
-        galleryStillFrameCount += 1;
-      } else {
-        galleryStillFrameCount = 0;
-        galleryLastScrollLeft = galleryScroll.scrollLeft;
-        galleryAutoPosition = galleryScroll.scrollLeft;
-      }
-
-      return galleryStillFrameCount;
-    };
-
-    function autoScrollGallery(now) {
-      galleryLastRafTick = performance.now();
-      const elapsed = Math.min(now - galleryLastAutoFrame, 64);
-      galleryLastAutoFrame = now;
-
-      if (elapsed > 0) {
-        advanceGalleryScroll();
-      }
-
-      window.requestAnimationFrame(autoScrollGallery);
-    }
-
-    window.requestAnimationFrame(autoScrollGallery);
-
-    window.setInterval(() => {
-      const rafIsDelayed = performance.now() - galleryLastRafTick > 120;
-      if (galleryStillFrameCount > 30 || rafIsDelayed || document.hidden) {
-        advanceGalleryScroll();
-      }
-    }, 20);
+    window.addEventListener("resize", updateGalleryTransform);
+    updateGalleryTransform();
+    startGalleryAutoplay();
   }
 
   // -----------------------------
