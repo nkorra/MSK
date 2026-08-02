@@ -18,6 +18,39 @@
   const QUOTE_FORM_URL = "index.html#quote";
   const CAREERS_URL = "index.html#apply";
   const CONTACT_URL = "index.html#contact";
+
+  // Anti-spam: shared telemetry (window.MSKAntiSpam, loaded once by
+  // /static/anti_spam/telemetry.js in index.html — see submitEnquiry()
+  // below) plus an invisible Cloudflare Turnstile widget rendered once this
+  // widget initialises, since the chat composer has no static <form> for
+  // Turnstile to auto-render into the way the two page forms do.
+  // TODO: replace with the real production sitekey before relying on this
+  // for enforcement — this is Cloudflare's published always-pass TEST key.
+  const TURNSTILE_SITE_KEY = "1x00000000000000000000AA";
+  var turnstileToken = "";
+  var turnstileWidgetId = null;
+
+  function initTurnstile(attempt) {
+    attempt = attempt || 0;
+    if (turnstileWidgetId !== null) return; // already rendered
+    if (typeof window.turnstile === "undefined" || !window.turnstile.render) {
+      if (attempt < 50) window.setTimeout(function () { initTurnstile(attempt + 1); }, 100);
+      return; // Turnstile script blocked/slow to load — degrade gracefully, never block chat
+    }
+    try {
+      var container = document.createElement("div");
+      container.id = "msk-chatbot-turnstile";
+      container.style.cssText = "position:absolute;width:0;height:0;overflow:hidden;";
+      document.body.appendChild(container);
+      turnstileWidgetId = window.turnstile.render(container, {
+        sitekey: TURNSTILE_SITE_KEY,
+        size: "invisible",
+        callback: function (token) { turnstileToken = token || ""; },
+        "expired-callback": function () { turnstileToken = ""; },
+        "error-callback": function () { turnstileToken = ""; },
+      });
+    } catch (e) { /* never block the chat widget on a Turnstile failure */ }
+  }
   const SERVICES_URL = "index.html#services";
   const PLATFORMS_URL = "products.html#platforms";
   const LOGIN_URL = "https://msk-erp.onrender.com/accounts/login/";
@@ -1019,7 +1052,7 @@
     setInputEnabled(false);
     addMessage("bot", SUBMISSION_WAIT_REPLY);
 
-    const payload = {
+    var payload = {
       name: state.enquiry.name,
       email: state.enquiry.email,
       phone: state.enquiry.phone || "",
@@ -1030,8 +1063,22 @@
       enquiry_type: "quote",
       quote_status: "draft",
       source: "mskprecisiongroup.com",
+      // The chatbot composer has no visible form field for a bot to
+      // accidentally fill in, so this stays empty by construction (not a
+      // stub — there is simply nothing here for the honeypot to trap).
       company_website: "",
     };
+
+    // Reuse the SAME shared telemetry library the two page forms use (no
+    // separate/duplicate fingerprint or behaviour collection here) —
+    // adds browser_fingerprint, telemetry_id, and timing/interaction fields.
+    if (window.MSKAntiSpam && typeof window.MSKAntiSpam.applyTo === "function") {
+      payload = window.MSKAntiSpam.applyTo(payload);
+    }
+    // Cloudflare Turnstile token, captured by the invisible widget rendered
+    // in initTurnstile() above. Field name matches Cloudflare's own
+    // convention (and what the ERP backend's _captcha_token() looks for).
+    payload["cf-turnstile-response"] = turnstileToken;
 
     const controller = new AbortController();
     const timeoutId = window.setTimeout(function () {
@@ -1184,6 +1231,7 @@
     root.appendChild(panel);
     root.appendChild(toggleButton);
     document.body.appendChild(root);
+    initTurnstile();
 
     function openPanel(shouldFocus) {
       panel.classList.add("is-open");
