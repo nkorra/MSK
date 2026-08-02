@@ -557,6 +557,7 @@
       action="https://msk-erp.onrender.com/website-chatbot/api/enquiry/"
       method="POST"
       enctype="multipart/form-data"
+      data-msk-antispam
     >
       <input type="hidden" name="form_name" value="Job Application" />
       <input type="hidden" name="service_required" value="Job Application" />
@@ -591,6 +592,14 @@
 
       <label for="message" class="required-field">Message</label>
       <textarea id="message" name="project_details" placeholder="Cover note / key highlights" required></textarea>
+
+      <!-- Cloudflare Turnstile: renders automatically once api.js loads, and
+           injects its own hidden cf-turnstile-response field into this form.
+           TODO: replace data-sitekey with the real production sitekey issued
+           for mskprecisiongroup.com from the Cloudflare dashboard before
+           relying on this for enforcement (this is Cloudflare's published
+           always-pass TEST key, safe for staging but verifies nothing). -->
+      <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-theme="light"></div>
 
       <button type="submit" class="btn">Submit Application</button>
       <p id="apply-status" class="form-note" aria-live="polite"></p>
@@ -781,6 +790,7 @@
       action="https://msk-erp.onrender.com/website-chatbot/api/enquiry/"
       method="POST"
       enctype="multipart/form-data"
+      data-msk-antispam
     >
       <input type="hidden" name="form_name" value="Quote Request" />
       <input type="hidden" name="enquiry_type" value="quote" />
@@ -826,6 +836,11 @@
 
       <label for="quote-details" class="required-field">Project Details</label>
       <textarea id="quote-details" name="project_details" placeholder="Describe the part, analysis, quantity, material, deadline, standards, drawings/files available or expected deliverables." required></textarea>
+
+      <!-- Cloudflare Turnstile — see the matching comment on #job-form above;
+           same TODO: swap the TEST sitekey for the real production one. -->
+      <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-theme="light"></div>
+
       <button type="submit">Submit Quote</button>
       <p id="quote-status" class="form-note" aria-live="polite"></p>
     </form>
@@ -908,6 +923,17 @@
       <a href="privacy.html">View Policy</a>
     </div>
   </div>
+
+  <!-- =======================================================
+       ANTI-SPAM (must load before script.js and chatbot.js, which both
+       read window.MSKAntiSpam / window.turnstile). Loaded exactly once here
+       for the whole page — do not add a second copy of either script.
+  ======================================================== -->
+  <script src="/static/anti_spam/telemetry.js"></script>
+  <!-- Cloudflare Turnstile: implicitly renders any .cf-turnstile widget on
+       the page (the two forms below) and is explicitly re-used by the
+       chatbot widget via window.turnstile (see chatbot.js). -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <!-- =======================================================
        SCRIPTS
