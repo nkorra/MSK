@@ -26,7 +26,7 @@
   // Turnstile to auto-render into the way the two page forms do.
   // TODO: replace with the real production sitekey before relying on this
   // for enforcement — this is Cloudflare's published always-pass TEST key.
-  const TURNSTILE_SITE_KEY = "1x00000000000000000000AA";
+  const TURNSTILE_SITE_KEY = "0x4AAAAAAEEWnmAKgk5gw2K7";
   var turnstileToken = "";
   var turnstileWidgetId = null;
 
