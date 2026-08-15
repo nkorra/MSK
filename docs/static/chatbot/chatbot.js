@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const API_ENDPOINT = "https://msk-erp.onrender.com/website-chatbot/api/enquiry/";
+  const API_ENDPOINT = "https://erp.mskprecisiongroup.com/website-chatbot/api/enquiry/";
   const FALLBACK_REPLY =
     "I can help with engineering services, CNC machining, CAD/CAM/CAE, 3D printing, scanning, welding/fabrication, contact details, or quote requests. What would you like to know?";
   const SUCCESS_REPLY = "Thank you. Your enquiry has been received. Our team will contact you shortly.";
@@ -24,9 +24,12 @@
   // below) plus an invisible Cloudflare Turnstile widget rendered once this
   // widget initialises, since the chat composer has no static <form> for
   // Turnstile to auto-render into the way the two page forms do.
-  // TODO: replace with the real production sitekey before relying on this
-  // for enforcement — this is Cloudflare's published always-pass TEST key.
+  // This is the production site key for mskprecisiongroup.com (site keys
+  // are meant to be public). The ERP backend independently verifies the
+  // resulting token server-side via siteverify, including the hostname it
+  // was solved on and the "chatbot_enquiry" action configured below.
   const TURNSTILE_SITE_KEY = "0x4AAAAAAEEWnmAKgk5gw2K7";
+  const TURNSTILE_ACTION = "chatbot_enquiry";
   var turnstileToken = "";
   var turnstileWidgetId = null;
 
@@ -44,6 +47,7 @@
       document.body.appendChild(container);
       turnstileWidgetId = window.turnstile.render(container, {
         sitekey: TURNSTILE_SITE_KEY,
+        action: TURNSTILE_ACTION,
         size: "invisible",
         callback: function (token) { turnstileToken = token || ""; },
         "expired-callback": function () { turnstileToken = ""; },
@@ -53,7 +57,7 @@
   }
   const SERVICES_URL = "index.html#services";
   const PLATFORMS_URL = "products.html#platforms";
-  const LOGIN_URL = "https://msk-erp.onrender.com/accounts/login/";
+  const LOGIN_URL = "https://erp.mskprecisiongroup.com/accounts/login/";
   const ROUTABLE_LINKS = [QUOTE_FORM_URL, CAREERS_URL, CONTACT_URL, SERVICES_URL, PLATFORMS_URL];
 
   const services = [
