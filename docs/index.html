@@ -4,6 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <!-- Security hardening: this site is served by GitHub Pages, which cannot
+       send custom HTTP response headers (no Content-Security-Policy header
+       is possible here), so CSP is enforced via this <meta> tag instead --
+       the only mechanism available on this hosting platform. There is no
+       report-only equivalent for meta-tag CSP, so this is enforced directly;
+       every directive below is scoped to resources actually verified present
+       in this page's source (Cloudflare Turnstile, the AOS animation library
+       from unpkg, Google Tag Manager/Analytics, and the ERP backend origin
+       the forms/chatbot submit to). The two inline Google tag bootstrap
+       scripts are allowlisted by exact SHA-256 hash rather than
+       'unsafe-inline', so no OTHER inline script can execute even if an
+       injection point existed elsewhere on the page. One caveat: Google Tag
+       Manager can be configured (in its own dashboard, outside this repo) to
+       inject additional third-party tags at runtime -- any such tag whose
+       origin isn't already allowlisted here would be silently blocked by
+       this policy rather than breaking the page; check the browser console
+       after any GTM container change. -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    base-uri 'self';
+    object-src 'none';
+    frame-ancestors 'none';
+    form-action 'self' https://erp.mskprecisiongroup.com;
+    script-src 'self' https://challenges.cloudflare.com https://www.googletagmanager.com https://unpkg.com 'sha256-7wlKaf6Wacjzq+t+bAwoXFO6bSOK2w9KmAbC6bIA9LA=' 'sha256-rU8Mk97GhchF8p70TTNkAj2IX8h3MAo/XAFK+DUIZs4=';
+    style-src 'self' 'unsafe-inline' https://unpkg.com;
+    img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com;
+    font-src 'self';
+    connect-src 'self' https://erp.mskprecisiongroup.com https://challenges.cloudflare.com https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;
+    frame-src https://challenges.cloudflare.com;
+  " />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
   <!-- =======================================================
        GOOGLE ANALYTICS 4 (GA4)
        Measurement ID: G-GTVJJPFR28
@@ -554,7 +586,7 @@
     <form
       id="job-form"
       class="msk-form-card"
-      action="https://msk-erp.onrender.com/website-chatbot/api/enquiry/"
+      action="https://erp.mskprecisiongroup.com/website-chatbot/api/enquiry/"
       method="POST"
       enctype="multipart/form-data"
       data-msk-antispam
@@ -595,11 +627,13 @@
 
       <!-- Cloudflare Turnstile: renders automatically once api.js loads, and
            injects its own hidden cf-turnstile-response field into this form.
-           TODO: replace data-sitekey with the real production sitekey issued
-           for mskprecisiongroup.com from the Cloudflare dashboard before
-           relying on this for enforcement (this is Cloudflare's published
-           always-pass TEST key, safe for staging but verifies nothing). -->
-      <div class="cf-turnstile" data-sitekey="0x4AAAAAAEEWnmAKgk5gw2K7" data-theme="light"></div>
+           This is the production site key for mskprecisiongroup.com (site
+           keys are meant to be public -- see Cloudflare's Turnstile docs).
+           The ERP backend independently verifies the resulting token
+           server-side via siteverify, including the hostname it was solved
+           on and the configured action, so a copy of this widget embedded
+           elsewhere would not pass. -->
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAEEWnmAKgk5gw2K7" data-action="job_application" data-theme="light"></div>
 
       <button type="submit" class="btn">Submit Application</button>
       <p id="apply-status" class="form-note" aria-live="polite"></p>
@@ -787,7 +821,7 @@
     <form
       id="quote-form"
       class="msk-form-card"
-      action="https://msk-erp.onrender.com/website-chatbot/api/enquiry/"
+      action="https://erp.mskprecisiongroup.com/website-chatbot/api/enquiry/"
       method="POST"
       enctype="multipart/form-data"
       data-msk-antispam
@@ -837,9 +871,9 @@
       <label for="quote-details" class="required-field">Project Details</label>
       <textarea id="quote-details" name="project_details" placeholder="Describe the part, analysis, quantity, material, deadline, standards, drawings/files available or expected deliverables." required></textarea>
 
-      <!-- Cloudflare Turnstile — see the matching comment on #job-form above;
-           same TODO: swap the TEST sitekey for the real production one. -->
-      <div class="cf-turnstile" data-sitekey="0x4AAAAAAEEWnmAKgk5gw2K7" data-theme="light"></div>
+      <!-- Cloudflare Turnstile — see the matching comment on #job-form above
+           (production site key; server-side hostname + action verification). -->
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAEEWnmAKgk5gw2K7" data-action="contact" data-theme="light"></div>
 
       <button type="submit">Submit Quote</button>
       <p id="quote-status" class="form-note" aria-live="polite"></p>

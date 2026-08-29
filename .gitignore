@@ -1,1 +1,20 @@
 .DS_Store
+
+# Python virtual environment / bytecode — never commit, always rebuildable
+# from requirements.txt (see the security hardening phase that removed the
+# previously-committed copy of these).
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Common editor/IDE junk
+.vscode/
+.idea/
+*.swp
+
+# Local env files, if this app is ever run with one (none are currently
+# committed — keeping this defensive for the future).
+.env
+.env.*
+!.env.example

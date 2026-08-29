@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 1. MSK ERP enquiry endpoint
   // -----------------------------
   const ERP_ENQUIRY_ENDPOINT =
-    "https://msk-erp.onrender.com/website-chatbot/api/enquiry/";
+    "https://erp.mskprecisiongroup.com/website-chatbot/api/enquiry/";
   const FORM_FAILURE_MESSAGE =
     "Submission failed. Please try again or email info@mskprecisiongroup.com";
   const FORM_SLOW_MESSAGE = "Please wait, submitting your request...";
